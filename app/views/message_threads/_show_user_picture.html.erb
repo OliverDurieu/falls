@@ -1,0 +1,5 @@
+<% if user.present? %>
+  <a href="<%= public_profile_user_path(user.id) %>" >
+    <%= image_tag user.profile.picture('chat'), class: 'img-responsive tip', alt: "#{user.display_first_last_name} (#{user.age})", width: "72", height: "72", style: "width: 72px; height: 72px;" %>
+  </a>
+<% end %>

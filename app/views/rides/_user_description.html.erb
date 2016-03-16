@@ -1,0 +1,116 @@
+<div class="header-main-block  clearfix row" >
+  <span><%= heading %></span>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <% if profile_user.profile.is_picture? %>
+      <%= link_to "#{image_tag profile_user.profile.picture, class: "img-responsive"}".html_safe, public_profile_user_path(profile_user.id) %>
+      <%=  %>
+    <% elsif self_user %>
+      <p class="bg-danger">
+        <%= link_to "Add your photo", photo_profile_index_path %>
+      </p>
+    <% else %>
+      <%= link_to "#{image_tag profile_user.profile.picture, class: "img-responsive"}".html_safe , public_profile_user_path(profile_user.id) %>
+      <%=  %>
+    <% end %>
+
+  </div>
+  <div class="col-md-6">
+    <strong><%= link_to "#{profile_user.first_name} #{profile_user.last_name}" , public_profile_user_path(profile_user.id) %><%=  %></strong>
+    <span><%= profile_user.age %> </span>
+  </div>
+
+  <%= render '/ratings/show_driver_rating', user: profile_user %>
+</div>
+<div class="col-md-12">
+
+  <hr>
+  <div class="main-column-block">
+    <h4 class="main-column-title">Member verifications</h4>
+    <ul class="main-column-list verification-list margin-bottom unstyled">
+      <% if profile_user.phone_number.present? && profile_user.phone_number.body.present?%>
+      <% if profile_user.phone_number.verified_no %>
+        <li class="img-phone tip">
+            <span class="checked">
+              <p>phone number verified<p>
+            </span>
+        </li>
+      <% elsif self_user %>
+        <li class="img-phone tip">
+            <span class="no-checked">
+              <a href="/profile/verifications" class="blue">Verify your phone number</a>
+            </span>
+        </li>
+      <% end %>
+      <% else %>
+        <li class="img-phone tip">
+            <span class="no-checked">
+              <p>Not available<p>
+            </span>
+        </li>
+
+      <% end %>
+      <% if profile_user.email_verified %>
+        <li class="img-email tip">
+            <span class="checked">
+              <p>Email verified</p>
+            </span>
+        </li>
+      <% elsif self_user %>
+        <li class="img-email tip">
+            <span class="no-checked">
+                <a href="/profile/verifications"> Verify your Email</a>
+            </span>
+        </li>
+      <% end %>
+      <!-- TODO facebook -->
+      <% if profile_user.provider == "facebook" %>
+        <li class="img-facebook tip">
+            <span class="checked">
+              <p><%= pluralize(profile_user.total_count, "Friend") %></p>
+            </span>
+        </li>
+      <% elsif self_user %>
+        <li class="img-email tip">
+            <span class="no-checked">
+                <a href="/profile/social_sharing"> Verify your Facebook account</a>
+            </span>
+        </li>
+      </ul>
+      <div class="see-profil">
+          <%= link_to "→ See my public profile", public_profile_user_path(profile_user.id) %>
+      </div>
+      <% end %>
+    </ul>
+  </div>
+  <hr>
+  <div class="main-column-block">
+    <h4 class="main-column-title">Member activity</h4>
+    <ul class="main-column-list unstyled margin-bottom">
+      <li class="img-marker clearfix">
+        <div class="activities-text-container">
+          <%= profile_user.rides.count %>
+          <%= profile_user.rides.count > 1 ? "rides" : "ride" %> offered
+        </div>
+      </li>
+      <% if profile_user.last_sign_in_at.present? %>
+        <li class="img-clock clearfix">
+          <div class="activities-text-container">
+            Last
+            online: <%= profile_user.last_sign_in_at.strftime("%m-%d-%y") == Date.today.strftime("%m-%d-%y") ? "Today" : profile_user.last_sign_in_at.strftime("%d %b %Y") %>
+            - 08:17
+          </div>
+        </li>
+      <% end %>
+      <li class="img-calendar clearfix">
+        <div class="activities-text-container">
+          Member since: <%= profile_user.created_at.strftime("%d %b %Y") %>
+        </div>
+      </li>
+    </ul>
+    <div class="see-profil">
+      <%= link_to "→ See my public profile", public_profile_user_path(profile_user.id) %>
+    </div>
+  </div>
+</div>

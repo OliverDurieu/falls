@@ -1,0 +1,483 @@
+<%#= render 'form1', url: create_offer_1_rides_path %>
+
+<div class="banner_post_ride">
+  <%= image_tag 'posting_ride/post_ride_header.png', class: 'img-responsive' %>
+</div>
+<div class="container main-container">
+  <%= hidden_field_tag "ride_id", @ride.id %>
+  <div class="container">
+    <%= form_for @ride, url: create_offer_1_rides_path, html: { role: 'form' } do |ride_form| %>
+    <% @ride_form = ride_form %>
+    <%= ride_form.hidden_field :full_completed, value: 1 %>
+    <div class="trip-info">
+      <h2> Trip Info</h2>
+      <div class="trip-block">
+        <div class="head">
+          <div class="col-md-2 col-sm-2 col-xs-3 ">
+            <strong class="title">Trip Type</strong>
+          </div>
+          <div class="col-md-10 col-sm-10 col-xs-9">
+            <div class="radio-holder">
+              <% @ride.is_round_trip = false %>
+              <!-- <input type="radio" name="ride[is_round_trip]" id="radio5" class="css-checkbox one_way_radio trip_type" checked="checked"/> -->
+              <%= ride_form.radio_button :is_round_trip, false, class: 'css-checkbox one_way_radio trip_type' %>
+              <!-- <label for="radio5" class="css-label radGroup1 radGroup2">One Way</label> -->
+              <%= ride_form.label :is_round_trip, 'One Way', :value => false, class: 'css-label radGroup1 radGroup2' %>
+              <%#= ride_form.radio_button :is_round_trip, 0, checked: rario_status(@ride.is_recurring_trip, false), class: "css-checkbox one_way_radio trip_type" %>
+              <%#= ride_form.label :is_round_trip, "One Way", class: 'css-label radGroup1 radGroup2' %>
+            </div>
+            <div class="radio-holder">
+              <!-- <input type="radio" name="ride[is_round_trip]" id="radio6" class="css-checkbox  return_radio trip_type" /> -->
+              <%= ride_form.radio_button :is_round_trip, true, class: 'css-checkbox  return_radio trip_type' %>
+              <!-- <label for="radio6" class="css-label radGroup1 radGroup2">Return</label> -->
+              <%= ride_form.label :is_round_trip,'Return', :value => true, class: 'css-label radGroup1 radGroup2' %>
+              <%#= ride_form.radio_button :is_round_trip, 1, checked: rario_status(@ride.is_recurring_trip, true), class: "css-checkbox  return_radio trip_type" %>
+              <%#= ride_form.label :is_round_trip, "Return", class: 'css-label radGroup1 radGroup2' %>
+            </div>
+          </div>
+        </div>
+        <div class="threecolumns route-area">
+          <div class="col-md-2 col-sm-2 col-xs-12 mob-none">
+            <strong class="title">Route</strong>
+          </div>
+          <%= ride_form.hidden_field :enable_locations_validation, value: true %>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="map-form">
+              <div class="form-group">
+                <label for="exampleInputEmail1">From</label>
+                <!-- <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Home (1 Clara St, 3141, Vic)"> -->
+                <div class="location-holder">
+                  <%= ride_form.fields_for :locations, @ride.locations.select { |a| a.ride_type == GlobalConstants::Locations::RIDE_TYPES[:source] } do |loc_form| %>
+                  <%= loc_form.text_field :address, autofocus: true, class: 'from form-control gmaps-input-address', required: true, placeholder: "Home (1 Clara St, 3141, Vic)", id: "ride_source", :value => @src1 %>
+                  <span class="help-block hidden">Example: Liverpool, Sydney</span>
+                  <%= handle_nest_error_text(@ride, "address", "locations") %>
+                  <%= loc_form.hidden_field :longitude, class: "input-longitude", id: "ride_source_longitude", :value => @src1_lng %>
+                  <%= loc_form.hidden_field :latitude, class: "input-latitude", id: "ride_source_latitude", :value => @src1_lat %>
+                  <%= loc_form.hidden_field :ride_type, value: GlobalConstants::Locations::RIDE_TYPES[:source] %>
+                  <%= loc_form.hidden_field :sequence, value: 0, class: "input-sequence" %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">To</label>
+                <!-- <input type="text" class="form-control" id="exampleInputPassword1" placeholder="e.g Sydeny"> -->
+                <div class="location-holder">
+                  <%= ride_form.fields_for :locations, @ride.locations.select { |a| a.ride_type == GlobalConstants::Locations::RIDE_TYPES[:destination] } do |loc_form| %>
+                  <%= loc_form.text_field :address, autofocus: true, class: 'to form-control gmaps-input-address',required: true, placeholder: "e.g Sydney", id: "ride_destination", :value => @dst1 %>
+                  <%= loc_form.hidden_field :longitude, class: "input-longitude", id: "ride_destination_longitude", :value => @dst1_lng %>
+                  <%= loc_form.hidden_field :latitude, class: "input-latitude", id: "ride_destination_latitude", :value => @dst1_lat %>
+                  <%= loc_form.hidden_field :ride_type, value: GlobalConstants::Locations::RIDE_TYPES[:destination] %>
+                  <%= loc_form.hidden_field :sequence, value: 2, class: "input-sequence" %>
+                  <% end %>
+                </div>
+              </div>
+              <ol class="unstyled stages-list">
+              </ol>
+              <div class="form-group">
+                <%= link_to_add_fields "+ Add stopover", ride_form, :locations, "" %>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 gmaps-container">
+            <div class="Flexible-container">
+              <div id="gmaps-canvas" style='width: 100%; height: 400px;'></div>
+            </div>
+          </div>
+          <dl class="dl-horizontal">
+            <dt class="hidden">Distance:</dt>
+            <dd class="ride_total_distance hidden" id="distance_total"></dd>
+            <dt class="hidden">Driving time:</dt>
+            <dd class="ride_total_time hidden"></dd>
+          </dl>
+        </div>
+      </div>
+      <div class="trip-block">
+        <div class="threecolumns schedule">
+          <div class="col-md-2 col-sm-2 col-xs-12 mob-none">
+            <strong class="title">Schedule</strong>
+            <%= ride_form.hidden_field :departure_date, id: 'date_field_depart' %>
+          </div>
+          <div id="ride_schedule">
+            <div class="ride_schedule-holder col-md-10 col-sm-12 col-xs-12 p0">
+              <ul class="experiences estimate-time">
+                <li class="green steps">
+                  <div class=" ">
+                    <div class="col-md-3 col-sm-3 col-xs-4"><span id="schedule_start_location" class="start_place"></span></div>
+                    <div class="col-sm-9 col-xs-8 p0">
+                      <div class="col-sm-5 col-xs-12 pr0">
+                        <div class="form-group">
+                          <div class='input-group date ' id='datetimepicker3'>
+                            <span class="glyphicon glyphicon-calendar date-icon" aria-hidden="true"></span>
+                            <input type='text' class="form-control time_class date_picker_rails" id="date_picker-departtime" data-provide="datepicker" required="true" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 col-xs-6">
+                        <div class="form-group">
+                          <div class='input-group date date_picker' id='datetimepicker3'>
+                            <!-- <input type='text' class="form-control schedule_field" id="time_picker" data-time-format="H:i:s" required="true" /> -->
+                            <span class="glyphicon glyphicon-time date-icon"></span>
+                            <input type="text" class="form-control time_picker time_class" id="time_picker-departtime" required="true"  data-time-format="H:i:s"/>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <div class="time-wrapper">
+                        <div class="col-sm-1 col-xs-1">
+                          <a class="am active" href="#">AM</a>
+                        </div>
+                        <div class="col-sm-1 col-xs-1">
+                          <a class="am" href="#">PM</a>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                </li>
+                <li class="nested">
+                  <ul id="via_locations">
+                    <!--  <li class="yellow">
+                      <div class="col-md-3 col-sm-6 col-xs-6"> New York Times</div>
+                      <div class="col-md-9 col-sm-9 col-xs-6">
+                        <div class="edit-time">
+                        <h3>Estimate arrival at 12:30 Am </h3>
+                        <a href="#" class="edit">Edit</a>
+                      </div>
+                      </div>
+                      </li> -->
+                  </ul>
+                </li>
+                <li class="nested yellow steps">
+                  <div class="col-md-3 col-sm-3 col-xs-3"><span id="schedule_end_location" class="end_place"></span></div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    <div class="edit-time">
+                      <h3>Estimated arrival at <span id="eta_holder1"> N/A</span> </h3>
+                      <a href="javascript:void(0);" class="edit edit_eta" id="time_edit,1">Edit</a>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+               
+                </li>
+                <div class=" edit_ride panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                  <div id="001" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                    <div class="panel-body">
+                      <div id="eta_div1" class="row">
+                    <div class="col-sm-3 col-xs-3"></div>
+                    <div class="col-sm-4 col-xs-4">
+                      <div class="form-group">
+                      <!--   <div class='input-group date' id='datetimepicker3'>
+                          <input type='text' class="form-control time_class date_picker_rails" id="date_picker-1" data-provide="datepicker"/>
+                          <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-time"></span>
+                          </span>
+                        </div> -->
+
+
+                          <div class='input-group date' id='datetimepicker3'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-4">
+                      <div class="form-group">
+                        <div class='input-group date' id='datetimepicker3'>
+                          <input type='text' class="form-control time_picker time_class" id="time_picker-1" data-time-format="H:i:s"/>
+                          <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-time"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <input class="form-control" type="hidden" id="date_field_dest" name="ride[routes_attributes][1][arrival_time]" >
+                  </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="trip-block">
+        <div class="threecolumns">
+          <div class=" col-md-2 col-sm-2 col-xs-3">
+            <strong class="title">REPEAT</strong>
+          </div>
+          <div class="col-md-10 col-sm-10 col-xs-9">
+            <div class="checkbox-holder">
+              <%= ride_form.check_box :is_recurring_trip, class: "css-checkbox" %>
+              <%= ride_form.label :is_recurring_trip, "This is a recurring trip (e.g work commute)", class: 'css-label' %>
+            </div>
+          </div>
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-10 col-sm-12 col-xs-12" id="recurring_div">
+            <div class="tabs">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Weekly</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Monthly</a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                  <div class="btn-group" data-toggle="buttons">
+                    <h2>Select the days  this  trip  will  repeat on</h2>
+                    <%= ride_form.fields_for :ride_weeks, @ride.ride_weeks.select { |a| a.date_type == GlobalConstants::Ride_weeks::DATE_TYPES[:outbound_week] } do |week_form| %>
+                    <%= week_form.label :mon, "#{week_form.check_box :mon, class: 'recurring_class'} Monday".html_safe, class: 'btn btn-primary' %>
+                    <%= week_form.label :tue, "#{week_form.check_box :tue, class: 'recurring_class'} Tuesday".html_safe, class: 'btn btn-primary' %>
+                    <%= week_form.label :wed, "#{week_form.check_box :wed, class: 'recurring_class'} Wednesday".html_safe, class: 'btn btn-primary' %>
+                    <%= week_form.label :thu, "#{week_form.check_box :thu, class: 'recurring_class'} Thursday".html_safe, class: 'btn btn-primary' %>
+                    <%= week_form.label :fri, "#{week_form.check_box :fri, class: 'recurring_class'} Friday".html_safe, class: 'btn btn-primary' %>
+                    <%= week_form.label :sat, "#{week_form.check_box :sat, class: 'recurring_class'} Saturday".html_safe, class: 'btn btn-primary' %>
+                    <%= week_form.label :sun, "#{week_form.check_box :sun, class: 'recurring_class'} Sunday".html_safe, class: 'btn btn-primary' %>
+                    <%= week_form.hidden_field :date_type, value: week_form.object.try(:date_type) %>
+                    <% end %>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                  <h2>Select the months  this  trip  will  repeat on</h2>
+                  <div role="tabpanel" class="tab-pane active re_months" id="home">
+                    <div class="btn-group" data-toggle="buttons">
+                      <%= ride_form.fields_for :ride_months, @ride.ride_months.select { |a| a.date_type == GlobalConstants::Ride_months::DATE_TYPES[:outbound_month] } do |month_form| %>
+                      <%= month_form.label :jan, "#{month_form.check_box :jan, class: 'recurring_class'} January".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :feb, "#{month_form.check_box :feb, class: 'recurring_class'} February".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :mar, "#{month_form.check_box :mar, class: 'recurring_class'} March".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :apr, "#{month_form.check_box :apr, class: 'recurring_class'} April".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :may, "#{month_form.check_box :may, class: 'recurring_class'} May".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :jun, "#{month_form.check_box :jun, class: 'recurring_class'} June".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :jul, "#{month_form.check_box :jul, class: 'recurring_class'} July".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :aug, "#{month_form.check_box :aug, class: 'recurring_class'} August".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :sep, "#{month_form.check_box :sep, class: 'recurring_class'} September".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :oct, "#{month_form.check_box :oct, class: 'recurring_class'} October".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :nov, "#{month_form.check_box :nov, class: 'recurring_class'} November".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.label :dec, "#{month_form.check_box :dec, class: 'recurring_class'} December".html_safe, class: 'btn btn-primary' %>
+                      <%= month_form.hidden_field :date_type, value: month_form.object.try(:date_type) %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trip-info">
+      <h2> Pricing and seats</h2>
+      <div class="trip-block">
+        <div class="head">
+          <div class="col-md-2 col-sm-2 col-xs-3">
+            <strong class="title">Auto Pricing</strong>
+          </div>
+          <div class="col-md-10 col-sm-10 col-xs-9">
+            <div class="checkbox-holder">
+              <input type="checkbox" name="auto_pricing" id="auto_pricing_checkbox" class="css-checkbox" />
+              <label for="auto_pricing_checkbox" class="css-label">Use recommended pricing ($0.08 / km)</label>
+            </div>
+          </div>
+        </div>
+        <div class="threecolumns" id="ride_legs">
+          <div class="col-md-2 col-sm-2 col-xs-12">
+            <strong class="title">LEGS</strong>
+          </div>
+          <%= ride_form.hidden_field :number_of_seats, id: 'ride_total_seats' %>
+          <%= ride_form.hidden_field :total_price, id: 'ride_total_cost' %>
+          <div class="priceblcok col-md-10 col-sm-10 col-xs-12">
+            <ul id="legs_list" class="legs-info">
+              <li>
+                <div class="row">
+                  <div class="col-md-5 col-sm-12 location">
+                    <span class="number">1</span>
+                    <span id="ride_leg_start"></span>
+                    <span class="arrow">>></span>
+                    <span id="ride_leg_end"></span>
+                  </div>
+                  <div class="col-md-7 col-sm-12 paricingarea">
+                    <div class="form-inline">
+                      <div class="form-group col-sm-5 col-xs-5">
+                        <label class="sr-only" for="exampleInputAmount">Amount (in AUD)</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">$</div>
+                          <input type="text" class="form-control price_per_seat" name="InputAmount" placeholder="" required>
+                        </div>
+                      </div>
+                      <div class="form-group col-sm-7 col-xs-7">
+                        <label class="sr-only" for="exampleInputAmount">Amount (in AUD)</label>
+                        <div class="input-group number-input">
+                          <div class="input-group-addon">Number of seats</div>
+                          <input type="number" min="1" max="7" class="form-control num_of_seats" onkeypress="return isNumberKey(event)" placeholder="" name="number_of_seats" required/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+          </li>
+          <ul class="legs-info" id="additional_legs">
+          </ul>
+          <!-- <li>
+            <div class="row">
+              <div class="col-md-5 col-sm-12 location">
+                <span class="number">1</span>
+                <span>Canberra</span>
+                <span class="arrow">>></span>
+                <span>Sydney</span>
+              </div>
+              <div class="col-md-7 col-sm-12 paricingarea">
+                <form class="form-inline">
+                  <div class="form-group col-sm-5 col-xs-5">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">$</div>
+                      <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-7 col-xs-7">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" min="0" step="1" placeholder="Number of seats" />
+                      <div class="input-group-addon"></div>
+                    </div>
+                  </div>             
+                </form>
+              </div>
+            </div>
+            </li> -->
+          <!--  <li>
+            <div class="row">
+              <div class="col-sm-5 location">
+                <span class="number">1</span>
+                <span>Sydney</span>
+                <span class="arrow">>></span>
+                <span>Melbourne</span>
+              </div>
+              <div class="col-sm-7 paricingarea">
+                <form class="form-inline">
+                  <div class="form-group col-sm-5 col-xs-5">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">$</div>
+                      <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-7 col-xs-7">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" min="0" step="1" placeholder="Number of seats" />
+                      <div class="input-group-addon"></div>
+                    </div>
+                  </div>             
+                </form>
+              </div>
+            </div>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="trip-info car-choose">
+    <h2 class="mob-none"> Additional Info</h2>
+    <div class="trip-block">
+      <div class="head">
+        <div class=" col-md-2 col-xs-3">
+          <strong class="title">Car</strong>
+        </div>
+        <%= ride_form.hidden_field :car_id, id: 'id_car' %>
+        <div id="select_user_car_div">
+          <%= render partial: 'rides/partials/car_info_div', locals: {cars: current_user.cars} %>
+        </div>  
+      </div>
+      <div class="threecolumns">
+        <div class=" col-md-2 col-sm-2 col-xs-3">
+          <strong class="title">Other</strong>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-9">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Departure window</label>
+                  <%= ride_form.select :leaving_delay, options_for_select(GlobalConstants::Rides::LEAVING_DELAY, @ride.leaving_delay || GlobalConstants::Rides::LEAVING_DELAY[0][1]), {}, class: "selectpicker" %>
+                  <!-- <select class="selectpicker" multiple data-selected-text-format="count">
+                    <option>1 hour</option>
+                     <option>2 hour</option>
+                     <option>3 hour</option>
+                    </select> -->
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Detour distance</label>
+                  <%= ride_form.select :detour_preferences, options_for_select(GlobalConstants::Rides::DETOUR_PREFERENCES, @ride.detour_preferences || GlobalConstants::Rides::DETOUR_PREFERENCES[1][1]), {}, class: "form-control selectpicker" %>
+                  <!-- <select class="selectpicker" multiple data-selected-text-format="count">
+                    <option>2 Km</option>
+                     <option>1 km</option>
+                     <option>3 km</option>
+                    </select> -->
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Event</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Event Type">
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="post-btn-area">
+      <div class="col-md-12">
+        <!-- <button type="submit" class="btn-post  btn btn-default">Post ride and share facebook</button> -->
+        <%= ride_form.hidden_field :total_distance %>
+        <%= ride_form.hidden_field :total_time %>
+        <%= ride_form.submit 'Post Ride', class: 'btn-post  btn btn-default', id: 'create_ride_button' %>
+      </div>
+      <!--  <div class="pull-right">
+        <a href="#">Post without sharing</a>
+        </div> -->
+    </div>
+  </div>
+  <% end %>
+</div>
+</div>
+<% content_for :script do %>
+  <%= javascript_include_tag 'gmaps/google' %>
+  <%= javascript_include_tag 'plugins/gmaps' %>
+  <%= javascript_include_tag :posting_a_ride %>
+<% end %>
+
+
+
+<div class="modal fade" id="add_your_car" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+  <div class="form_area_box modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body  ">
+        <div class="message_ride search-ride">
+          <%= render 'rides/partials/add_user_car' %>
+        </div> 
+
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="car_not_added" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+  <div class="form_area_box modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body  ">
+        <div class="message_ride search-ride text-center btn_save">
+          <p>Please add a car.</p>
+          <input type="submit" value="Go back" name="commit" class="btn btn_offer " data-dismiss="modal">
+        </div> 
+
+    </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,323 @@
+/*Tabs v3*/
+.tab-v3 .nav-pills li a {
+  color: #777;
+  font-size: 17px;
+  padding: 4px 8px;
+  margin-bottom: 3px;
+  background: #fafafa;
+  float: left;
+  border: solid 1px #eee;
+  border-radius: 9px !important;
+
+}
+
+.nav-stacked > li + li {
+  margin: 0;
+}
+
+.nav.nav-pills.nav-stacked {
+  margin: 0 0 20px;
+}
+
+.message-who h4 {
+  font-size: 14px;
+  margin: 18px 0 0;
+  float: left;
+}
+
+.message-who img {
+  float: left;
+  margin: 0 19px 0 0;
+}
+
+.message-title {
+  margin:  0;
+}
+
+.message-date {
+  text-align: right;
+  padding-top: 0;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+
+.message-date .close {
+  margin: 0 7px 0 20px;
+  color: red;
+}
+
+.message-title .email-meter {
+  background: #F1F1E9;
+  border: 1px solid #ddddca;
+  border-radius: 3px;
+  display: inline-block;
+  float: left;
+  margin: -3px 20px 0;
+  padding: 2px 6px;
+}
+
+.message-thread-holder {
+  position: relative;
+  min-height: 156px;
+  color: #777;
+  /*border-bottom: 1px solid #efefef;*/
+  border-top: 1px solid #efefef;
+  display: block;
+  padding: 15px 0;
+}
+
+.tab-v3 .nav-pills li a:hover, .tab-v3 .nav-pills li.active a {
+  color: #686868;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.tab-v3 .nav-pills li i {
+  width: 1.25em;
+  margin-right: 5px;
+  text-align: center;
+  display: inline-block;
+}
+
+.tab-v3 .tab-content {
+  padding: 15px;
+  background: #fafafa;
+  border: solid 1px #eee;
+}
+
+.trip-qa {
+  overflow: hidden;
+  margin: 0 0 20px;
+  position: relative;
+}
+
+.trip-qa .msg-photo-container {
+  display: block;
+  position: relative;
+  margin: 0 17px 0 0;
+}
+
+.message-count {
+  float: left;
+  margin: 0 14px 0 0;
+}
+
+.trip-qa .msg-comment {
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 12px;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.trip-qa h4, .trip-my-qa h4 {
+  font-size: 16px;
+  float: none;
+}
+
+.trip-forum-posts .tel-num {
+  background: url(/images/icons/verification-phone.png) no-repeat 0 50%;
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 23px;
+  margin: 0 0 5px 0;
+  padding: 0 0 0 16px;
+}
+
+.trip-qa .msg-comment .msg-date {
+  color: #666;
+  font-style: italic;
+  text-align: right;
+}
+
+.trip-qa .msg-photo-container img {
+  border: 1px solid #e6e6e6;
+  padding: 2px;
+}
+
+.trip-my-qa .msg-comment {
+  background: #cff4fa;
+  border: 1px solid #bfebf0;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 12px;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.msg-photo-container img {
+  margin-left: 17px;
+}
+
+.alert {
+  margin: 7px 0;
+  position: relative;
+}
+
+.trip-qa-form .msg-comment {
+  background: #BDEDFF;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 12px;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.trip-my-qa {
+  margin: 0 0 20px;
+}
+
+.trip-qa .btn.btn-primary {
+  border-radius: 5px !important;
+  margin: 12px 0 0;
+}
+
+.feedback_block {
+  background: #f0f5de;
+}
+
+.tab-v3 .nav-pills li a:hover, .tab-v3 .nav-pills li.active a {
+  background-color: #3071a9;
+  border-color: #3071a9;
+  color: #fff;
+}
+
+.nav-pills > li > a {
+  border-radius: 0 !important;
+}
+
+.messages-container a.one-thread:hover {
+  background: #efefef;
+}
+
+.messages-container {
+  border-top: 1px solid #589;
+}
+
+.messages-container a.one-thread {
+  display: block;
+  color: #666;
+  padding: 10px 0;
+  border-bottom: 1px solid #efefef;
+}
+
+a.one-thread:hover {
+  text-decoration: none;
+}
+
+.messages-container .unread {
+  font-weight: bold;
+}
+
+.rate-qa {
+  margin: 0 0 20px;
+  position: relative;
+}
+
+.rate-qa .msg-photo-container {
+  display: block;
+  position: relative;
+  margin: 0 17px 0 0;
+}
+
+.message-count {
+  float: left;
+  margin: 0 14px 0 0;
+}
+
+.rate-qa .msg-comment {
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 12px;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.rate-qa h4, .trip-my-qa h4 {
+  font-size: 16px;
+  float: none;
+}
+
+.rate-forum-posts .tel-num {
+  background: url(/images/icons/verification-phone.png) no-repeat 0 50%;
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 23px;
+  margin: 0 0 5px 0;
+  padding: 0 0 0 16px;
+}
+
+.rate-qa .msg-comment .msg-date {
+  color: #666;
+  font-style: italic;
+  text-align: right;
+}
+
+.rate-qa .msg-photo-container img {
+  border: 1px solid #e6e6e6;
+  padding: 2px;
+}
+
+.rate-my-qa .msg-comment {
+  background: #cff4fa;
+  border: 1px solid #bfebf0;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 12px;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.msg-photo-container img {
+  margin-left: 17px;
+}
+
+.alert {
+  margin: 7px 0;
+  position: relative;
+}
+
+.rate-qa-form .msg-comment {
+  background: #BDEDFF;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 12px;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.rate-my-qa {
+  margin: 0 0 20px;
+}
+
+.rate-qa .btn.btn-primary {
+  border-radius: 5px !important;
+  margin: 12px 0 0;
+}

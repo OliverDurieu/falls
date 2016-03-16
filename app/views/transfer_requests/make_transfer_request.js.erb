@@ -1,0 +1,14 @@
+l = Ladda.create(document.querySelector('#get_btn-' + "<%= @booking.id %>"));
+l.stop();
+<% if @success_status == 1 %>
+  $('#payment_recieved_modal').modal('show');
+  $('#amout_recieved').text('<%= @booking.ride.total_price * @booking.no_of_seats_booked %>');
+  $('#passenger_image').attr('src', "<%= avatar_url(@booking.user) %>");
+  $('#amout_recieved_from').text('<%= @booking.user.display_first_last_name%>');
+  $('#source').text('<%= @booking.ride.source_location.get_route_name %>');
+  $('#destination').text('<%= @booking.ride.destination_location.get_route_name %>');
+  $("#payment_request_form_<%= @booking.id %>").html("<%= escape_javascript(render(partial: '/rides/partials/get_paid_for_ride', locals: { booking_object: @booking })) %>");
+
+<% else  %>
+  $("#request_payment_alerts").html("<%= escape_javascript(render(partial: '/layouts/partials/getting_paid_validation_error')) %>");
+<% end %>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head>
+  <%= render 'layouts/head_content' %>
+  <%= hidden_field_tag "user-main-tabs", "profile" %>
+</head>
+<body onload="gmapAutocompleteInitialize()" class='<%= "#{controller_name}_#{ action_name}" %>'>
+<header> 
+   <%= render 'layouts/default_navigation' %>
+</header>
+<div class="main-area">
+<%= render partial: '/users/header_tabs' %>
+<main role="main">
+  <%= render 'layouts/flash_messages' %>
+  <div class="container main-container">
+  <div class="m-15">
+    <div class="row">
+      <div class="col-sm-3 col-xs-12">
+        <%= render 'layouts/profile_sidebar' %>
+
+      </div>
+      <div class="col-sm-9 col-xs-12 photo_add">
+        <%= yield %>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+</main>
+</div>
+
+    <!-- Google Code for Remarketing Tag -->
+    <script type="text/javascript">
+    / <![CDATA[ /
+    var google_conversion_id = 948647481;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    / ]]> /
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/948647481/?value=0&amp;guid=ON&amp;script=0"/>
+    </div>
+    </noscript>
+    <!-- End of Google Code for Remarketing Tag -->
+
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+      $("." + $('#active-side-nav-link').val()).addClass('active');
+      $("." + $('#user-main-tabs').val()).addClass('active');
+    });
+</script>

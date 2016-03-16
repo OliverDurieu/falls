@@ -1,0 +1,480 @@
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $('.star-rating').raty({
+      readOnly: true,
+      hints: ['1', '2', '3', '4', '5'],
+      score: function () {
+        return $(this).attr('data-score');
+      },
+      precision: true
+    });
+
+  });
+
+</script>
+
+
+
+<div class="offer_ride booking profile">
+  <div class="col-md-10 col-sm-12 col-xs-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- rating_received start -->
+      <div role="tabpanel" class="tab-pane active transaction change_password personal_info" id="rating_received">
+        <div class="panel panel-default">
+          <ul role="tablist" class="nav nav-tabs">
+            <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#home" aria-expanded="true">Driver</a></li>
+            <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="profile" href="#profile" aria-expanded="true">Passenger</a></li>
+            <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="profile" href="#messages" aria-expanded="true">Anonymous</a></li>
+          </ul>
+          <div class="panel-body">
+            <div class="tab-content">
+              <div id="home" class="tab-pane active" role="tabpanel">
+                <% if @driver.present? %>
+                  <div class="row">
+                    <% @driver.each do |rating| %>
+                     <div class="col-md-12">
+                        <div class="passenger-block">
+                          <div class="passenger-holder">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
+                              <div class="image-holder">
+                                <img src="<%= avatar_url(rating.from_user) %>" class="img-responsive" alt="">
+                              </div>
+                            </div>
+                            <div class="passenger-textarea col-md-9 col-sm-8 col-xs-12">
+                              <h4 class=""><%= rating.from_user.display_first_last_name %></h4>
+                              <div class=" rating_list ">
+                                  <span class="star-rating" data-score="<%= rating.star %>"></span>
+                              </div>
+                              <div class="clearfix"></div>
+                              <span><%= date_in_today_format(rating.updated_at) %></span>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <P><%= rating.comment %></P>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <h4>No rating</h4>
+                <% end %>
+              </div>
+
+              <div id="profile" class="tab-pane " role="tabpanel">
+                <% if @passenger.present? %>
+                  <div class="row">
+                    <% @passenger.each do |rating| %>
+                     <div class="col-md-12">
+                        <div class="passenger-block">
+                          <div class="passenger-holder">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
+                              <div class="image-holder">
+                                <img src="<%= avatar_url(rating.from_user) %>" class="img-responsive" alt="">
+                              </div>
+                            </div>
+                            <div class="passenger-textarea col-md-9 col-sm-8 col-xs-12">
+                              <h4 ><%= rating.from_user.display_first_last_name %></h4>
+                              <div class=" rating_list pull-right">
+                                  <span class="star-rating" data-score="<%= rating.star %>"></span>
+                              </div>
+                              <div class="clearfix"></div>
+                              <span><%= date_in_today_format(rating.updated_at) %></span>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <P><%= rating.comment %></P>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <h4>No rating</h4>
+                <% end %>
+              </div>
+
+              <div id="messages" class="tab-pane " role="tabpanel">
+                <% if @anonymous.present? %>
+                  <div class="row">
+                    <% @anonymous.each do |rating| %>
+                     <div class="col-md-12">
+                        <div class="passenger-block">
+                          <div class="passenger-holder">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
+                              <div class="image-holder">
+                                <img src="<%= avatar_url(rating.from_user) %>" class="img-responsive" alt="">
+                              </div>
+                            </div>
+                            <div class="passenger-textarea col-md-9 col-sm-8 col-xs-12">
+                              <h4 ><%= rating.from_user.display_first_last_name %></h4>
+                              <div class=" rating_list ">
+                                  <span class="star-rating" data-score="<%= rating.star %>"></span>
+                              </div>
+                              <div class="clearfix"></div>
+                              <span><%= date_in_today_format(rating.updated_at) %></span>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <P><%= rating.comment %></P>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <h4>No rating</h4>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs hidden" role="tablist" id="myTab">
+  <li class="active"><a href="#driver" role="tab" data-toggle="tab">Driver</a></li>
+  <li><a href="#passenger" role="tab" data-toggle="tab">Passenger</a></li>
+  <li><a href="#anonymous" role="tab" data-toggle="tab">Anonymous</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content hidden">
+  <div class="tab-pane active fade in" id="driver">
+    <h5> Driver </h5>
+    <div class="row well">
+      <div class="col-md-8">
+        <% if @driver.count == 0 %>
+        <h4>No rating yet</h4>
+        <% else %>
+        <h4> <%= @driver.count %> Ratings </h4>
+        <h4> Average rating
+          : <%= @rating = (((@d5*5)+ (@d4*4)+ (@d3*3)+ (@d2*2)+ (@d1)).to_f/@driver.count).round(2) %>
+        </h4>
+        <span class="star-rating" data-score="<%= @rating %>"></span>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <ul class="unstyled list-progress clearfix">
+          <li>
+            <span class="ratings-text-container">
+            5 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @driver.count %> aria-valuemin="0" aria-valuenow=<%= @d5 %> role="progressbar" class="progress-bar" style="width: <%= if @driver.count>0
+                  (@d5/@driver.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @d5 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            4 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @driver.count %> aria-valuemin="0" aria-valuenow=<%= @d4 %> role="progressbar" class="progress-bar" style="width: <%= if @driver.count>0
+                  (@d4/@driver.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @d4 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            3 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @driver.count %> aria-valuemin="0" aria-valuenow=<%= @d3 %> role="progressbar" class="progress-bar" style="width: <%= if @driver.count>0
+                  (@d3/@driver.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @d3 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            2 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @driver.count %> aria-valuemin="0" aria-valuenow=<%= @d2 %> role="progressbar" class="progress-bar" style="width: <%= if @driver.count>0
+                  (@d2/@driver.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @d2 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            1 star
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @driver.count %> aria-valuemin="0" aria-valuenow=<%= @d1 %> role="progressbar" class="progress-bar" style="width: <%= if @driver.count>0
+                  (@d1/@driver.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @d1 %></strong>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% @driver.each do |d| %>
+    <div class=" trip-qa ">
+      <% if d.from_user.present? %>
+      <div class="pull-left msg-photo-container">
+        <%= image_tag d.from_user.profile.picture('inbox_thumb'), class: 'user-picture tip inline-block', alt: "#{d.from_user.display_first_last_name} (#{d.from_user.age})", width: "84", height: "84", style: "width: 54px; height: 54px;" %>
+      </div>
+      <% end %>  
+      <div class="msg-comment">
+        <h4>
+          <% if d.from_user.present? %>
+          <strong> <%= d.from_user.display_first_last_name %></strong>
+          <% end %> 
+          <p class="msg-date clearfix"><%= d.updated_at.to_date %><span class="pull-right"></span></p>
+        </h4>
+        <h5>Rating : <%= d.star %> / 5</h5>
+        <span class="star-rating" data-score="<%= d.star %>"></span>
+        <p><%= d.comment %></p>
+        <a class="alert-flag tip" href="/report-message"></a></span>
+        </p>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="passenger">
+    <h5> Passenger </h5>
+    <div class="row well">
+      <div class="col-md-8">
+        <% if @passenger.count == 0 %>
+        <h4>No rating yet</h4>
+        <% else %>
+        <h4> <%= @passenger.count %> Ratings </h4>
+        <h4>Average Rating :<%= @rating = ((@p5*5)+ (@p4*4)+ (@p3*3)+ (@p2*2)+ (@p1))/@passenger.count %></h4>
+        <span class="star-rating" data-score="<%= @temp = @rating.round(2) %>"></span>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <ul class="unstyled list-progress clearfix">
+          <li>
+            <span class="ratings-text-container">
+            5 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @driver.count %> aria-valuemin="0" aria-valuenow=<%= @p5 %> role="progressbar" class="progress-bar" style="width: <%= if @passenger.count>0
+                  (@p5/@passenger.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @p5 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            4 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @passenger.count %> aria-valuemin="0" aria-valuenow=<%= @p4 %> role="progressbar" class="progress-bar" style="width: <%= if @passenger.count>0
+                  (@p4/@passenger.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @p4 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            3 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @passenger.count %> aria-valuemin="0" aria-valuenow=<%= @p3 %> role="progressbar" class="progress-bar" style="width: <%= if @passenger.count>0
+                  (@p3/@passenger.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @p3 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            2 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @driver.count %> aria-valuemin="0" aria-valuenow=<%= @p2 %> role="progressbar" class="progress-bar" style="width: <%= if @passenger.count>0
+                  (@p2/@passenger.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @p2 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            1 star
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @passenger.count %> aria-valuemin="0" aria-valuenow=<%= @p1 %> role="progressbar" class="progress-bar" style="width: <%= if @passenger.count>0
+                  (@p1/@passenger.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @p1 %></strong>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% @passenger.each do |p| %>
+    <div class=" trip-qa ">
+      <% if p.from_user.present? %>
+      <div class="pull-left msg-photo-container">
+        <%= image_tag p.from_user.profile.picture('inbox_thumb'), class: 'user-picture tip inline-block', alt: "#{p.from_user.display_first_last_name} (#{p.from_user.age})", width: "84", height: "84", style: "width: 54px; height: 54px;" %>
+      </div>
+      <% end %>
+      <div class="msg-comment">
+        <h4>
+          <% if p.from_user.present? %>
+          <strong> <%= p.from_user.display_first_last_name %></strong>
+          <% end %>  
+          <p class="msg-date clearfix"><%= p.updated_at.to_date %><span class="pull-right"></span>
+        </h4>
+        <h5>Rating : <%= p.star %> / 5</h5>
+        <span class="star-rating" data-score="<%= p.star %>"></span>
+        <p><%= p.comment %></p>
+        <a class="alert-flag tip" href="/report-message"></a></span>
+        </p>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="anonymous">
+    <h5> Anonymous </h5>
+    <div class="row well">
+      <div class="col-md-8">
+        <% if @anonymous.count == 0 %>
+        <h4>No rating yet</h4>
+        <% else %>
+        <h4> <%= @anonymous.count %> Ratings </h4>
+        <h4>Average Rating :<%= @rating = ((@a5*5)+ (@a4*4)+ (@a3*3)+ (@a2*2)+ (@a1))/@anonymous.count %></h4>
+        <span class="star-rating" data-score="<%= @temp = @rating.round(2) %>"></span>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <ul class="unstyled list-progress clearfix">
+          <li>
+            <span class="ratings-text-container">
+            5 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @anonymous.count %> aria-valuemin="0" aria-valuenow=<%= @a5 %> role="progressbar" class="progress-bar" style="width: <%= if @anonymous.count>0
+                  (@a5/@anonymous.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @a5 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            4 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @anonymous.count %> aria-valuemin="0" aria-valuenow=<%= @a4 %> role="progressbar" class="progress-bar" style="width: <%= if @anonymous.count>0
+                  (@a4/@anonymous.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @a4 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            3 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @anonymous.count %> aria-valuemin="0" aria-valuenow=<%= @a3 %> role="progressbar" class="progress-bar" style="width: <%= if @anonymous.count>0
+                  (@a3/@anonymous.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @a3 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            2 stars
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @anonymous.count %> aria-valuemin="0" aria-valuenow=<%= @a2 %> role="progressbar" class="progress-bar" style="width: <%= if @anonymous.count>0
+                  (@a2/@anonymous.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @a2 %></strong>
+            </div>
+          </li>
+          <li>
+            <span class="ratings-text-container">
+            1 star
+            </span>
+            <div class="progress-container">
+              <div class="progress">
+                <div aria-valuemax=<%= @anonymous.count %> aria-valuemin="0" aria-valuenow=<%= @a1 %> role="progressbar" class="progress-bar" style="width: <%= if @anonymous.count>0
+                  (@a1/@anonymous.count.to_f)*100 end %>%">
+                </div>
+              </div>
+              <strong><%= @a1 %></strong>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% @anonymous.each do |a| %>
+    <div class=" trip-qa ">
+      <% if a.from_user.present? %>
+      <div class="pull-left msg-photo-container">
+        <%= image_tag a.from_user.profile.picture('inbox_thumb'), class: 'user-picture tip inline-block', alt: "#{a.from_user.display_first_last_name} (#{a.from_user.age})", width: "84", height: "84", style: "width: 54px; height: 54px;" %>
+      </div>
+      <% end %> 
+      <div class="msg-comment">
+        <h4>
+          <% if a.from_user.present? %>
+          <strong> <%= a.from_user.display_first_last_name %></strong>
+          <% end %>  
+          <p class="msg-date clearfix"><%= a.updated_at.to_date %><span class="pull-right"></span>
+        </h4>
+        <h5>Rating : <%= a.star %> / 5</h5>
+        <span class="star-rating" data-score="<%= a.star %>"></span>
+        <p><%= a.comment %></p>
+        <a class="alert-flag tip" href="/report-message"></a></span>
+        </p>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

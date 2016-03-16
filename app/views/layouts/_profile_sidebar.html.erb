@@ -1,0 +1,105 @@
+<script type="text/javascript">
+$(document).ready(function() {
+  $( "#profile_list_button" ).trigger( "click" );
+});
+</script>
+<div class="offer_ride booking profile_side">
+  <div class=" ">
+    <ul class="nav nav-tabs col-xs-6 col-sm-12" role="tablist">
+      <li class="<%= match_name(controller_name, 'notifications')%>"><a href="/profile/notifications" >Notifications</a></li>
+      <li  role="presentation"><%= link_to 'Payment Logs', payments_history_user_path(current_user) %></li>
+      <!-- <li class="<%= match_name(action_name, 'payments_history') %>" role="presentation"><a href="<%= payments_history_user_path(current_user) %>">Transaction History </a></li> -->
+      <!-- <li role="tab" class="<%= match_name(@page_url,'bookings_index') || match_name(@page_url,'bookings_show') || match_name(@page_url,'bookings_past_bookings')%>"> <%= link_to "My Bookings", bookings_path %> </li> -->
+      <li class="<%= match_name(controller_name, 'bookings') %>" role="presentation"><a href=<%=bookings_path%>>My Bookings</a></li>
+
+      <li class="<%= match_name(action_name, 'social_sharing') %>" role="presentation"><a href="/profile/social_sharing">Social Sharing</a></li>
+      <li class="<%= match_name(controller_name, 'registrations') %>" role="presentation"><a href="<%= edit_user_registration_path %>">Change Password</a></li>
+      <li  class="<%= match_name(action_name, 'account') %>"role="presentation"><a href="<%= account_unsubscribes_path %>">Delete Account</a></li>
+    </ul>
+    <div class="panel-group col-xs-6 col-sm-12" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <a role="button"  data-toggle="collapse" data-parent="#accordion" href="#collapseOne" id="profile_list_button" aria-expanded="true" aria-controls="collapseOne">
+        Profile<i class="fa fa-sort-desc"></i>
+        </a>
+        <div id="collapseOne" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="<%= match_name(action_name, 'general')%>" > <a href="<%= general_profile_index_path %>" >Profile</a></li>
+              <li class="<%= match_name(action_name, 'photo')%>"  role="Photo_car"><a href="<%= photo_profile_index_path %>">Photo & Car</a></li>
+              <li class="<%= match_name(action_name, 'verifications')%>"  role="presentation"><a href="<%= verifications_profile_index_path %>">Verfications </a></li>
+              <li class="<%= match_name(action_name, 'address')%>" role="presentation"><a href="<%= address_profile_index_path %>">Postal address</a></li>
+              <li class="<%= match_name(controller_name, 'preferences')%>" role="presentation"><a href="/profile/preferences">Preferences</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix"></div>
+<!--Begin Sidebar Menu-->
+<div class="profile-sidenav photo_page hidden">
+
+  <ul class="list-group sidebar-nav-v1 side_padding">
+    <li class="list-group-item"><span>Profile information </span></li>
+    <li class="list-group-item general">
+      <%= link_to "Personal information", general_profile_index_path %>
+    </li>
+    <li class="list-group-item photo">
+      <%= link_to "Photo", photo_profile_index_path %>
+    </li>
+    <li class="list-group-item preferences">
+      <%= link_to "Preferences", '/profile/preferences' %>
+    </li>
+    <li class="list-group-item verifications">
+      <%= link_to "Verifications", verifications_profile_index_path %>
+    </li>
+    <li class="list-group-item cars">
+      <%= link_to "Car", cars_path %>
+    </li>
+    <li class="list-group-item address">
+      <%= link_to "Postal address", address_profile_index_path %>
+    </li>
+  </ul>
+
+
+  <ul class="list-group sidebar-nav-v1 side_padding">
+    <li class="list-group-item"><span>Account</span></li>
+    <li class="list-group-item notifications">
+      <%= link_to "Notifications", '/profile/notifications' %>
+    </li>
+    <li class="list-group-item social_sharing">
+      <%= link_to "Social sharing", '/profile/social_sharing' %>
+    </li>
+    <li class="list-group-item password">
+      <%= link_to "Password", edit_user_registration_path %>
+    </li>
+    <li class="list-group-item delete_account">
+      <%= link_to "Delete my account", account_unsubscribes_path %>
+    </li>
+    <li class="list-group-item credit_card">
+      <%= link_to "Credit card", '/profile/credit_card' %>
+    </li>
+    <!-- <li class="list-group-item payments_history">
+      <%#= link_to "Payment(s) history", payments_history_user_path(current_user) %>
+    </li> -->
+    
+  </ul>
+
+</div>

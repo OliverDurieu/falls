@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+  	<div class="column">
+			<h1>Analytics</h1>
+			<h3>Hi, <%= current_user.first_name %>, welcome to the analytics control panel of LaMule</h3><br>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<h4>External providers</h4>
+			<ul>
+				<li><%= link_to "Kiss Metrics", "https://app.kissmetrics.com/metrics" %> (LaMule, 6x5-qrF-HZv-QmW)</li>
+				<li><%= link_to "Google Analytics", "http://www.google.com/analytics/" %> (Your google account)</li>
+				<li><%= link_to "Heaps - Visualizer", "https://heapanalytics.com/app/visualizer" %> (antoine@lamule.com.au or oli@lamule.com.au, Murtho1992)</li>
+				<li><%= link_to "MouseFlow - Heatmaps", "http://account.n.mouseflow.com/my-account" %> (antoine@lamule.com, Murtho1992)</li>
+			</ul><br>
+		</div>
+		<div class="col-md-6">
+			<h4>Custom made</h4>
+			<ul>
+				<li>Number of users : <%= User.count %> (<%= link_to "see list", users_path %>)</li>
+				<li>Number of rides on the website : <%= Ride.where("departure_date > ?", Date.today).count %></li>
+				<li>Profiles linked to facebook : <%= User.where("provider = ?", "facebook").count %> (<%= link_to "see list", users_index_facebook_path %>)</li>
+				<li>Profiles not linked to facebook : <%= User.where({provider: nil}).count %> (<%= link_to "see list", users_index_not_facebook_path %>)</li>
+			</ul>
+		</div>
+	</div>
+</div>
+

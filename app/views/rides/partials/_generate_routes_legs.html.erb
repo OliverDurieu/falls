@@ -1,0 +1,77 @@
+<% index_two = 2%>
+<% locations.each_with_index do |loc, index| %>
+    <% prev_index = index - 1 if index != 0 %>
+    <% if index < locations.length - 1 %>
+    <li>
+      <div class="row">
+        <div class="col-md-5 col-sm-12 location">
+          <span class="number"><%= index + 1 %></span>
+          <% if index == 0 %>
+            <span id="ride_leg_start"><%= loc %></span>
+          <% else %>
+            <span id="ride_leg_start"><%= locations[index_two - 1] %></span>  
+          <% end %>  
+          <span class="arrow">>></span>          
+          <% if index_two < locations.length %>
+            <span id="ride_leg_end"><%= locations[index_two] %></span>
+          <% else %>
+            <span id="ride_leg_end"><%= locations[1] %></span>  
+         <% end %>
+         <% index_two = index_two + 1 %>
+        </div>
+        <div class="col-md-7 col-sm-12 paricingarea">
+          <div class="form-inline">
+            <div class="form-group col-sm-5 col-xs-5">
+              <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+              <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <!-- <input type="text" class="form-control" name="InputAmount" placeholder=""> -->
+                <input class="form-control num-input price-input price_per_seat" id="ride_routes_attributes_<%= index %>_price" name="ride[routes_attributes][<%= index %>][price]" placeholder="1" type="text" required>
+              </div>
+            </div>
+            <div class="form-group col-sm-7 col-xs-7">
+              <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+              <div class="input-group number-input">
+                 <div class="input-group-addon">Number of seats</div>
+                <input type="number" min="1" max="7"  class="form-control num_of_seats" placeholder="Number of seats" onkeypress="return isNumberKey(event)" name="ride[routes_attributes][<%= index %>][seats_count]" required/>
+                <%#= ride_form.text_field :number_of_seats  %>
+              </div>
+            </div>             
+          </div>
+        </div>
+      </div>
+    </li>
+    <% end %>
+<% end %>
+<% if is_round == 'true' %>
+      <li>
+      <div class="row">
+        <div class="col-md-5 col-sm-12 location">
+          <span class="number"><%= locations.size %></span>
+            <span id="ride_leg_start"><%= locations[1] %></span>
+          <span class="arrow">>></span>          
+            <span id="ride_leg_end"><%= locations[0] %></span>
+        </div>
+        <div class="col-md-7 col-sm-12 paricingarea">
+          <div class="form-inline">
+            <div class="form-group col-sm-5 col-xs-5">
+              <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+              <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <!-- <input type="text" class="form-control" name="InputAmount" placeholder=""> -->
+                <input class="form-control num-input price-input" id="ride_routes_attributes_<%= locations.size %>_price" name="ride[routes_attributes][<%= locations.size %>][price]" placeholder="1" required="required" type="text" value="1">
+              </div>
+            </div>
+            <div class="form-group col-sm-7 col-xs-7">
+              <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+              <div class="input-group number-input">
+                <div class="input-group-addon">Number of seats</div>
+                <input type="number" min="1" max="7"  class="form-control num_of_seats" placeholder="Number of seats" onkeypress="return isNumberKey(event)"  name="ride[routes_attributes][<%= locations.size %>][seats_count]" required/>
+                <%#= ride_form.text_field :number_of_seats  %>
+              </div>
+            </div>             
+          </div>
+        </div>
+      </div>
+    </li>
+    <% end %>

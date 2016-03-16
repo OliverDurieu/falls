@@ -1,0 +1,24 @@
+<div class="offer_ride booking profile_side ">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="<%= match_name(action_name,'hints') %>"><a href="<%= hints_ratings_path %>">Leave a rating</a></li>
+    <li role="presentation" class="<%= match_name(action_name,'received') %>"><a href="<%= received_ratings_path %>">Rating received</a></li>
+    <li role="presentation" class="<%= match_name(action_name,'given') %>"><a href="<%= given_ratings_path %>">Rating given</a></li>
+  </ul>
+</div>
+<!--Begin Sidebar Menu--><!-- 
+<div class="profile-sidenav add_rating">
+
+  <ul class="list-group sidebar-nav-v1 add_ul_rating">
+    <li class="list-group-item hints">
+      <%= link_to "Leave a rating", hints_ratings_path %>
+    </li>
+    <li class="list-group-item received">
+      <%= link_to "Rating received", received_ratings_path %>
+    </li>
+    <li class="list-group-item given">
+      <%= link_to "Rating given", given_ratings_path %>
+    </li>
+   
+  </ul>
+
+</div> -->

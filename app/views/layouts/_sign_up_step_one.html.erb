@@ -1,0 +1,28 @@
+<div class="form_area_box ">
+	<div class="authform">
+	<form class="form2">
+		<div class="social-signin facebook-signin">
+			<%= link_to user_omniauth_authorize_path(:facebook), class: 'button btn-block' do %>
+				<i class="fa fa-facebook"></i>SIGN UP WITH FACEBOOK
+			<% end %>
+
+			
+		</div>
+		<p class="menu-separator"><span>OR</span></p>
+		<div class="form-group text-center login_email">
+			<%= link_to 'javascript:void(0);', class: 'button right btn-block login_btn visible-md visible-lg', id: 'button_next_modal',  data: { container: 'body',  placement: 'bottom', content: "", html: 'true' } do %>
+				<i class="fa fa-envelope"></i>SIGNUP WITH EMAIL
+			<% end %>
+			<li><%= link_to "SIGNUP WITH EMAIL", "/users/sign_up", class: 'button right btn-block login_btn visible-xs visible-sm' %></li>
+		</div>
+		<div class="form-group text-center">
+		    <p>By singning up, I agree to LaMule's <a href="<%= summary_termsconditions_path %>">Terms of Service</a> & <a href="<%= summary_policy_path %>">Privacy Policy</a></p>
+		</div>
+		<hr>
+		<div class="form-group text-center">
+		    <p>Already a Member? & <a href="<%= new_user_session_path %>">Log in</a></p>
+		</div>
+	</form>
+	</div>
+
+</div>

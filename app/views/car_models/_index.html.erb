@@ -1,0 +1,1 @@
+<%= options_for_select(@car_models.try(:each).try(:collect) { |mo| [mo.name, mo.id] }) %>

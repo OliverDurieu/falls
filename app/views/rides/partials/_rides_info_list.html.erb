@@ -1,0 +1,59 @@
+   
+           <% trips.each do |trip| %>
+              <% @ride = Ride.find(trip.ride_id) %>
+              <% @ride_user = @ride.user %>
+              <% @strip = trip %>
+              <% @ride_user_profile = @ride_user.profile %>
+              <% if (@source == params[:source]) %>
+                <% @dir = "st" %>
+              <% else %>
+                <% @dir = "re" %>
+                <% #trip.src = params[:ride_source]
+                # trip.dest = params[:ride_destination]
+                #trip.rid
+                if trip.dir == "st"
+                  trip.date = @ride.departure_date
+                else
+                 if @ride.return_date
+                  trip.date = @ride.return_date
+                 else
+                   trip.date = @ride.departure_date
+                 end
+                end %>
+              <% end %>
+              <a href="<%= ride_path(@ride.id)%>">
+                <div class="passenger-block">
+                  <div class="passenger-holder">
+                    <div class="col-md-5 col-sm-6 col-xs-6">
+                      <div class="image-holder">
+                        <img class="img-responsive" src="<%= avatar_url(@ride.user) %>">
+                        <strong class="rating"><i class="glyphicon glyphicon-star"></i><%= @ride.user.calculated_rating %></strong>
+                      </div>
+                    </div>
+                    <div class="passenger-textarea col-md-7 col-sm-6 col-xs-6" >
+                      <h4><%= @ride.user.first_name %> <%= @ride.user.last_name %></h4>
+                      <span class="passenger-textarea2 search_pagess">Leaves:  <%= @ride.departure_date.strftime("%d %B - %I:%M  %p")   %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-xs-12  col-md-offset-2 col-sm-offset-2 ">
+                  <ul class="passenger-detail">
+                    <li>
+                      <h3>$<span class="cost_per_seat cost_per_seat2"  ><%#price_arry<<@ride.total_price %><%= @ride.total_price %></span></h3>
+                      <p>Per pessenger</p>
+                    </li>
+                    <li>
+                      <h3><%= @ride.number_of_seats %></h3>
+                      <p>Seats Avaiable</p>
+                    </li>
+                  </ul>
+                </div>
+                </div>
+              </a>
+       <% end %>
+
+
+        
+       
+
+

@@ -1,0 +1,33 @@
+<!-- <div id="eta_div<%= @index%>" class="eta_time_div row" style="display:none;"> -->
+  
+  <div id="eta_div<%= @index%>" class="col-md-offset-3 col-xs-offset-4 col-sm-9 col-xs-8 p0 eta_time_div">
+    <div class="col-sm-12 col-xs-12 col-md-12 pr0">
+      <div class="col-md-6 row form-group">
+        <div class='input-group date' id='datetimepicker3'>
+          <span class="glyphicon glyphicon-calendar date-icon" aria-hidden="true"></span>
+          <input type='text' class="form-control time_class date_picker_rails" id="date_picker-<%= @index %>" data-provide="datepicker"/>
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-6 pl0">
+      <div class="form-group">
+        <div class='input-group date' id='datetimepicker3'>
+          <!-- <input type='text' class="form-control schedule_field" id="time_picker" data-time-format="H:i:s" required="true" /> -->
+          <span class="glyphicon glyphicon-time date-icon"></span>
+        <input type='text' id="time_picker-<%= @index %>" class="form-control time_class time_picker" data-time-format="H:i:s"/>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="time-wrapper">
+      <div class="col-sm-1 col-xs-1">
+        <a class="am active" href="#">AM</a>
+      </div>
+      <div class="col-sm-1 col-xs-1">
+        <a class="am" href="#">PM</a>
+      </div>
+    </div> -->
+  </div>
+
+
+<!-- </div> -->
+<!-- hidden field to hold date time -->
+<input class="form-control" type="hidden" id="date_field<%= @index %>" name="ride[routes_attributes][<%= @index %>][arrival_time]" >

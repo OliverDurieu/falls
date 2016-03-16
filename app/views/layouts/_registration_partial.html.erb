@@ -1,0 +1,97 @@
+
+<div class="row">
+  <div class=" signup_box">
+  <!--   <h2 class="text-center">Not yet a member? Sign up for free</h2>
+ -->
+    <div class=" center-block authform join-form">
+      <!-- <div class="well text-right">
+        <span class="singup-login-text">
+          Already a member?
+        </span>
+        <span class="signup-login-span">
+          <%#= link_to 'login', 'javascript:void(0);', class: 'btn btn-primary login-btn ', data: { container: 'body', toggle: 'popover', placement: 'auto', content: "", html: 'true' } %>
+        </span>
+      </div> -->
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => { :role => 'form' }) do |f| %>
+        <%= f.fields_for Profile.new, :validate => true do |profile_form| %>
+        <%= f.fields_for PhoneNumber.new, :validate => true do |phone_form| %>
+          <div class="center-block text-center">
+            <!-- <h2>In just <span>2 seconds </span></h2> -->
+            <div class="social-signin facebook-signin">
+              <strong>Sign up with</strong><%= link_to "Facebook".html_safe, user_omniauth_authorize_path(:facebook), class: 'prl-6' %>
+              <!-- <strong>Sign up with  <a href="#">Fascebook</a></strong> -->
+            </div>
+            <p class="margin-top size14"></p>
+          </div>
+
+          <p class="menu-separator"><span>OR</span></p>
+
+          <div class="center-block text-center">
+            <!-- <h2>In just <span>30 seconds </span></h2> -->
+          </div>
+          <div class="form-area">
+            <div class="form-group hidden">
+              <%= f.select :gender, options_for_select(GlobalConstants::GENDER_TYPES), { prompt: "Gender" }, class: "form-control" %>
+              <%= handle_error_text(resource, :gender) %>
+            </div>
+            <div class="form-group">
+              <%= f.text_field :first_name, autofocus: true, class: 'form-control', placeholder: "First name" %>
+              <%= handle_error_text(resource, :first_name) %>
+            </div>
+            <div class="form-group hidden">
+              <%= f.text_field :last_name, autofocus: true, class: 'form-control', placeholder: "Last name" %>
+              <%= handle_error_text(resource, :last_name) %>
+            </div>
+            <div class="form-group">
+              <%= f.email_field :email, class: 'form-control', placeholder: "Email" %>
+              <%= handle_error_text(resource, :email) %>
+            </div>
+
+             <div class="form-group">
+                 <%= phone_form.text_field :body, class: 'form-control', placeholder: "Phone Number"%>
+                <!-- <input type="text" class="form-control" name="firstname" placeholder="Phone Number"> -->
+            </div>
+            
+             <div class="form-group">
+               <%= profile_form.text_field :postcode,class: 'form-control', placeholder: "PostCode"%>
+               <!-- <input type="text" class="form-control" name="firstname" placeholder="PostCode"> -->
+            </div>
+
+            <div class="form-group">
+              <%= f.password_field :password, class: 'form-control', placeholder: "Password" %>
+              <%= handle_error_text(resource, :password) %>
+            </div>
+            <div class="form-group confirmation) %> hidden">
+              <%= f.password_field :password_confirmation, class: 'form-control', placeholder: "Password confirmation" %>
+              <%= handle_error_text(resource, :password_confirmation) %>
+            </div>
+            <div class="form-group hidden">
+              <%= f.select :birth_year, options_for_birth_year_select, { prompt: "Birth year" }, class: "form-control" %>
+              <%= handle_error_text(resource, :birth_year) %>
+            </div>
+            <div class="checkbox align-left">
+              <%= f.check_box :receive_updates %>
+              <%= f.label :receive_updates, "I'd like to keep in touch and hear about all the great things going on." %>
+            </div>
+            <div class="form-group align-left">
+                <p>By signing up, I agree to LaMule's <a href="<%= summary_termsconditions_path %>">Terms of Service</a> <span class="prl-6">&</span><a href="<%= summary_policy_path %>">Privacy Policy</a></p>
+            </div>
+            <div class="form-group">
+
+              <%= f.submit 'SIGN UP', :class => ' button right btn-block login_btn' %>
+            </div>
+            <hr>
+            <div class="form-group align-left">
+                <p>Already a Member<span class="prl-6">?</span> <a href="<%= new_user_session_path %>">Log in</a></p>
+            </div>
+          <% end %>
+        <% end %>
+       <% end %>
+    </div>
+  </div>
+
+  <div class=" col-sm-3 col-lg-30 hidden">
+    <%= render '/shared/tutorial_video' %>
+     <%= render '/shared/like_the_facebook' %>
+  
+</div>

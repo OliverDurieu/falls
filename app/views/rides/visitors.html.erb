@@ -1,0 +1,158 @@
+<%#= render partial: '/users/header_tabs' %>
+<%= hidden_field_tag "nav-tabs", "rides" %>
+
+<br><br>
+<%= link_to "back to your offers", rides_path %>
+<br>
+
+<div class="main-block">
+        <div class="header-main-block clearfix">
+          <h2 class="pull-left"><%= @ride.show_sorce_destination_route %></h2>
+        </div>
+
+        <div class="content-main-block clearfix">
+        <div class="col-md-7">
+          <h4 class="fade-gray size14 bold">
+            <i class="glyphicon glyphicon-calendar"></i>
+            <% t = @ride.departure_date   %>
+            <%= t.strftime("%A %d %B - %I:%M")  %>
+          </h4>
+           <h4>
+          <i class="glyphicon glyphicon-signal"></i>
+         <%= @ride.views_count %> visit(s)</h4>
+          </div>
+          <div class="col-md-3">
+          <h4>
+           <div class="col-sm-3">
+              <%= link_to add_seat_ride_path(@ride), id: 'plus',class: 'plus-val seats-btn', remote: true, method: :put do %>
+                <i class="glyphicon glyphicon-plus"></i>
+              <% end %>
+              <%= link_to delete_seat_ride_path(@ride), id: 'minus',class: 'subtract-val seats-btn', remote: true, method: :put do %>
+                <i class="glyphicon glyphicon-minus"></i>
+              <% end %>
+                </div> 
+          <span id="seats_left_<%= @ride.id %>" class='seats-left'>     
+            <%= @ride.number_of_seats %>
+          </span>
+                Seats Left
+                <i class="tooltipQ glyphicon glyphicon-question-sign" data-toggle="tooltip"
+data-placement="top" title="When passengers contact you directly to share the ride with you, you need to update manually the count of seats left. This will be done automatically if they book using their credit card."></i></h4>
+         </div>
+         <div class="col-md-2">
+          <h4 style="color: green;">$<%= @ride.total_price %> per passenger</h4>
+           
+         </div>
+         <div class="col-md-12">
+         <hr>
+         <div class="col-md-7">
+           <% if @ride.return_date.present? %>
+         <p>Return on <%= @ride.return_date%>
+         <% end %>
+         <%= link_to 'Duplicate', 'javascript: void(0);' ,class: "dup_date",  'data-ride'=> @ride.id %></p>
+        </div>
+         <div class="col-md-5">
+        
+        <%= link_to ride_path(@ride) do %>
+          <i class="glyphicon glyphicon-eye-open"></i> View Trip
+        <% end %>
+       
+        <%= link_to edit_ride_path(@ride) do %>
+         <i class="glyphicon glyphicon-edit"></i> Edit
+        <% end %>
+        
+        <%= link_to archive_ride_path(@ride), method: :patch, data: { confirm: 'Are you sure?' } do %>
+        <i class="glyphicon glyphicon-remove-sign"></i> Destroy
+        <% end %>
+        </div>
+      
+          </div>
+          <%= form_tag duplicate_ride_ride_path(@ride), :method => :post do %>
+          <div class="col-md-12">
+              <div class="content-main-block clearfix" style="display:none;" class="dup_content" id='dup_content_<%= @ride.id %>'>
+                <div class="col-md-4">
+                <div class="form-group">
+                  <label class: "col-sm-4 control-label">Departure Date</label>
+                  <div class="input-group date date-holder" data-date="<%= @ride.try(:departure_date) %>" style="width: 260px;">
+                    <%= text_field_tag :departure_date, set_date_style(@ride.try(:departure_date)), class: "form-control departure_date1" %>
+                    <span class="input-group-addon date_addon"><i class="glyphicon glyphicon-th"></i></span>
+                  </div>
+                 </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group ruturn-date-holder <%= @return_css %>">
+                    <label class: "col-sm-4 control-label">Return Date</label>
+                      <div class="input-group date date-holder" data-date="<%= @ride.try(:return_date) %>" style="width: 260px;">
+                    <%= text_field_tag :return_date, set_date_style(@ride.try(:return_date)), class: "form-control return_date1" %>
+                    <span class="input-group-addon date_addon"><i class="glyphicon glyphicon-th"></i></span>
+                  </div>
+                  </div>
+                </div>
+                
+                 <div class="col-md-2">
+                  <%= submit_tag "Publish", class: "btn btn-primary" %>
+                  </div>
+                </div>
+              </div>
+             
+              <% end %>
+                
+                
+                </div>
+        </div>
+
+<div class="main-block col-md-3 pull-left" style="background-color: yellow;">
+<span >Visits and statistics</span>
+</div>
+
+<div class="main-block col-md-8 pull-right">
+    <div class="header-main-block clearfix">
+    <h2 class="pull-left">Visitors</h2>
+    </div>
+
+    <p> Your ride offer has been viewed <%= @visitors.count %> times. Here are your most recent logged in visitors </p><br><br>
+
+
+    <div class="row">
+    <% @visitors.each do |visitor| %>
+    <% user_info = User.find(visitor.user_id) %>
+
+     <div class="rate-qa">
+      <div class="msg-comment col-md-3">
+      <p class="msg-date clearfix"><%= set_full_month_date_time_style(visitor.created_at) %><span class="pull-right"></span></p>
+      <%= image_tag user_info.profile.picture('inbox_thumb'), class: 'user-picture tip inline-block', alt: "#{user_info.display_first_last_name} (#{user_info.age})", width: "84", height: "84", style: "width: 54px; height: 54px;" %>
+      <div class="span1"></div>
+          <strong><%=user_info.first_name%></strong>
+          <p>Age : <%= user_info.age %></p>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <% end %>
+</div>
+</div>
+<div class="col-md-8 pull-right img-bulb">
+ 
+    <p><strong>Tip:</strong> To increase your chances of finding passengers, we advise you to complete your profile and your ride offer to make them stand out more.</p>
+    <br>
+    <strong>Fill out your profile completely:</strong>
+    <ul>
+      <li>Specify your traveling <a href="">preferences</a></li>
+      <li>Provide your <a href="">mobile number</a></li>
+      <li>Verify your <a href="">phone number</a></li>
+      <li>Fill out the <a href="">mini bio about yourself</a></li>
+    </ul>
+    <br>
+    <strong>Ensure your ride offer is complete and accurate:</strong>
+    <ul>
+      <li>Make sure to provide a <a href="">precise trip comment</a></li>
+      <li>Provide information about <a href="">your car</a></li>
+      <li>Provide a <a href="">photo of your car</a></li>
+    </ul>
+  </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+      $('.tooltipQ').tooltip();
+      $("." + $('#nav-tabs').val()).addClass('active');
+    });
+</script>

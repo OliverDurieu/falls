@@ -1,0 +1,3 @@
+<%= hidden_field_tag "active-side-nav-link", "received" %>
+<% @user = current_user %>
+<%= render :partial => 'show_ratings', :profile_user => current_user %>

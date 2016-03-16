@@ -1,0 +1,200 @@
+.publication-sidebar .wrapper {
+  border: 1px solid #ebebe3;
+  padding: 18px;
+  margin-bottom: 36px;
+}
+
+.publication-container .main-block {
+  background: #f1f1e9;
+  margin-bottom: 18px;
+  border: 1px solid #dfdfcd;
+}
+
+.p-name {
+  display: block;
+}
+
+.publication-container .main-block .header-main-block {
+  border-bottom: 1px solid #d1d1d1;
+  background: #fff;
+}
+
+input[type="text"].gmaps-input-address {
+  width: 100%;
+}
+
+input[type="text"].to {
+  background: url("ride/search-to-plot.png") no-repeat 6px 50% #fff;
+  text-indent: 25px;
+}
+
+input[type="text"].from {
+  background: url("ride/search-from-plot.png") no-repeat 6px 50% #fff;
+  text-indent: 25px;
+}
+
+.publication-container input[type="text"] {
+  height: 32px !important;
+  line-height: 22px;
+}
+
+.remove_location {
+  width: 20px;
+  height: 51px;
+}
+
+.stages-list li {
+  margin-bottom: 10px;
+}
+
+.publication-container input[type="text"].stage {
+  text-indent: 25px;
+  background-image: url("ride/location-stage.png");
+}
+
+.stages-container {
+  margin-top: 27px;
+}
+
+ol.unstyled, ul.unstyled {
+  margin-left: 0;
+  list-style: none;
+}
+
+ol, ul {
+  padding: 0;
+  margin: 0 0 10px 25px;
+}
+
+.publication-step1 .stages-list li .stage-add {
+  padding-right: 4px;
+  width: 240px;
+  cursor: pointer;
+}
+
+.publication-step1 .stage-add {
+  border: 1px dotted #cbcbcb;
+  background: transparent url(ride/marker-orange.png) no-repeat 6px 50%;
+  color: #666;
+  float: left;
+  line-height: 33px;
+  height: 33px;
+  text-align: center;
+}
+
+.simple-round-container {
+  float: right;
+  margin: 8px 17px 0;
+  white-space: nowrap;
+}
+
+.publication-breadcrumb, .publication-breadcrumb li a {
+  list-style: none;
+  font-weight: bold;
+  color: #000;
+}
+
+.publication-breadcrumb li span:after, .publication-breadcrumb li a:after {
+  background: #0CA9FA;
+  border-radius: 12px;
+  color: #FFFFFF;
+  content: "1";
+  display: block;
+  font-size: 14px;
+  font-weight: normal;
+  height: 20px;
+  line-height: 20px;
+  margin: 2px auto 0;
+  width: 20px;
+  z-index: 4;
+}
+
+.publication-breadcrumb li:after {
+  background: #0CA9FA;
+  content: "";
+  display: block;
+  height: 2px;
+  left: -30px;
+  position: absolute;
+  top: 32px;
+  width: 146px;
+  z-index: 3;
+}
+
+.publication-breadcrumb li.step1 {
+  overflow: hidden;
+}
+
+.publication-breadcrumb li {
+  float: left;
+  height: 43px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  width: 250px;
+}
+
+.step2.current {
+  margin: 0 0 0 -85px;
+}
+
+li.step1 span a {
+  text-decoration: none;
+}
+
+.publication-breadcrumb li.step2 a:after, .publication-breadcrumb li.step2 span:after {
+  content: "2";
+}
+
+#gmaps-canvas img {
+  max-width: none;
+}
+
+.num-input {
+  text-align: right;
+}
+
+.btn-container {
+  text-align: right;
+}
+
+.gmap-holder {
+  padding: 10px;
+  background: #eee;
+}
+
+.main-show {
+  padding: 10px 0;
+  display: block;
+}
+
+.standard-block .standard-block-header {
+  border-top-right-radius: 3px;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 0 18px;
+  min-height: 48px;
+}
+
+.img-bulb {
+  background-color: #FAFAFA;
+  background-image: url("/assets/lightbulb2.png");
+  background-position: 15px 15px;
+  background-repeat: no-repeat;
+  border: 1px solid #E6E6E6;
+  margin-top: 19px;
+  padding: 18px;
+  padding-left: 45px;
+}
+
+.pulish-button {
+  margin-top: 24px;
+}
+
+.list-left-advices .btn-danger {
+  font-size: 12px;
+}
+
+.route_plan{
+  font-size: 12px;
+}

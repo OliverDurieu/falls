@@ -1,0 +1,59 @@
+<%# add navigation links to this file %>
+
+<% if user_signed_in? %>
+	<li>
+		<% @unread_received_message_threads_count =  current_user.message_threads.joins(:messages).distinct.where("message_threads.status = ? AND message_threads.unread = ? AND messages.message_type = ?", GlobalConstants::MessageThreads::STATUS[:active], true, GlobalConstants::Messages::TYPE[:received]).count %>
+
+		<% if @unread_received_message_threads_count == 0 %>
+			<%= link_to "", "/messages/received", class: "home-messages" %>
+		<% else %>
+			<%= link_to "#{content_tag(:span, @unread_received_message_threads_count, class: 'notification')}".html_safe, "/messages/received", class: "home-messages" %>
+		<% end %>
+	</li>
+	<li>
+		<%= link_to "How It works", "/summary/howitworks"%>
+		<li>
+		<div class="dropdown">
+		
+		<button class="btn btn-default btn-country dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+		<%= image_tag 'dashboard/flag.png', class: 'img-responsive country-img' %> &#163;
+		<span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu top-navbar" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">$</a></li>
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">#</a></li>
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">&</a></li>
+	  </ul>
+	</div></li>
+
+<% else %>
+	<li><%= link_to 'join', new_user_registration_path %></li>
+	<li><%= link_to "|", "javascript:void(0);" %></li>
+	<li><%= link_to 'How it works', "/summary/howitworks" %></li>
+	<li>
+		<div class="dropdown">
+		
+		<button class="btn btn-default btn-country dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+		<%= image_tag 'dashboard/flag.png', class: 'img-responsive country-img' %> &#163;
+		<span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu top-navbar" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">$</a></li>
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">#</a></li>
+		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">&</a></li>
+	  </ul>
+	</div></li>
+	<li>
+	<div class="fb-like" data-href="https://www.facebook.com/pages/La-Mule-Community/710768758986595" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div></li>
+<% end %>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=223943261150250&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

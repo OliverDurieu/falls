@@ -1,0 +1,83 @@
+<%= hidden_field_tag "active-side-nav-link", "password" %>
+<div class="panel panel-default">
+  <div class="panel-heading">Postal address
+  </div>  
+  <div class="panel-body m-15">
+  <%= form_for @profile, url: update_address_profile_index_path  do |f| %>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6 mt24">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Address line 1</label>
+            <%= f.text_field :address_1, class: "form-control" , placeholder: "Street"%>
+          <!--   <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Street">
+           -->
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail2">Line 2 </label>
+            <%= f.text_field :address_2, class: "form-control" , placeholder: "-"%>
+
+<!--             <input type="text" class="form-control" id="exampleInputEmail2" placeholder="-">
+ -->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="exampleInputEmail3">Post Code</label>
+
+            <%= f.text_field :postcode, class: "form-control" , placeholder: "-"%>
+            <%= handle_error_text(@profile, :postcode) %>
+<!--             <input type="text" class="form-control" id="exampleInputEmail3" placeholder="-">
+ -->          
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="exampleInputEmail4">City/Town</label>
+
+          <%= f.text_field :city, class: 'form-control gmaps-input-address', placeholder: "-", id: "ride_source" %>
+          <%= handle_error_text(@profile, :city) %>
+          <%= f.hidden_field :longitude, class: "input-longitude" %>
+          <%= f.hidden_field :latitude, class: "input-latitude" %>
+<!--             <input type="text" class="form-control" id="exampleInputEmail4" placeholder="-">
+ -->
+          </div>
+        </div>
+        <div class="col-md-5 pull-right">
+          <!-- <p>When you enter your postal address we will send you out a awesome <a href="#">FREE</a> little  welcome pack, Also will add to your experinence points by <a href="#">+100</a></p> -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 ">
+          <div class="form-group">
+            <label for="exampleInputEmail5">Country</label>
+
+          <%= f.select :country_id, options_for_select(Country.all.try(:each).try(:collect) { |country| [country.name, country.id] }, Country.find_by(name: GlobalConstants::DEFAULT_COUNTRY).id), { prompt: "Choose" }, class: "form-control" %>
+            <!-- <select id="exampleInputEmail5" class="form-control">
+              <option>Australia</option>
+              <option>Australia</option>
+              <option>Australia</option>
+              <option>Australia</option>
+              <option>Australia</option>
+            </select> -->
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 btn_block text-center btn_change">
+        <%= f.submit 'GET', class: "pull-right b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" %>
+          <!-- <a role="button" href="#" class=" pull-right b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn">GET</a> -->
+        </div>
+
+      </div>
+    </div>  
+ <% end %>
+  </div>
+ 
+
+</div>
+  
+
+

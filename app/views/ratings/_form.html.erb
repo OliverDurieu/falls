@@ -1,0 +1,125 @@
+<script type="text/javascript">
+  var max_char = 200;
+  $(document).ready(function () {
+    remaing_comment_char( $("#rating_comment") );
+    $('.star-rating').raty({
+      mouseout: function (score, evt) {
+        if ($('#hint').text() == "") {
+          $('#hint').text("0");
+        }
+      },
+      hints: ['1', '2', '3', '4', '5'],
+      click: function (score, evt) {
+        $('#rating_star').val(score);
+      },
+      score: function () {
+        return $(this).attr('data-score');
+      },
+      targetKeep: true,
+      target: "#hint"
+    });
+    $("#rating_comment").keydown(function(e){
+      $(this).remaing_comment_char();
+    });
+    $("#rating_comment").keypress(function(e) {
+      if (this.value.length > 199){
+        e.preventDefault();
+      }
+  
+  
+    });
+    $('.rating_user_type_radio').click(function(){
+      if ($(this).val() ==  "driver"){
+        $(".user-rate-div").removeClass("hidden");
+        $(".user-skill-div").removeClass("hidden");
+      }else{
+        $(".user-rate-div").removeClass("hidden");
+        $(".user-skill-div").addClass("hidden");
+      }
+  
+    });
+  });
+  function remaing_comment_char($this){
+  var remaining_char = max_char - $this.val().length;
+  $(".char_count_remain").text(remaining_char);
+  }
+</script>
+<%= hidden_field_tag "active-side-nav-link", "hints" %>
+
+<div class="offer_ride booking profile">
+  <div class="col-md-10 col-sm-12 col-xs-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- leave_rating start -->
+      <div role="tabpanel" class="tab-pane active change_password " id="leave_rating">
+        <div class="panel panel-default">
+          <div class="panel-heading">Rating
+          </div>
+          <div class="panel-body m-15">
+            <%= form_for @rating, html: { multipart: true } do |f| %>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-7">
+                    <%= f.hidden_field :user_id, value: @user.id %>
+                    <div class="radio">
+                      <%= f.radio_button :user_type, :passenger, class: "" %>
+                      <%= label :user_type_passenger, "a passenger " %>
+                    </div>
+                    <div class="radio">
+                      <%= f.radio_button :user_type, :driver, class: "" %>
+                      <%= label :user_type_driver, "a driver during the trip" %>
+                    </div>
+                    <div class="radio">
+                      <%= f.radio_button :user_type, :unknown, class: "" %>
+                      <%= label :user_type_unknown, "I did not travel with #{@user.display_first_last_name}" %>
+                    </div>
+                  </div>
+                  <div class="col-md-5 pic_area">
+                    <div class="user_profile text-center">
+                      <div class="img_holder">
+                        <a href="<%= public_profile_user_path(@user.id) %>"><img src="<%= avatar_url @user %>" class="img-responsive" alt="<%= @user.display_first_last_name %>"></a>
+                        <span class="tag"><i class="fa fa-star"></i>
+                          <%= @user.calculated_rating %>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="rating_comments">
+                    <div class="col-md-12 row">
+                      <p>Click the stars with 1 being not good & 5 being awesome</p>
+                      <div class=" rating_list">
+                        <ul>
+                          
+                          <span class="star-rating" data-score="<%= @rating.star %>"></span>
+                          <span><span id="hint"></span> star(s) </span>
+                          <%= handle_error_text(@rating, :star) %>
+                          <%= f.hidden_field :star %>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="exampleInputEmail5">Some quick Comments</label>
+                          <%= handle_error_text(@rating, :comment) %>
+                          <%= f.text_area :comment, placeholder: "How was your car share (on time, pleasant, fun, etc.)? Do you recommend this member to the community?", class: "form-control text_box", rows: 4 %>
+                          <!-- <textarea class="form-control text_box" placeholder="Max 500 Charecters " rows="3" id="exampleInputEmail5"></textarea> -->
+                        </div>
+                      </div>
+                      <div class="col-md-12 btn_block text-center btn_change">
+                        <%= f.submit "PUBLISH", class: "pull-right b_25 color btn_offer btn btn-default btn-sm navbar_ride_btn" %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- leave_rating end -->
+    </div>
+  </div>
+</div>

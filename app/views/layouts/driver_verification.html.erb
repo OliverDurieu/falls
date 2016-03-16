@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+	<%= render 'layouts/head_content' %>
+	<body onload="gmapAutocompleteInitialize()" class='<%= "#{controller_name}_#{ action_name}" %>'>
+		<div class="main-area">
+		   <div class="driver_details">
+            <div class="navbar">
+              <div class="col-md-4 col-sm-3 col-xs-12  ">
+                <div class="logo nav_bar hide_mobile">
+                  <%= link_to "#{image_tag 'inner_logo.png', class: 'img-responsive'}".html_safe, root_path %>
+                </div>
+               </div>
+                <div class="navbar-inner">
+                  <div class="">
+                    <ul>
+                      <li  class="active tab_nav" id="tab_nav1"><span class="text_mobile">Verify <em class="text_none"> Your Profile</em></span> <span class="border-line"></span></li>
+                      <li id="tab_nav2" class="<%= action_name == 'finished' ? 'active' : '' %>"><span class="text_mobile">Personal deta<em class="text_none">ils and car</em></span> <span class="border-line"></span></li>
+                      <li id="tab_nav3" class="<%= action_name == 'finished' ? 'active' : '' %>">Done</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+          </div>
+		<main role="main">
+		  <%= render 'layouts/flash_messages' %>
+		  <div class="container main-container ">
+			  <div class="m-15">
+			 	 <%= yield %>
+			 </div>
+		  </div>
+		 
+		</main>
+
+		</div>
+		
+
+
+    <%= render 'layouts/app_footer' %>
+		 <%= yield :script %>
+
+    <!-- Google Code for Remarketing Tag -->
+    <script type="text/javascript">
+    / <![CDATA[ /
+    var google_conversion_id = 948647481;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    / ]]> /
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/948647481/?value=0&amp;guid=ON&amp;script=0"/>
+    </div>
+    </noscript>
+    <!-- End of Google Code for Remarketing Tag -->
+
+	</body>
+</html>
+

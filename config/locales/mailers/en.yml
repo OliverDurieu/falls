@@ -1,0 +1,12 @@
+en:
+  user_mailer:
+    delete_account:
+      subject: "Delete Account"
+    email_verification:
+      subject: "Account Verification"
+    ride_offer_confirmation:
+      subject: "Your trip from (%{origin}) to (%{destination}) has successfully been posted on LaMule!"
+    ride_private_message:
+      subject: "You've received a private message from %{sender_name} on LaMule"
+    email_alerts:
+     subject: "Testing"

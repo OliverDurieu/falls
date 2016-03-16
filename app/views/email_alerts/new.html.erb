@@ -1,0 +1,232 @@
+<%= stylesheet_link_tag 'new_design/rides_info' %>
+<% content_for :script do %>
+  <%= javascript_include_tag :ride_info %>
+<% end %>
+<%#= render partial: '/users/header_tabs' %>
+<div class="search_mobile">
+   <div class="top_header text-center">
+      <h4>Please input your desired trip</h4>
+   </div>
+   <div class="caption">
+      <div class="form_area">
+         <form accept-charset="UTF-8" action="/rides/rides_info" class="form-inline" method="get">
+          <%= form_tag rides_info_rides_path, class: 'form-inline', method: 'get' do %>
+            
+            <div class="row">
+               <div class="form-group col-sm-12">
+                  <div class="input-group"> <span class="input-group-addon home">
+                     </span>
+                      <%= text_field_tag :ride_source, nil, autofocus: true, class: 'gmaps-input-address form-control', placeholder: "From", style: "width:100%;" %>
+
+                     <!-- <input autofocus="autofocus" class="gmaps-input-address form-control" id="ride_source" name="ride_source" placeholder="From" style="width:100%;" type="text" autocomplete="off"> -->
+                  </div>
+               </div>
+               <div class="form-group col-sm-12">
+                  <div class="input-group"> <span class="input-group-addon home">
+                     </span>
+                     <%= text_field_tag :ride_destination, nil, autofocus: true, class: 'gmaps-input-address form-control', placeholder: "To", style: "width:100%;" %>
+
+                     <!-- <input autofocus="autofocus" class="gmaps-input-address form-control" id="ride_destination" name="ride_destination" placeholder="To" style="width:100%;" type="text" autocomplete="off"> -->
+                  </div>
+               </div>
+                 <%= hidden_field_tag :profile_photo, "all" %>
+                 <%= hidden_field_tag :order_by, "departure_date ASC" %>
+                 <%= hidden_field_tag :start_time, 0 %>
+                 <%= hidden_field_tag :last_time, 24 %>
+               <div class="search">
+                  <div class="btn-group" role="group">
+                     <img alt="White search" src="/assets/search_icon.png">
+                       <%= submit_tag "Find rides", name: 'search', class: "btn find_rides_button" %>
+                     <!-- <input class="btn find_rides_button" name="search" type="submit" value="Find rides"> -->
+                  </div>
+               </div>
+            </div>
+            <% end %>
+         </form>
+      </div>
+   </div>
+   <div class="eamil_alert">
+       <h5>“Get Notified”</h5>  
+       <div class="msg_icon">
+        <img alt="White search" src="/assets/msg_alerts_icon.png">
+       </div>
+       <div class="clearfix"></div>
+        <p>Unfortunately there were no rides this time in your search, if you enter your email we can send you a quick notification when one pops up!
+    </p>
+    <%= form_for @email_alert, :remote => true do |f| %>
+        <div class="form-group">
+          <%= f.email_field :email, autofocus: true,:required => true, :pattern => '[^@]+@[^@]+\.[a-zA-Z]{2,6}',class: 'form-control', placeholder: "Your Email...", style: "width:100%;" %>
+         </div>
+          <%= f.hidden_field :source, :value => params[:from] %>
+          <%= f.hidden_field :destination, :value => params[:to] %>
+          <%= submit_tag "Set Notification", name: nil, class: "btn btn-warning pull-right btn_alert" %>
+<button type="button" class="btn btn-primary btn-lg hidden" id="notification_pop_up_button" data-toggle="modal" data-target="#modal-3">
+  Launch demo modal
+</button>
+    <% end %>
+  </div> 
+
+  
+
+   <div class="other_rides text-center">
+      <h3>See Other Rides Below</h3>
+      <div class="image_holder">
+        <img alt="White search" src="/assets/arrow_down.png">
+      </div>
+   </div>
+<!--    <div class="top_header text-center date_label">
+      <h4>June 24th, 2015</h4>
+   </div>--> 
+    <!-- Nav tabs -->
+    <%price_arry=Array.new%>
+      <%longitude_arry=Array.new%>
+      <%latitude_arry=Array.new%>
+          <% @rides.each do |ride| %>
+                  <%price_arry<<ride.total_price %>
+                  <% ride.locations.each do |l| %>
+                    <% if l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:source] %>                
+                            <%longitude_arry<<l.longitude%>
+                            <%latitude_arry<<l.latitude%>
+                     <%end%>
+                  <%end%>
+          <%end%>
+       <%= hidden_field_tag "ride_source_longitude_arry" , longitude_arry %>
+       <%= hidden_field_tag "ride_source_latitude_arry" , latitude_arry %>
+       <%= hidden_field_tag "ride_price_arry" , price_arry %>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><img alt="White search" class="pull-right" src="/assets/map_tab.png"></a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" id="map_link" role="tab" data-toggle="tab"><img alt="White search" class="pull-left" src="/assets/map_tab2.png"></a></li>
+
+  </ul>
+  <!-- Tab panes -->
+  <div class="search-ride">
+  <div class="tab-content ">
+    <div role="tabpanel" class="tab-pane active" id="home">
+      <%= render partial: 'rides_show_list'%>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+        <div class="col-md-6 col-sm-6">
+        <div class="">
+          <div class="Flexible-container">           
+            <div id="pointers_map" style='width: 100%; height: 680px;'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div id="modal-3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class=" pop_area">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="comfirmation_header"></h3>
+    </div>
+    <div class="modal-body" style="background: white;">
+      <div class="msg_icon">
+        <img alt="White search" src="/assets/msg_alerts_icon.png">
+       </div>
+       <div class="clearfix"></div>
+       <h4>Notification set, you will receive an email when a ride is available..</h4>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row hidden">
+  <%= render partial: 'emailalerts_sidebar' %>
+  <div class="col-md-9 margin">
+    <%= form_for @email_alert, html: { class: 'form-horizontal', role: 'form' } do |f| %>
+    <div class="email_box">
+    <strong>Create an Alert </strong><i class="tooltipQ glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Got notified each time a new ride is offered (usually a few days before the trip)"></i>
+     <br><br>
+     <img src="<%= asset_path('email-envelope2.png') %>" class="display-block pull-left" alt="">
+     <div class="text"><i>Create an alert to receive an email when <%= params[:to] %> - <%= params[:from] %> are offered</i> </div>
+
+     <div class="row">
+      <div class="col-sm-12 col-md-4 location-holder row date-holder">
+        <%= f.text_field :travel_date, autofocus: false, class: 'form-control', :id=> :travel_date, placeholder: "Travel date", style:"width:100%;" %>
+      </div>
+      <div class="col-sm-12 col-md-4 location-holder row">
+        <%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: "Your Email", style: "width:100%;" %>
+      </div>
+      <%= f.hidden_field :source, :value => params[:from] %>
+      <%= f.hidden_field :destination, :value => params[:to] %>
+
+      <%= submit_tag "Create an email alert", name: nil, data:{confirm: "are u sure"}, class: "btn btn-warning col-sm-3 btn_alert" %>
+    </div>
+  </div>
+  <%= render partial: 'alert_message' %>
+  <% end %>
+</div>
+
+
+
+</div>
+
+<script type="text/javascript">
+  // $(document).ready(function () {
+  //   $('.tooltipQ').tooltip();
+  //   $.rails.confirm = function(msg){
+  //    if($("#travel_date").val())
+  //    {
+  //       $("#modal-3").modal("show");
+  //       $("#comfirmation_header").html('Your alert for your trip on '+$("#travel_date").val()+' has been created!');
+  //       $(".modal-body").append(' If you make this journey often, getting a weekily alert can save you money every time you travel from <%= URI.decode(params[:from]) %> to <%= URI.decode(params[:to]) %> ');
+  //       $("#modal-3").find("#yes, #no").click(function(){$("#new_email_alert").submit();});
+  //       return false;
+  //    }
+  //     else
+  //     {
+  //       alert("Please complete all fields");
+  //       return false;
+  //     }
+  //   };
+
+  //   $('#travel_date').datetimepicker({
+  //     timeFormat: "hh:mm TT",
+  //     controlType: 'select'
+  //   });
+
+  //   $('body').on('click', '.date-holder', function (e) {
+  //     if (!$('#ui-datepicker-div').is(':visible')) {
+  //       $(this).parents('.date-holder').find('input').trigger("focus");
+  //     }
+  //   });
+  // });
+
+</script>
+
+
+<script type="text/javascript">
+        var autocomplete, options;
+
+        autocomplete = [];
+
+        if ($('.gmaps-input-address').length > 0) {
+          options = {
+            componentRestrictions: {
+              country: 'AU'
+            },
+            types: ['geocode']
+          };
+          $('.gmaps-input-address').each(function(index) {
+            var $this, element, id;
+            $this = $(this);
+            id = $this.attr('id');
+            element = document.getElementById(id);
+            $(this).bind('keydown', function(event) {
+              if (event.keyCode === 13) {
+                event.preventDefault();
+              }
+            });
+            return autocomplete[index] = new google.maps.places.Autocomplete(element, options);
+          });
+        }
+
+</script>
+<script type="text/javascript">
+  $('.nav-tabs').on('shown.bs.tab', function () {
+    google.maps.event.trigger(window, 'resize', {});
+});
+</script>
+</div>
+

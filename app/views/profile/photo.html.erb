@@ -1,0 +1,41 @@
+
+<%= hidden_field_tag "active-side-nav-link", "photo" %>
+<div class="offer_ride booking profile">
+  <div class="col-md-10 col-sm-12 col-xs-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active change_password Verification" id="Photo_car">
+        <%= render 'profile/partials/photo_car'%>
+      </div>
+      
+      <!-- Delete account end -->
+      <div class="offer_ride_footer">
+        <div class="panel panel-default col-md-12 col-sm-12 col-xs-12">
+          <div class=" col-sm-3 col-xs-12">
+            <div class="img_holder">
+              <a href="/users/4/public_profile"><img alt="Icon man 108" class="img-responsive" src="/assets/icon_2.png"></a>
+            </div>
+          </div>
+          <p>Going somewhere? <a href="/offer-seats/1">Post your ride here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function validateFiles(inputFile) {
+    var maxExceededMessage = "This file exceeds the maximum allowed file size (2 MB)";
+ 
+    var maxFileSize = $(inputFile).data('max-file-size');
+    var sizeExceeded = false; 
+  $.each(inputFile.files, function() {
+    if (this.size && maxFileSize && this.size > parseInt(maxFileSize)) {sizeExceeded=true;};
+  });
+  if (sizeExceeded) {
+    document.getElementById("size_error").style.visibility = "visible";
+    document.getElementById("size_error").innerHTML = "Image File size exceeded 2MB";
+    $(inputFile).val('');
+  };
+}
+</script>

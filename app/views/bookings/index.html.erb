@@ -1,0 +1,189 @@
+    <div class="hide_desktop">
+      <%= render 'layouts/profile_sidebar'%>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-12 ">
+    <div class="offer_ride booking profile_side rides">
+  <ul class="nav nav-tabs" role="tablist">
+
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Current Booking</a></li>
+    <li role="presentation"><a href="#messages"  id="past_bookings" aria-controls="messages" role="tab" data-toggle="tab">Past Booking</a></li>
+
+    <!-- <li class="<%= action_name == 'index' ? 'active': '' %>"> <%= link_to "Current Booking",bookings_path%></li>
+    <li class="<%= action_name == 'past_bookings' ? 'active': '' %>"> <%= link_to "Past Booking",past_bookings_bookings_path %></li>
+ -->
+  </ul>
+  </div>
+ </div>
+<div class="col-md-9 col-sm-9 col-xs-12">
+<div class="offer_ride booking profile">
+ <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+      <div class="panel panel-default">
+          <div class="panel-heading">Current Booking
+          </div>
+          <div class="panel-body rides">
+          <%= render 'bookings/partials/booking_list', bookings: @bookings, tab_name: 'Current' %>
+        </div>        
+    </div>
+    </div>     
+<!-- past booking -->
+           <div role="tabpanel" class="tab-pane" id="messages">
+              <div class="panel panel-default">
+                  <div class="panel-heading">Past Booking 
+                  </div>
+          <div class="panel-body rides">
+          <%= render 'bookings/partials/booking_list', bookings: @past_bookings, tab_name: 'Past' %>
+            </div>
+            </div>
+          </div>
+<div class="offer_ride_footer">
+      <div class="panel panel-default col-md-12 col-sm-12 col-xs-12">
+          <div class="col-md-2 col-sm-2 col-xs-12">
+            <div class="img_holder">
+              <a href="/users/4/public_profile"><img alt="Icon man 108" class="img-responsive" src="/assets/icon_2.png"></a>
+            </div>
+        </div>
+         <p>Going somewhere? <a href="/offer-seats/1">Post your ride here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="clearfix"></div>
+<%#= render :partial => '/users/header_tabs' %>
+<div class="row">
+  <div class="col-md-12 ">
+    <span class="col-sm-9 col-md-6 nav nav-list">
+      <span class="btn-group ">-->
+        <!-- <a href="javascript:void(0);" data-order-by="total_price ASC" class="btn btn-default sort-btn <%= %>"></a> -->
+        <!-- <a href="javascript:void(0);" data-order-by="total_price ASC" class="btn btn-default sort-btn <%= %>">Past</a> -->
+       <!--<li class="<%= action_name == 'index' ? 'active': '' %>"> <%= link_to "Current",bookings_path, class: "btn btn-default sort-btn " %></li>
+       <li class="<%= action_name == 'past_bookings' ? 'active': '' %>"> <%= link_to "past",past_bookings_bookings_path, class: "btn btn-default sort-btn" %></li>
+      </div>
+    </span>
+  </span>
+</div>
+</div>
+
+
+
+<% @bookings.each do |booking| %>
+  <% ride = Ride.find(booking.ride_id) %>
+  <% user = User.find(ride.user_id) %>
+<div class="main-block">
+<div class="header-main-block clearfix" >
+<div class="row">
+<div class="col-md-4 border-r ptb">
+   <%= truncate(ride.show_sorce_destination_route_short_name, :length => 45) %>
+</div>
+<div class="col-md-8 ptb">
+ <span class="" style="color: green"><%= booking.status.humanize if booking.status.present? %></span>
+</div>
+</div> 
+
+</div>
+  <div class="container row">
+  <div class="row">
+  <div class="col-md-4 border-r ptb">
+    <i class="glyphicon glyphicon-user"></i> <%= user.first_name %><%= user.phone_number.body ?  " - " + user.phone_number.try(:body).to_s :  '' %>
+    <br>
+    <%=image_tag "seat-icon.png"%></i> <%= booking.no_of_seats_booked == 1 ? "#{booking.no_of_seats_booked} place - #{booking.ride.total_price * booking.no_of_seats_booked}$" : "#{booking.no_of_seats_booked} places - #{booking.ride.total_price * booking.no_of_seats_booked}$"  %> <br>
+    <% if ride.present? && ride.archieve == 0 %> 
+      <i class="glyphicon glyphicon-calendar"></i> <%= date_in_today_format(ride.departure_date) %> <br>
+      <br>
+      </div>
+      <div class="col-md-8 ptb p-detils">
+      
+      <br>
+      <% if booking.status == "waiting" %>
+        <p>Awaiting confirmation from driver</p>
+      <% elsif booking.status == "accepted" %>
+        <p><%= user.first_name %> has confirmed your reservation. Your seat is booked. </p>
+      <% end %>
+    <% else %>
+      <p>Ride is not present</p>
+      <% if booking.transection.present? %>
+        <%= link_to "Refund",refund_transection_path(booking.transection), :data => {:confirm => "Are you sure you'd like to refund"}, class: "btn btn-danger pull-right" %>
+      <% end %>
+    <% end %>
+    <% if !@past %>
+      <div class="row">
+        <div class="col-md-3  ">
+         <%= link_to booking_path(booking) do %>
+            <i class="glyphicon glyphicon-eye-open"></i> Booking Details
+          <% end %>
+        </div>
+        <div class="col-md-2 ">  
+          <%= link_to ride_path(ride) do %>
+              <i class="glyphicon glyphicon-arrow-right"></i> View trip
+          <% end %>
+        </div>
+        <% if current_user.provider == "facebook" %>
+          <div class="col-md-4 ">
+             <%= link_to "Share on Facebook",'https://www.facebook.com/dialog/feed?
+                    app_id=223943261150250&
+                    link=http://www.lamule.com.au/rides/'+ride.id.to_s+'&
+                    picture=http://eduleaf-development.s3.amazonaws.com/uploads/lamule_meta_image_large_2.png&
+                    name=I am going to this route '+ride.show_sorce_destination_route+'&
+                    caption=Departure Time '+ride.departure_date.to_s+'&
+                    description=with '+user.first_name+'&
+                    redirect_uri=http://www.lamule.com.au/rides&
+                    display=popup', class: "glyphicon glyphicon-share", id: "share_on_facebook", :method => :post
+                %>
+            </div>  
+          <% end %>
+          <div class="col-md-3 ">
+            <%= link_to booking, :data => {:confirm => "Are you sure you'd like to cancel this trip?"}, :method => :delete  do %>  
+             <i class="glyphicon glyphicon-remove-circle"></i> Cancel Reservation
+            <% end %> 
+          </div>
+        </div>
+        <br>
+      <% end %>
+    </div>
+    </div>
+  </div>
+  </div>
+<% end %>-->
+
+
+

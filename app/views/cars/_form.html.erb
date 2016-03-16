@@ -1,0 +1,83 @@
+<%= hidden_field_tag "active-side-nav-link", "cars" %>
+<%= form_for @car, html: { class: 'well form-horizontal', role: 'form' } do |f| %>
+
+    <fieldset>
+      <h2>Your car</h2>
+
+      <div class="form-group">
+        <%= f.label :car_maker_id, "Make", class: "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <%= f.select :car_maker_id, options_for_select(CarMaker.all.try(:each).try(:collect) { |maker| [maker.name, maker.id] }, @car.car_maker_id), { prompt: "Choose" }, class: "form-control car-maker-select" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :car_model_id, "Model", class: "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <% if @car.try(:car_maker_id).present? %>
+              <%= f.select :car_model_id, options_for_select(@car.car_maker.car_models.try(:each).try(:collect) { |mo| [mo.name, mo.id] }, @car.try(:car_model_id)), { prompt: "-- please select make first --" }, class: "form-control car-model-select" %>
+
+          <% else %>
+              <select id="car_car_model_id" name="car[car_model_id]" class="form-control car-model-select">
+                <option value="">-- please select make first --</option>
+              </select>
+          <% end %>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :level_of_comfort, "Comfort", class: "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <%= f.select :level_of_comfort, options_for_select(GlobalConstants::CAR_COMFORT_LEVEL.each_with_index { |com, index| [[com, "#{index +1}"]] }, @car.level_of_comfort || GlobalConstants::CAR_COMFORT_LEVEL[1][1]), {}, class: "form-control" %>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <%= f.label :number_of_seats, class: "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <%= f.select :number_of_seats, options_for_select((1..9).to_a.each { |no| [no, no] }, @car.number_of_seats || 4), {}, class: "form-control" %>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :color_id, class: "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <%= f.select :color_id, options_for_select(Color.all.try(:each).try(:collect) { |col| [col.name, col.id] }, @car.car_maker_id || Color.find_by(name: "black")), {}, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :car_category_id, "Type", class: "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <%= f.select :car_category_id, options_for_select(CarCategory.all.try(:each).try(:collect) { |cat| [cat.name, cat.id] }, @car.car_category_id), { prompt: "Choose" }, class: "form-control" %>
+        </div>
+      </div>
+      <% if session[:ride_id].present? && Ride.find_by(id: session[:ride_id]).present? %>
+        <%= f.hidden_field :ride_id, value: session[:ride_id] %>
+      <% end %>
+    </fieldset>
+
+    <div class="col-sm-offset-2">
+      <%= f.submit 'Save', class: "btn btn-primary" %>
+    </div>
+<% end %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".car-maker-select").change(function () {
+            var $this = $(this);
+            $.ajax({
+                type: 'GET',
+                url: '/car_makers/' + $this.val() + '/car_models',
+                dataType: 'html',
+                success: function (data) {
+//                    console.log(data);
+                    $('.car-model-select').html(data);
+                }
+            });
+        });
+
+    });
+</script>

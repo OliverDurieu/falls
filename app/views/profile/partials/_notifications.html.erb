@@ -1,0 +1,96 @@
+<div class="offer_ride booking profile">
+  <div class="col-md-10 col-sm-12 col-xs-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Notifications start -->
+      <div role="tabpanel" class="tab-pane active" id="">
+        <div class="panel panel-default">
+          <div class="panel-heading">Notifications
+          </div>
+          <div class="panel-body ">
+            <div class="list">
+              <div class="row">
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                  <h3>Phone</h3>
+                </div>
+                <div class="col-md-10 col-sm-9 col-xs-12 ">
+                  <p>You can add and verify phone numbers on your account from the <a href="#">Edit Profile</a> section</p>
+                </div>
+              </div>
+            </div>
+            <div class="list">
+              <div class="row">
+                <div class="col-md-2 col-sm-3 col-xs-12">
+                  <h3>Email</h3>
+                </div>
+                <div class="col-md-10 col-sm-9 col-xs-12 ">
+                  <p>You can add and verify  your email from the <a href="#">Edit Profile</a> section</p>
+                </div>
+              </div>
+            </div>
+            <div class="list">
+              <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                  <h3>Notify me When</h3>
+                  <small>Both email & text message.</small>
+                </div>
+                <%= form_for current_user, url: update_user_notifications_notifications_path, html: { class: 'form-horizontal', role: 'form' } do |user_form| %>
+                <div class="col-md-9 col-sm-9 col-xs-12 ">
+                  <%= user_form.hidden_field :enable_notifications_validation, value: true %>
+                  <%= user_form.fields_for :notifications, current_user.notifications do |en| %>
+                  <div class="checkbox-holder">
+                    <!-- <input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" /> -->
+                    <%= en.check_box :status, class: 'css-checkbox' %>
+                    <%= en.label :status, en.object.text.truncate(65), class: 'css-label' %>
+                    <!-- <label for="" class="css-label">This is a reoccuring trip (e.g work commute)</label> -->
+                  </div>
+                  <% end %>
+                  <div class="col-md-4 col-sm-4 col-xs-12 btn_block text-center btn_change row">
+                    <%= user_form.submit 'Save', class: "pull-left b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" %>
+                  </div>
+                </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">Email Settings
+          </div>
+          <div class="panel-body ">
+            <div class="list">
+              <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                  <h3>I want to receive:</h3>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12 ">
+                  <div class="checkbox-holder">
+                    <input type="checkbox" name="checkboxG4" id="checkboxG4" class="css-checkbox" />
+                    <label for="checkboxG4" class="css-label">Awesome up date about the carpooling industry and other relevent information.</label>
+                  </div>
+                  <div class="checkbox-holder mt24">
+                    <input type="checkbox" name="checkboxG5" id="checkboxG5" class="css-checkbox" />
+                    <label for="checkboxG5" class="css-label">Booking and review reminders.</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Notifications end -->
+      <!-- Payment start -->
+      <!-- Delete account end -->
+      <div class="offer_ride_footer">
+        <div class="panel panel-default col-md-12 col-sm-12 col-xs-12">
+          <div class=" col-sm-3 col-xs-12">
+            <div class="img_holder">
+              <a href="/users/4/public_profile"><img alt="Icon man 108" class="img-responsive" src="/assets/icon_2.png"></a>
+            </div>
+          </div>
+           <p>Going somewhere? <a href="/offer-seats/1">Post your ride here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+  <script type="text/javascript">
+    var timezone = jstz.determine();
+    // alert(timezone.name()); 
+  </script>
+<div class="<%= holder_class %>">
+  <%= render "show_user_picture", user: user %>  
+</div>
+
+<div class="msg-comment">
+  <h4>
+    <strong>
+      <% if user.present? %>
+        <%= user.display_first_last_name %>:
+      <% else %>
+        <span>No longer a LaMule member:</span>  
+      <% end %>  
+    </strong>
+  </h4>
+  <% if user.present? %>
+    <% if (current_user.id ==  user.id || user.phone_number.public?) && user.phone_number.body.present? %>
+      <span class="tel-num img-phone"><%= user.phone_no_with_ext(" ") %></span>
+    <% end %> 
+  <% end %>
+  <p><%= msg.body %></p>
+  <p class="msg-date pull-right">
+    <%
+      if msg.created_at
+        if (Time.now).to_date == msg.created_at.to_date
+          t = "Today - #{msg.created_at.strftime('%H:%M')}"
+        elsif (Time.now + 1.day).to_date == msg.created_at.to_date
+          t = "Tomorrow - #{msg.created_at.strftime('%H:%M')}"
+        elsif (Time.now - 1.day).to_date == msg.created_at.to_date
+          t = "Yesterday - #{msg.created_at.strftime('%H:%M')}"
+        else
+          t = msg.created_at.strftime("%A %e %B %Y - %H:%M")
+        end
+      end
+      y = t.split('-')
+    %>
+    <% if y[0].include?("Today") || y[0].include?("Tomorrow") || y[0].include?("Yesterday") %>
+      <%= y[0] %> - 
+      <%= local_time(t, format: '%H:%M') %>
+    <% else %> 
+      <%= local_time(t, format: "%A %e %B %Y - %H:%M") %>
+    <% end %>
+    <% if user.present? %>
+      <% if current_user.id != user.id %>
+        <span>
+          <a href="javascript:void(0);" class="glyphicon glyphicon-flag color-yellow"></a>
+        </span>
+      <% end %>
+    <% end %>
+  </p>
+</div>

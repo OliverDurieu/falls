@@ -1,0 +1,113 @@
+<%= hidden_field_tag "active-side-nav-link", "general" %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">My Personal information
+  </div>
+  <div class="panel-body ">
+    <%= form_for @user, url: update_general_info_profile_index_path, html: { class: 'form-horizontal', role: 'form' } do |user_form| %>
+
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6 mt24">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Gender</label>
+              <!-- <input type="text" placeholder="Male" id="exampleInputEmail1" class="form-control"> -->
+              <%#= user_form.text_field :gender, class: "form-control", placeholder: 'Male' %>
+              <%#= phone_form.select :country_id, {}, {}, class: "form-control" do %>
+              
+              <%= user_form.select :gender, options_for_select(GlobalConstants::GENDER_TYPES,@user.gender), { prompt: "Gender" }, class: "form-control" %>
+              <%#= handle_error_text(resource, :gender) %>
+
+            </div>
+            <div class="form-group">
+              <!-- <label for="exampleInputEmail2">First Name</label> -->
+              <%= user_form.label :first_name %>
+              <!-- <input type="text" placeholder="Bob" id="exampleInputEmail2" class="form-control"> -->
+              <%= user_form.text_field :first_name, class: "form-control" %>
+              <%= handle_error_text(@user, :first_name) %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= user_form.label :last_name %>
+              <%= user_form.text_field :last_name, class: "form-control" %>
+              <%= handle_error_text(@user, :last_name) %>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="">
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= user_form.label :email %>
+              <%= user_form.email_field :email, class: "form-control" %>
+              <%= handle_error_text(@user, :email) %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12">
+        <%= user_form.hidden_field :enable_phone_number_validation, value: true %>
+        <%= user_form.fields_for :phone_number, @phone_number do |phone_form| %>
+          <div class="col-md-4 ">
+            <div class="form-group">
+              <!-- <label for="exampleInputEmail5">Mobile Number</label>
+              <select class="form-control" id="exampleInputEmail5">
+                <option>Australia</option>
+                <option>Australia</option>
+                <option>Australia</option>
+                <option>Australia</option>
+                <option>Australia</option>
+              </select> -->
+              <label for="user_phone_number_attributes_country_id">Select Country</label>
+              <%= phone_form.select :country_id, {}, {}, class: "form-control" do %>
+                <%= render '/shared/country_list_options' %>
+              <% end %>
+            </div>
+        </div>
+          <div class="col-md-6 mobile_num">
+            <div class="form-group">
+            <label for="user_phone_number_attributes_body">Mobile Number</label>
+              <%= phone_form.text_field :body, placeholder: @selected_country.country_format, class: "form-control" %>
+            </div>
+          </div>
+
+          </div>
+          </div>
+        <% end %>
+          <div class="col-md-12 ">
+            <div class="row">
+              <div class="form-group col-md-6 ">
+                <%= user_form.label :birth_year %>
+                <%= user_form.select :birth_year, options_for_birth_year_select(@user.birth_year), {}, class: 'form-control' %>
+                <%= handle_error_text(@user, :birth_year) %>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <%= user_form.hidden_field :enable_profile_validation, value: true %>
+              <%= user_form.fields_for :profile, @profile do |profile_form| %>
+                <%= profile_form.label :mini_bio %>
+                <%= profile_form.text_area :mini_bio, class: "form-control text_box", rows: 4 %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12 btn_block text-center btn_change">
+            <!-- <a class="  b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" href="#" role="button">SAVE</a> -->
+            <%= user_form.submit 'SAVE', class: "  b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $("#user_phone_number_attributes_country_id").change(function () {
+          format = $(this).find(":selected").data("format");
+          $("#user_phone_number_attributes_body").attr('placeholder', format);
+      });
+  });
+</script>

@@ -1,0 +1,69 @@
+$li-padding: 10px 15px !important;
+.profile-page {
+  padding-top: 15px;
+}
+
+.profile-sidenav .list-group-item span {
+  color: #000;
+  background: #ECECEC !important;
+  padding: $li-padding;
+  display: block;
+}
+
+.profile-sidenav .list-group-item {
+  background: #fafafa !important;
+  font-weight: bold;
+  float: none;
+  padding: 0 !important;
+}
+
+.profile-sidenav .list-group-item a {
+  padding: $li-padding;
+  display: block !important;
+  color: #000 !important;
+}
+
+.profile-sidenav .list-group-item.active,
+.profile-sidenav .list-group-item a:hover {
+  background: #eee !important;
+  color: #000 !important;
+  text-decoration: none;
+  border-color: #959596;
+}
+
+.profile-sidenav .list-group-item.add {
+  background: #F1F1E9;
+}
+
+.profile-sidenav .list-group-item.add:hover {
+  background: #F1F1E9 !important;
+}
+
+#profile_picture_upload_form > div {
+  float: left;
+}
+
+.pnl-info {
+  background: #fff;
+  padding: 10px 2%;
+  margin: -13px 0 11px;
+}
+
+.photo_add {
+  padding: 10px;
+}
+
+.photo_page {
+  padding: 10px 0 0;
+}
+
+.side_padding {
+  margin: 0px;
+  padding: 0 0 8px;
+}
+#user_image_holder{
+  cursor: pointer;
+}
+#car_image_holder{
+  cursor: pointer;
+}

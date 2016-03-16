@@ -1,0 +1,15 @@
+function set_car_id(id)
+{ 
+ $("#id_car").val(id);
+}
+<% if remotipart_submitted? %>
+  $("#add_your_car").modal('hide');
+  $("#select_user_car_div").html("<%= escape_javascript(render(partial: '/rides/partials/car_info_div', locals: { cars: current_user.cars })) %>");
+  $('.selectpicker').selectpicker();
+  set_car_id($('#car_picker').val());
+<% else %>
+  $("#add_your_car").modal('hide');
+  $("#select_user_car_div").html("<%= escape_javascript(render(partial: '/rides/partials/car_info_div', locals: { cars: current_user.cars })) %>");
+  $('.selectpicker').selectpicker();
+  set_car_id($('#car_picker').val());
+<% end %>

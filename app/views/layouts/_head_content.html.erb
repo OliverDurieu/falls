@@ -1,0 +1,41 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <title><%= content_for?(:title) ? yield(:title) : "The Falls" %></title>
+  
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=true&amp;libraries=geometry,places" type="text/javascript"></script>
+
+  <script src='//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js' type='text/javascript'></script>
+  <%= javascript_include_tag "https://js.stripe.com/v1/",'application' %>
+
+  <%= javascript_include_tag "https://apis.google.com/js/plusone.js" %>
+  <meta property="og:title" content="Rideshare to Falls" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://falls.lamule.com.au/" />
+  <meta property="og:description" content="Find other festival lovers to share the ride with to Falls Festival in Byron Bay, Lorne and Marion Bay this NYE." />
+  <meta property="og:image" content="http://res.cloudinary.com/dvwhtomnv/image/upload/v1446713985/fb_meta_share_nqxybz.png" />
+  <meta property="og:site_name" content="LaMule Falls" />
+  <meta property="fb:app_id" content="562756200542819" />
+  <%= csrf_meta_tags %>
+  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %> 
+  <%= favicon_link_tag 'favicon-32x32.png' %>
+  <link href='http://fonts.googleapis.com/css?family=Muli:400,300,300italic,400italic' rel='stylesheet' type='text/css'>
+  <script src="//load.sumome.com/" data-sumo-site-id="f8bdfdbcde18ac6d6c7aeb88f45573d7c12993f1a8998766428a983023ebf811" async="async"></script>
+  <!-- Google Code for Remarketing Tag -->
+  <script type="text/javascript">
+  / <![CDATA[ /
+  var google_conversion_id = 948647481;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  / ]]> /
+  </script>
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+  <div style="display:inline;">
+  <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/948647481/?value=0&amp;guid=ON&amp;script=0"/>
+  </div>
+  </noscript>
+  <!-- End of Google Code for Remarketing Tag -->
+</head>

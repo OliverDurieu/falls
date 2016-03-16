@@ -1,0 +1,50 @@
+en:
+  unsubscribes:
+    delete_account:
+      failed: Unable to delete account. An External Error occurs Please try again later.
+      success: Account is successfully deleted.
+  users:
+    complete_registration_proccess:
+      welcome_message: <p>Welcome to The Falls <BR/> This is your Dashboard; it contains your messages and notifications</p>.
+    send_verify_email:
+      succeed: Email has been sent to your email address. Please verify this email. If you can not find your verification email please check your junk mail.
+      failed: Email has not been sent to your email address.
+    verified_the_email:
+      succeed: Email address has been verified.  
+      failed: Email address verification failed.
+  profile:
+    update_general_info:
+      succeed: Successfully updated.
+    upload_photo:
+      succeed: Successfully updated.
+    update_address:
+      succeed: Successfully updated.
+  phone_number:
+    verify_phone_number:  
+      send_message: "This is your verification SMS code: %{code} sent via la_mule"
+  preferences:
+    update:
+      succeed: successfully updated.
+  cars:
+    create:
+      succeed: successfully created.
+      failed: failed to create.    
+    update:
+      succeed: successfully updated.
+      failed: failed to update.    
+    destroy:
+      succeed: successfully deleted.
+      failed: failed to delete.    
+    upload_image:       
+      succeed: successfully updated.
+      failed: failed to update
+  notifications:
+    update_fackbook_notifications:
+      succeed: "Successfully updated."
+      failed: failed to update 
+    update_user_notifications:
+      succeed: "Successfully updated."
+      failed: failed to update
+  rides:
+    published: "<p><strong>Your trip has been published</strong></p><p> You will receive a confirmation email as well (depending on your notification settings).</p><p><a href='/rides/%{ride_id}' class='btn btn-primary'>View your offer</a></p><p><span><a href='/rides/%{ride_id}/share_on_facebook' class='btn btn-primary'><img src='/assets/user/fb-btn-large.png' style='display: inline-block;'> Share on facebook</a></span></p>"
+    updated: "<p><strong>Your trip is being updated</strong></p><p> You will receive a confirmation email as well (depending on your notification settings).</p><p><a href='/rides/%{ride_id}' class='btn btn-primary'>View your offer</a></p><p><span><a href='/rides/%{ride_id}/share_on_facebook' class='btn btn-primary'><img src='/assets/user/fb-btn-large.png' style='display: inline-block;'> Share on facebook</a></span></p>"

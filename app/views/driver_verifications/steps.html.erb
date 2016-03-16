@@ -1,0 +1,608 @@
+<!-- Load the Facebook JavaScript SDK -->  
+<%= render 'layouts/navigation_2_links' %>
+<div id="fb-root"></div>
+<script src="//connect.facebook.net/en_US/all.js"></script>    
+<script type="text/javascript">
+
+
+  // $(document).ready(function(){
+     
+     // Initialize the Facebook JavaScript SDK
+     FB.init({
+       appId: '562756200542819',
+       xfbml: true,
+       status: true,
+       cookie: true,
+     });
+  
+     // Check if the current user is logged in and has authorized the app
+     //FB.getLoginStatus(checkLoginStatus);      
+     // Login in the current user via Facebook and ask for email permission
+     function authUser() {
+       FB.login(checkLoginStatus, {scope:'email'});
+     }     
+     // Check the result of the user status and display login button if necessary
+     function checkLoginStatus(response) {
+       if(response && response.status == 'connected') {
+                 
+          var uid = response.authResponse.userID;
+          var accessToken = response.authResponse.accessToken;  
+          $.ajax({
+           type: 'POST',        
+           data: {fb_id:uid},
+           url: '/users/verify_uid',
+           success: function(data) {
+             FB.api('/me', function(response) {                        
+             if(data.success == true)
+             {
+               alert('User is authorized');
+               $('#confirm_fb_id button').addClass('hidden');
+               $('#confirm_fb_id span').removeClass('hidden');
+             }
+             if(data.success == false)
+             {
+               alert('face book user is already linked');      
+             }
+  
+             });
+  
+           },
+           error: function(){
+           }
+       });
+  
+      
+         // Hide the login button
+        // document.getElementById('loginButton').style.display = 'none';
+         
+         // Now Personalize the User Experience
+         // console.log('User ID: ' + uid);
+         // console.log('Access Token: ' + accessToken);
+  
+       } else if (response.status === 'not_authorized') {
+  
+           alert('User logged into Facebook, but not your app');
+  
+     // The person is logged into Facebook, but not your app.
+          // document.getElementById('status').innerHTML = 'Please log ' +
+           //  'into this app.';
+         
+         } else {
+  
+           alert('User not logged into Facebook, no on app');
+  
+           // The person is not logged into Facebook, so we're not sure if
+           // they are logged into this app or not.
+          // document.getElementById('status').innerHTML = 'Please log ' +
+           //  'into Facebook.';
+         
+         }
+     }
+  
+</script>
+<script type="text/javascript">
+  
+$(document).ready(function () {
+    Ladda.bind( 'input[type=submit]' );
+  });
+</script>
+<%= javascript_include_tag :driver_verifications %>
+
+<div id="flash_for_steps" class="col-md-12 col-sm-12 col-xs-12 alert_msg hidden">
+  <div class="alert alert-warning fade in flash-message notice">
+      <a href="#" class="close" data-dismiss="alert">×</a>
+      <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-3">
+        <img alt="$ img" class="img-responsive" src="/assets/$_img.png">
+      </div>          
+      <div class="col-md-8 col-sm-8 col-xs-7">
+        <i><h4><strong><div id="flash_success">This email is not valid</div></strong></h4></i>           
+        <a role="button" href="/offer-seats/1" class=" hidden-xs b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn">OFFER A RIDE</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container driver_details">
+  <div class="m-15">
+    <div id="rootwizard">
+      <%= form_for @verify, url: verify_personal_info_driver_verifications_path, :method => :post do |f_verify|%>
+      <div class="form_area">
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab1">
+            <div class="title_msg text-center">
+            <%= image_tag 'lock.png', class: 'img-responsive ' %>
+              your data is safely encrypted  with 256-bit security.
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+              <div class="">
+                <div class="fascebook_btn">
+                  <label>Confirm your ID</label>
+                  <div id="confirm_fb_id" class="input-group">
+                    <span class="<%= current_user.facebook_linked? ? '' : 'hidden' %>">Congratulations your facebook account has been linked</span>
+                    <button type="button" id="loginButton"  onclick="authUser()" class="btn  btn-lg <%= current_user.facebook_linked? ? 'hidden' : '' %>"><i class="fa fa-facebook"></i> CONNECT FACEBOOK</button>
+                  </div> 
+                </div>
+                <div class="m-15 <%= hide_if_verified(current_user) %>">
+                  <div class="col-sm-6 col-xs-6 form_box">
+                    <h4></h4>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">First Name</label>
+                      <!-- <input type="text" placeholder="" id="exampleInputEmail1" class="form-control"> -->
+                      <%= f_verify.text_field :f_name, class: "form-control" %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-6 form_box">
+                    <h4></h4>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Last Name</label>
+                      <!-- <input type="text" placeholder="" id="exampleInputEmail2" class="form-control"> -->
+                      <%= f_verify.text_field :l_name, class: "form-control" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-15">
+                  <div class="col-md-12">
+                    <div class="email">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-group">
+                          <!-- <input type="text" class="form-control" id="verified_email" placeholder="Your current verified email address is sam@getyper.io" /> -->
+                          <!-- <%= f_verify.text_field :email, class: "form-control" %> -->
+                          <span>Your current verified email address is <strong><%= @verify.email %></strong></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group send_code">
+                    <% if current_user.verified_credentials == true || current_user.email_verified == true%>
+                      <label>Email Address</label>
+                      <div class="input-group">
+                        <%= f_verify.text_field :email, class: "form-control" , :readonly => true %>
+                        <span class=" input-group-btn">
+                        <button id="" class="ladda-button"  data-color="grey" data-style="expand-right" type="button" disabled onclick="sendCode();"><span class="ladda-label">VERIFIED</span></button>
+                        <%= f_verify.hidden_field :pin_email , :value => current_user.driver_verification.email_token %>
+                      </div>
+                    </div>
+                    <%else%>
+                      <label>Email Address</label>
+                      <div class="input-group">
+                        <!-- <input type="text" class="form-control"  placeholder="+66" /> -->
+                        <%#= f_verify.text_field :email, class: "form-control"%>
+                        <%= f_verify.email_field :email, class: "form-control" %>
+                        <%= f_verify.hidden_field :update_email%>
+                        <%#= handle_error_text(current_user, :email) %>
+                        <span class=" input-group-btn">
+                        <!-- <button class="btn btn-default" data-style="expand-left" type="button" id="email_code_send" onclick="sendCode();"><span class="ladda-label">SEND CODE</span></button> -->
+                        <button id="email_code_send" class="ladda-button"  data-color="grey" data-style="expand-right" type="button" onClick="_gaq.push(['_trackEvent', 'Verification', 'Email Verification', 'Code Send']);"><span class="ladda-label">SEND CODE</span></button>
+                      </div>
+                    </div>
+                    <div class="form-group  send_code">
+                      <label for="exampleInputEmail1">Email pin</label>
+                       <div class="input-group ">
+                      <input type="text" class="form-control input_width driver_veri_email_pin" placeholder="Your 4 digit pin">
+                      <%#= f_verify.text_field :pin_email, class: "form-control input_width" %>
+                      
+                        <span class=" input-group-btn pull-left">
+                        <span class=" input-group-btn pull-left">
+                        <button id="verify_email_code" class="ladda-button verify"  data-color="grey" data-style="expand-right" type="button" disabled="disabled"><span class="ladda-label">VERIFY </span></button></span>
+
+
+                       <!--  <button id="email_code_send" class="ladda-button verify"  data-color="grey" data-style="expand-right" type="button" disabled onclick="sendCode();"><span class="ladda-label">VERIFY </span></button></span> -->
+                       </div>
+                    
+                      <%= f_verify.hidden_field :pin_email %>
+                    </div>
+                    
+                    <%end%>
+
+                    <div class="form-group send_code">
+                    <% if current_user.verified_credentials == true || current_user.phone_number.verified_no == true%>                 
+                      <label>Phone number</label>
+                      <div class="input-group">
+                        <%= f_verify.text_field :p_num, class: "form-control", value: current_user.phone_no_with_ext(""), :readonly => true %>
+                          <span class=" input-group-btn">
+                          <button id="phone_code_send"  class="ladda-button"  data-color="grey" data-style="expand-right" type="button" disabled onClick="_gaq.push(['_trackEvent', 'Verification', 'Phone Verification', 'Code Send']);"><span class="ladda-label">VERIFIED</span></button>
+                          <%= f_verify.hidden_field :pin_mobile , :value => current_user.phone_number.verification_code %>
+                        </span>
+                      </div>
+                    <%else%>
+                      <label>Phone number</label>
+                      <div class="input-group">
+                        <%= f_verify.text_field :p_num, class: "form-control", value: "+61" %>
+                          <span class=" input-group-btn">
+                          <button id="phone_code_send"  class="ladda-button"  data-color="grey" data-style="expand-right" type="button"><span class="ladda-label">SEND CODE</span></button>                          
+                        </span>
+                      </div>
+                      <div class="row"> 
+                      <div class="col-sm-12 form_box ">
+                        <h4></h4>
+                        <div class="form-group send_code">
+                          <label for="exampleInputEmail1">Phone Pin</label>
+                           <div class="input-group">
+                          <%= f_verify.text_field :pin_mobile, class: "form-control input_width", placeholder: "Your 4 digit pin" %>
+                        <span class=" input-group-btn pull-left">
+                        <button id="verify_phone_code" class="ladda-button verify"  data-color="grey" data-style="expand-right" type="button" disabled="disabled"><span  class="ladda-label">VERIFY </span></button></span>
+                        <!-- <span class=" input-group-btn pull-left">
+                        <button id="email_code_send" class="ladda-button verify"  data-color="grey" data-style="expand-right" type="button" disabled onclick="sendCode();"><span class="ladda-label">VERIFY </span></button></span> -->
+                       </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%end%>
+                    </div>
+                    <%#if current_user.driver_verification.verified == true%>
+                      <!-- <button id="verify_pin_button" class="btn btn-large btn_next pull-right" class="ladda-button" data-style="expand-right" type="button"><span class="ladda-label">Continue</span></button> -->
+                    <%#else%>
+                      <button id="verify_pin_button" class="btn btn-large btn_next pull-right" class="ladda-button" data-style="expand-right" type="button" disabled="disabled"><span class="ladda-label">Continue</span></button>
+                    <%#end%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+        <div class="tab-content">
+          <div class="tab-pane " id="start_tab">
+            <div class="title_msg text-center">
+            <%= image_tag 'lock.png', class: 'img-responsive ' %>
+              your data is safely encrypted  with 256-bit security.
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+              <div class="">
+                <div class="fascebook_btn">
+                  <label>Confirm your ID</label>
+                  <div id="confirm_fb_id" class="input-group">
+                    <span class="<%= current_user.facebook_linked? ? '' : 'hidden' %>">Congratulations your facebook account has been linked</span>
+                    <button type="button" id="loginButton"  onclick="authUser()" class="btn  btn-lg <%= current_user.facebook_linked? ? 'hidden' : '' %>"><i class="fa fa-facebook"></i> CONNECT FACEBOOK</button>
+                  </div> 
+                </div>
+                <div class="m-15">
+                  <div class="col-sm-6 col-xs-6 form_box">
+                    <h4></h4>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">First Name</label>
+                      <!-- <input type="text" placeholder="" id="exampleInputEmail1" class="form-control"> -->
+                      <%= f_verify.text_field :f_name, class: "form-control" %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-6 form_box">
+                    <h4></h4>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Last Name</label>
+                      <!-- <input type="text" placeholder="" id="exampleInputEmail2" class="form-control"> -->
+                      <%= f_verify.text_field :l_name, class: "form-control" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-15">
+                  <div class="col-md-12">
+                    <div class="email">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" id="verified_email" placeholder="Your current verified email address is sam@getyper.io" />
+                          <!-- <%= f_verify.text_field :email, class: "form-control" %> -->
+                          <span>Your current verified email address is <strong><%= @verify.email %></strong></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group send_code">
+                    <label>Email Address</label>
+                      <div class="input-group">
+                        <!-- <input type="text" class="form-control"  placeholder="+66" /> -->
+                        <%= f_verify.text_field :email, class: "form-control"%>
+                        <span class=" input-group-btn">
+                        <!-- <button class="btn btn-default" data-style="expand-left" type="button" id="email_code_send" onclick="sendCode();"><span class="ladda-label">SEND CODE</span></button> -->
+                        <button id="" class="ladda-button"  data-color="grey" data-style="expand-right" type="button"  onclick="sendCode();"><span class="ladda-label">SEND CODE</span></button>
+                      </div>
+                    </div>
+                                         
+                    <div class="form-group send_code">
+                      <label>Phone number</label>
+                      <div class="input-group">
+                        <%= f_verify.text_field :p_num, class: "form-control", value: "+61" %>
+                          <span class=" input-group-btn">
+                          <button id=""  class="ladda-button"  data-color="grey" data-style="expand-right" type="button"><span class="ladda-label">SEND CODE</span></button>                          
+                        </span>
+                      </div>
+                    </div>
+                    <button id="tab1_button" class="btn btn-large btn_next pull-right" class="ladda-button" data-style="expand-right" type="button"><span class="ladda-label">Continue</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+        <div class="tab-content">
+          <div class="tab-pane" id="">
+            <div class="title_msg text-center">
+            <%= image_tag 'lock.png', class: 'img-responsive ' %>
+              your data is safely encrypted  with 256-bit security.
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+              <div class="">
+                <div class="fascebook_btn">
+                  <label>Confirm your ID</label>
+                  <div id="confirm_fb_id" class="input-group">
+                    <span class="<%= current_user.facebook_linked? ? '' : 'hidden' %>">Congratulations your facebook account has been linked</span>
+                    <button type="button" id="loginButton"  onclick="authUser()" class="btn  btn-lg <%= current_user.facebook_linked? ? 'hidden' : '' %>"><i class="fa fa-facebook"></i> CONNECT FACEBOOK</button>
+                  </div> 
+                </div>
+                <div class="m-15">
+                  <div class="col-sm-6 col-xs-6 form_box">
+                    <h4></h4>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">First Name</label>
+                      <!-- <input type="text" placeholder="" id="exampleInputEmail1" class="form-control"> -->
+                      <%= f_verify.text_field :f_name, class: "form-control" %>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-xs-6 form_box">
+                    <h4></h4>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Last Name</label>
+                      <!-- <input type="text" placeholder="" id="exampleInputEmail2" class="form-control"> -->
+                      <%= f_verify.text_field :l_name, class: "form-control" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-15">
+                  <div class="col-md-12">
+                    <div class="email">
+                      <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-group">
+                          <span>Congratulations (<%= @verify.email %>) has been verified.</span>
+                        </div>
+                      </div>
+                     <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="input-group">
+                          <span>Congratulations (+61266655524) has been verified.</span>
+                        </div>
+                      </div>
+                     
+                    </div>
+                    <button id="tab1_button" class="btn btn-large btn_next pull-right" class="ladda-button" data-style="expand-right" type="button"><span class="ladda-label">Continue</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div class="tab-pane Personal_details" id="tab2">
+            <div class="col-md-8 col-md-offset-2">
+              <div class="driver_details">
+                <h4>Vehicle</h4>
+                <div class="row">
+                  <div class=" col-sm-6 ">
+                    <div class="box">
+                      <div class="img_holder">
+                        <% if @car.car_image.present? %>
+                        <%= image_tag @car.car_image, class: 'img-responsive', id: 'car_image_upload_preview'%>
+                        <% else %>  
+                        <%= image_tag 'upload_img.png', class: 'img-responsive', id: 'car_image_upload_preview'%>
+                        <% end %>
+                      </div>
+                      <span class="btn btn-link fileinput-button">
+                      <span><strong>Change profile image</strong></span>
+                      <%= f_verify.file_field :car_image, id:'inputFilecar' %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 form_box">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Make</label>
+                      <!-- <input type="text" class="form-control" id="exampleInputEmail1" placeholder="" value=""> -->
+                      <%#= text_field_tag :make,@car.car_maker.name,class: 'form-control'%>
+                      <div class="select_box">
+                        <%= f_verify.select :car_make, options_for_select(CarMaker.all.try(:each).try(:collect) { |maker| [maker.name, maker.id] }, @car.car_maker_id), { prompt: "Choose" }, class: "form-control car-maker-select" %>
+
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Model</label>
+                      <div class="select_box">
+                      <!-- <input type="text" class="form-control" id="exampleInputPassword1" placeholder=""> -->
+                      <% if @car.try(:car_maker_id).present? %>
+                      <%= f_verify.select :car_model, options_for_select(@car.car_maker.car_models.try(:each).try(:collect) { |mo| [mo.name, mo.id] }, @car.try(:car_model_id)), { prompt: "-- please select make first --" }, class: "form-control car-model-select" %>
+                      <% else %>
+                      <select id="car_car_model_id" name="car[car_model_id]" class="form-control car-model-select">
+                        <option value="">-- please select make first --</option>
+                      </select>
+                      <% end %>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Sate the car is registered in</label>
+                      <div class="select_box">
+                      <!-- <input type="text" class="form-control" id="exampleInputPassword1" placeholder=""> -->
+                      <%= text_field_tag :state,nil,:autocomplete => :off,class: 'add_icon'%>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <hr>
+                  <div class="profile_img_area">
+                    <div class="col-md-12">
+                      <h4>Profile image and postcode</h4>
+                      <div class="col-md-4 col-sm-6 text-center">
+                        <div class="img_holder upload-preview">
+                          <%#= image_tag current_user.profile.picture, class: 'img-responsive', id: 'image_upload_preview'%>
+                          <img id= 'image_upload_preview' src="<%= current_user.profile.picture %>" class="img-responsive">
+                        </div>
+                        <!-- <a href="#">Change profile image</a> -->
+                        <span class="btn btn-link fileinput-button">
+                        <span><strong>Change profile image</strong></span>
+                        <%= f_verify.file_field :avatar, id:'inputFile' %>
+                        </span>
+                      </div>
+                      <div class="col-sm-6 col-sm-6 ">
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Your Postcode</label>
+                          <!-- <input type="text" class="form-control" id="exampleInputPassword1" placeholder=""> -->
+                          <%= f_verify.text_field :post_code,class: 'form-control'%>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Postal address (This is Kept private)</label>
+                        
+                          <!-- <h4>Postal address (This is Kept private)</h4> -->
+                          <!-- <input type="text" class="form-control" id="exampleInputPassword1" placeholder=""> -->
+                          <%= f_verify.text_field :post_address,class: 'form-control'%>
+                          <small>When you enter your postal address we will send you a bumper sticker</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="payment_account">
+                    <div class="col-md-12">
+                      <div class="payment_area">
+                        <div class="heading text-center">
+                            <label>Receive Payments <div class="img-holder"><img alt="Lock" class="img-responsive " src="/assets/lock.png"></div></label>
+                        </div>
+                        <div class="form-group payment_input">
+                          <label for="exampleInputPassword1">Banking Institution </label>
+                           <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Commonwealth Bank">
+                        </div>
+                        <div class="form-group payment_input">
+                          <label for="exampleInputPassword1">Account holders name </label>
+                           <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Glen Mcgrath">
+                        </div>
+                        <div class="form-group payment_input">
+                          <label for="exampleInputPassword1">Account Number </label>
+                           <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+                        </div>
+                         <div class="form-group payment_input">
+                          <label for="exampleInputPassword1">BSB </label>
+                           <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+                        </div>
+
+<!--                         <hr>
+                        <div class="pay_btn">
+                        <h4 class="pull-left">Click here if you would
+rather use PayPal.</h4>
+                        <button type="button" class="btn btn-primary pull-right">PayPal</button>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <!--        <a class="btn btn-large btn_next pull-right" href="#tab3" data-toggle="tab">Continue</a>
+                      -->
+                    <%#= f_verify.submit 'Continue', class: 'btn btn-large btn_next pull-right' %>
+                    <%= f_verify.submit :Continue, :class => "ladda-button",:class => "btn btn-large btn_next pull-right" , :id => "submit_button",:type => "submit", :data => { :style => 'expand-right' } do %>
+                    <span class="ladda-label">Continue</span>
+                    <span class="ladda-spinner"></span>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="tab3">
+            <div class="container">
+              <div class="trust_drive text-center thank_you">
+                <div class="col-md-offset-4 col-md-4  centered">
+                  <div class="image_holder">
+                    <%= image_tag 'Silly_icon.png', class: 'img-responsive'%>
+                  </div>
+                  <h1>Thank you</h1>
+                  <p>We will verify your details within the next 48 hours.
+                    Once your account is fully verified we will notify you.
+                  </p>
+                  <P>In the meantime you can create a ride which will
+                    be publicly shown once your profile is verified.
+                  </P>
+                  <a class="btn btn-default active b_25 " href="/offer-seats/1" role="button">POST RIDE</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $(".car-maker-select").change(function () {
+          var $this = $(this);
+          $.ajax({
+              type: 'GET',
+              url: '/car_makers/' + $this.val() + '/car_models',
+              dataType: 'html',
+              success: function (data) {
+                  console.log(data);
+                  $('.car-model-select').html(data);
+              }
+          });
+      });
+  
+  });
+</script>
+
+<script type="text/javascript">
+  // $(document).ready(function () {
+  //   $("#email_code_send").click(function(){
+  //     var mail = document.getElementById("driver_verification_email").value;
+  //     var pattern =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  //     if (pattern.test(mail))
+  //     {
+  //       $("#driver_verification_update_email").val(mail);
+  //       var l = Ladda.create( document.querySelector( '#email_code_send' ) );
+  //       l.start();
+  //        $.ajax({
+  //            type: 'GET',
+  //            data: {fb_email:mail},         
+  //            url: '/driver_verifications/email_token_generator',
+  //            success: function(data) {
+  //              if (data.success == true)
+  //              {
+  //                l.stop();
+  //               $("#email_code_send").attr("disabled","disabled"); 
+  //              }
+  //              else
+  //              {
+  //               l.stop();
+  //              }
+                     
+  //            },
+  //            error: function(){
+  //              l.stop();           
+  //            }
+  //        }); 
+  //     }
+  //     else
+  //     {
+  //       alert("invalid eamil address"); 
+  //     }  
+  //   });
+
+  // });
+</script>
+

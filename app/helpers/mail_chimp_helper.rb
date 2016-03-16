@@ -1,0 +1,2 @@
+module MailChimpHelper
+end

@@ -1,0 +1,268 @@
+<script type="text/javascript">
+    var seq_count=1
+    $(document).ready(function () {
+
+        $('#weekdays input:checkbox:checked').each(function () {
+            $(this).parent().addClass('active');
+        });
+
+        $(".recurring_trip_radio").click(function () {
+            handle_return_weeks_with_recurring();
+            if ($("#ride_is_recurring_trip_1").prop("checked") == true) {
+                $("#weeks_outbound").removeClass("hidden");
+            }
+            else {
+                $("#weeks_outbound").addClass("hidden");
+            }
+        });
+        drawGMap();
+
+        $('form').on('click', '.remove_location', function (event) {
+          seq_count--;
+            var $this = $(this);
+            $this.prev('input[type=hidden]').val('1');
+            var location = $this.closest('fieldset');
+            var location_id = location.find('.input-id').val();
+            location.remove();
+            drawGMap();
+            $("#ride_routing_required").val(1);
+            var ride_id = $('#ride_id').val();
+            if (ride_id > 0 && location_id > 0) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/rides/' + $("#ride_id").val() + '/locations/' + location_id,
+                    dataType: 'json'
+                });//end of ajax;
+            }
+            return event.preventDefault();
+        });
+
+        $('form').on('click', '.add_fields', function (event) {
+          seq_count++;
+            var regexp, time;
+            time = new Date().getTime();
+            regexp = new RegExp($(this).data('id'), 'g');
+            $('.stages-list').append($(this).data('fields').replace(regexp, time));
+            gmapAutocompleteInitialize();
+            $("#ride_routing_required").val(1);
+            return event.preventDefault();
+        });
+
+        $('#ride_departure_date').datetimepicker({
+            timeFormat: "hh:mm TT",
+            controlType: 'select'
+        });
+
+        $('#ride_return_date').datetimepicker({
+            timeFormat: "hh:mm TT",
+            controlType: 'select'
+        });
+
+        $('body').on('click', '.date-holder .date_addon', function (e) {
+            if (!$('#ui-datepicker-div').is(':visible')) {
+                $(this).parents('.date-holder').find('input').trigger("focus");
+            }
+        });
+        $('#ride_is_round_trip').change(function () {
+            if ($(this).is(':checked')) {
+                $('.ruturn-date-holder').removeClass("hidden");
+            } else {
+                $('.ruturn-date-holder').addClass("hidden");
+            }
+            handle_return_weeks_with_recurring()
+        });//end of check all or uncheck all
+
+        // $('#weekdays label').eq(n).button('toggle');
+    }); // end of document .ready
+
+    function handle_return_weeks_with_recurring() {
+
+        if ($("#ride_is_recurring_trip_1").is(':checked') && $('#ride_is_round_trip').is(':checked')) {
+            if ($("#weeks_return").hasClass("hidden")) {
+                $("#weeks_return").removeClass("hidden");
+            }
+        }
+        else {
+            if (!$("#weeks_return").hasClass("hidden")) {
+                $("#weeks_return").addClass("hidden");
+            }
+        }
+    }
+
+</script>
+<%= hidden_field_tag "ride_id", @ride.id %>
+
+<div class="publication-container">
+
+  <div class="publication publication-step1">
+
+    <%= form_for @ride, url: url, html: { role: 'form' } do |ride_form| %>
+
+        <h2>Offer a ride on your next long journey</h2>
+        <section class="breadcrumb-container">
+          <ul class="publication-breadcrumb unstyled clearfix">
+            <li class="step1 current">
+              <span>My itinerary</span>
+            </li>
+          </ul>
+        </section>
+        <div class="row">
+          <div class="col-sm-7">
+           <!--  <fieldset class="main-block ride-block clearfix">
+              <div class="header-main-block clearfix">
+                <h2 class="pull-left">Type of trip</h2>
+              </div>
+              <div class="content-main-block clearfix">
+                <div class="col-sm-6">
+                  <%#= ride_form.radio_button :is_recurring_trip, 0, checked: rario_status(@ride.is_recurring_trip, false), class: "recurring_trip_radio" %>
+                  <%#= ride_form.label :is_recurring_trip_0, "One-time trip" %>
+                </div>
+                <div class="col-sm-6">
+                  <%#= ride_form.radio_button :is_recurring_trip, 1, checked: rario_status(@ride.is_recurring_trip, true), class: "recurring_trip_radio" %>
+                  <%#= ride_form.label :is_recurring_trip_1, "Recurring trip" %>
+                </div>
+              </div>
+            </fieldset>
+ -->
+
+            <fieldset class="main-block ride-block clearfix">
+              <div class="header-main-block clearfix" style="background-color: #AAADA8;">
+                <h2 class="pull-left">Exact route</h2>
+              </div>
+
+              <%= ride_form.hidden_field :enable_locations_validation, value: true %>
+              <div class="content-main-block clearfix">
+                <div class="location-holder">
+                  <%= ride_form.fields_for :locations, @ride.locations.select { |a| a.ride_type == GlobalConstants::Locations::RIDE_TYPES[:source] } do |loc_form| %>
+                      <%= loc_form.text_field :address, autofocus: true, class: 'from form-control gmaps-input-address', placeholder: "Your departure point (address, city, station...)", id: "ride_source", :value => @src1 %>
+                      <span class="help-block">Example: Liverpool, sidney</span>
+                      <%= handle_nest_error_text(@ride, "address", "locations") %>
+                      <%= loc_form.hidden_field :longitude, class: "input-longitude", id: "ride_source_longitude", :value => @src1_lng %>
+                      <%= loc_form.hidden_field :latitude, class: "input-latitude", id: "ride_source_latitude", :value => @src1_lat %>
+                      <%= loc_form.hidden_field :ride_type, value: GlobalConstants::Locations::RIDE_TYPES[:source] %>
+                      <%= loc_form.hidden_field :sequence, value: 0, class: "input-sequence" %>
+                  <% end %>
+                </div>
+                <div class="location-holder">
+                  <%= ride_form.fields_for :locations, @ride.locations.select { |a| a.ride_type == GlobalConstants::Locations::RIDE_TYPES[:destination] } do |loc_form| %>
+                      <%= loc_form.text_field :address, autofocus: true, class: 'to form-control gmaps-input-address', placeholder: "Your arrival point (address, city, station...)", id: "ride_destination", :value => @dst1 %>
+                      <%= loc_form.hidden_field :longitude, class: "input-longitude", id: "ride_destination_longitude", :value => @dst1_lng %>
+                      <%= loc_form.hidden_field :latitude, class: "input-latitude", id: "ride_destination_latitude", :value => @dst1_lat %>
+                      <%= loc_form.hidden_field :ride_type, value: GlobalConstants::Locations::RIDE_TYPES[:destination] %>
+                      <%= loc_form.hidden_field :sequence, value: 2, class: "input-sequence" %>
+                  <% end %>
+                </div>
+                <div class="stages-container clearfix">
+                  <label>Now enter the main towns you will drive through: this is key to connecting you and your
+                    passengers</label>
+                  <ol class="unstyled stages-list">
+                    <%= ride_form.fields_for :locations, @ride.locations.select { |a| a.ride_type == GlobalConstants::Locations::RIDE_TYPES[:sub_route] } do |loc_form| %>
+                        <%= render("location_fields", f: loc_form, parent_obj: @ride, current_model: "location") %>
+                    <% end %>
+
+                  </ol>
+                  <div class="stage-add">
+                    <%= link_to_add_fields "Add more towns on your route", ride_form, :locations, "btn btn-success" %>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="main-block ride-block clearfix">
+              <% @return_css = @ride.is_round_trip.blank? ? "hidden" : "" %>
+              <% @recurring_css = @ride.is_recurring_trip.blank? ? "hidden" : "" %>
+              <div class="header-main-block clearfix row">
+                <h2 class="pull-left">Date and time</h2>
+
+                <div class="simple-round-container">
+                  <%= ride_form.label :is_round_trip, "#{ride_form.check_box :is_round_trip} Round trip".html_safe, class: "checkbox" %>
+                  <%= ride_form.hidden_field :routing_required %>
+                </div>
+
+              </div>
+              <div id="weekdays">
+                <div class="content-main-block clearfix <%= @recurring_css %>" id="weeks_outbound">
+                  <%= label :outbound_label, "Outbound days", class: "col-sm-4 control-label" %>
+                  <div class="btn-group form-group" id="weekdays_outbound" data-toggle="buttons">
+
+                    <%= ride_form.fields_for :ride_weeks, @ride.ride_weeks.select { |a| a.date_type == GlobalConstants::Ride_weeks::DATE_TYPES[:outbound_week] } do |week_form| %>
+
+                        <%= week_form.label :mon, "#{week_form.check_box :mon} Mon".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :tue, "#{week_form.check_box :tue} Tue".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :wed, "#{week_form.check_box :wed} Wed".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :thu, "#{week_form.check_box :thu} Thu".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :fri, "#{week_form.check_box :fri} Fri".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :sat, "#{week_form.check_box :sat} Sat".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :sun, "#{week_form.check_box :sun} Sun".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.hidden_field :date_type, value: week_form.object.try(:date_type) %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="content-main-block clearfix <%= @recurring_css %> <%= @return_css %>" id="weeks_return">
+                  <%= label :return_label, "Return days", id: "return_label", class: "col-sm-4 control-label" %>
+                  <div class="btn-group form-group" id="weekdays_return" data-toggle="buttons">
+
+                    <%= ride_form.fields_for :ride_weeks, @ride.ride_weeks.to_a.select { |a| a.date_type == GlobalConstants::Ride_weeks::DATE_TYPES[:return_week] } do |week_form| %>
+                        <%= week_form.label :mon, "#{week_form.check_box :mon} Mon".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :tue, "#{week_form.check_box :tue} Tue".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :wed, "#{week_form.check_box :wed} Wed".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :thu, "#{week_form.check_box :thu} Thu".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :fri, "#{week_form.check_box :fri} Fri".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :sat, "#{week_form.check_box :sat} Sat".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.label :sun, "#{week_form.check_box :sun} Sun".html_safe, class: 'btn btn-default' %>
+                        <%= week_form.hidden_field :date_type, value: week_form.object.try(:date_type) %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="content-main-block clearfix">
+                <div class="form-group">
+                  <%= ride_form.label :departure_date, class: "col-sm-4 control-label" %>
+
+                  <div class="input-group date date-holder" data-date="<%= @ride.try(:departure_date) %>" style="width: 260px;">
+                    <%= ride_form.text_field :departure_date, value: set_date_style(@ride.try(:departure_date)), class: "form-control" %>
+                    <span class="input-group-addon date_addon"><i class="glyphicon glyphicon-th"></i></span>
+                  </div>
+                  <%= handle_error_text(@ride, :departure_date) %>
+                  <%#= ride_form.hidden_field :departure_time, value: @ride.try(:departure_date).try(:to_time) || nil %>
+
+                </div>
+
+                <div class="form-group ruturn-date-holder <%= @return_css %>">
+                  <%= ride_form.label :return_date, class: "col-sm-4 control-label" %>
+
+                  <div class="input-group date date-holder" data-date="<%= @ride.try(:return_date) %>" style="width: 260px;">
+                    <%= ride_form.text_field :return_date, value: set_date_style(@ride.try(:return_date)), class: "form-control" %>
+                    <span class="input-group-addon date_addon"><i class="glyphicon glyphicon-th"></i></span>
+                  </div>
+                  <%= handle_error_text(@ride, :return_date) %>
+
+                </div>
+                <%= ride_form.hidden_field :number_of_seats, value: 3 %>
+                <div class="btn-container" >
+                  <%= ride_form.submit 'Continue', class: 'btn' , :style => "background-color: #84E854;" %>
+                </div>
+              </div>
+
+            </fieldset>
+
+
+            
+
+          </div>
+          <div class="col-sm-5 publication-sidebar">
+            <div class="publication-summary-container wrapper">
+              <h2>Route itinerary</h2>
+              <div id="gmaps-canvas" style='width: 100%; height: 400px;'></div>
+              <%= content_tag(:div, "", class: "field-error", id: "gmaps-error", style: "display: none;") %>
+            </div>
+          </div>
+        </div>
+
+
+    <% end %>
+
+  </div>
+</div>
+</div>

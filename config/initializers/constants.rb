@@ -1,0 +1,1 @@
+DEFAULT_RCPT_EMAIL = 'devzaeem.asif@gmail.com'

@@ -1,0 +1,50 @@
+
+<% if user_signed_in? && @header_flag.blank? %>
+  <div class="sub_nav">
+    <!-- Nav tabs -->     
+    <div class="main_tab">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+          <div class="sub_nav2">
+            <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            
+              <ul class="nav nav-tabs user-main-tabs">
+                <li>Dashboard</li>
+                <li class="<%= match_name2(controller_name, 'rides')%>">Rides</li>
+                <li class="<%= match_name2(action_name, 'edit')%>">Account</li>
+                <li class="<%= match_name2(controller_name, 'unsubscribes')%>">Account</li>
+                <li class="<%= match_name2(controller_name, 'profile')%>">Account</li>
+                <li class="<%= match_name2(controller_name, 'bookings')%>">Account</li>
+                <li class="<%= match_name2(action_name, 'social_sharing')%>">Account</li>
+                <li class="<%= match_name2(controller_name, 'notifications')%>">Account</li>
+                <!-- <li class="<%= match_name2(action_name, 'general')%>">Account</li> -->
+                <li class="<%= match_name2(action_name, 'hints')%>">Ratings</li>
+              </ul>
+            
+            </button>
+            </div>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="container">
+              <% @page_url = "#{controller.controller_name}_#{controller.action_name}"%>
+              <% if user_signed_in? %>
+              <ul class=" nav nav-tabs user-main-tabs" role="tablist" id="myTab1">
+                <!-- <li role="tab" class="dashboard <%= match_name(@page_url,'dashboard_show_dashboard ')%>"> <%= link_to "Dashboard", '/dashboard/show_dashboard' %> </li> -->
+                <li role="tab" class="rides <%= match_name(@page_url,'rides_index')%>"> <%= link_to "My Rides Offered", rides_path %> </li>
+                <li role="tab" class="rides <%= match_name(@page_url,'bookings_index') || match_name(@page_url,'bookings_show') || match_name(@page_url,'bookings_past_bookings')%>"> <%= link_to "My Bookings", bookings_path %> </li>
+                <li role="tab" class="hidden alerts <%= match_name(@page_url,'email_alerts_index')%>"> <%= link_to "Email Alerts", email_alerts_path %> </li>
+                <li role="tab" class="profile <%= match_name(@page_url,'profile_general')%>"> <%= link_to "Account", general_profile_index_path %> </li>
+                <li role="tab" class="ratings <%= match_name(@page_url,'ratings_hints')%>"> <%= link_to "Ratings", "/ratings/hints" %> </li>
+                <li role="tab" class="messages <%= match_name(@page_url,'messages_received')%>"> <%= link_to "Messages", '/messages/received' %> </li>
+              </ul>
+            </div>
+          </div>
+          <% end %>
+        </div>
+    </div>
+    </nav>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,55 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+
+    var active_rides_count = parseInt($('#active_rides_count').val())
+    if (active_rides_count > 1){
+      $("#slideshow > div:gt(0)").hide();
+
+      setInterval(function() { 
+        $('#slideshow > div:first')
+          .fadeOut(2000)
+          .next()
+          .fadeIn(2000)
+          .end()
+          .appendTo('#slideshow');
+      },  3000);
+    }
+
+  });
+</script>
+<%  @latest_rides = Ride.active_rides.order("id desc").limit(10)%>
+<%= hidden_field_tag :active_rides_count, @latest_rides.count %>
+<% if @latest_rides.count > 0 %>
+    <div class=" col-md-6 col-sm-8 col-xs-12 text-center pull-left">
+      <div  id="slideshow">
+       <% @latest_rides.try(:each) do |ride| %>
+        <div class="slide">
+          <%= link_to ride_path(ride) do %>
+            <div class="image_holder">
+              <% if ride.user.profile.is_picture?%>
+                <%=image_tag ride.user.profile.picture, class: 'img-responsive' %></p>  
+              <% elsif ride.user.profile.photo.present? %>
+                <%= image_tag "#{ride.user.profile.photo.url}", class: 'img-responsive' %>
+              <% else %>
+                <%= image_tag "user/icon-man-108.png", class: 'img-responsive' %>
+              <% end %>
+            </div>
+            <div class="ride_box">
+              <div class="details">
+                <p id="name_part"><%= ride.user.display_first_last_name %> is offering a ride from</p>
+                <p id="location_part"><%= ride.show_sorce_destination_route_short_name %></p>
+              </div>
+              <ul class="list-inline">
+                <li>$<%= ride.total_price.to_i %></li>
+               <li><%= pluralize(ride.number_of_seats, 'seat')%>  left</li>
+               <li>In <%= distance_of_time_in_words(Time.new, ride.departure_date) %></li>
+              </ul>
+            </div>
+          <% end %>  
+        </div>
+        <% end %>
+      </div>
+      <a href="/email_alerts/new?from=&to=" class="more_rids">View more rides ></a>
+    </div>
+<% end %>
+

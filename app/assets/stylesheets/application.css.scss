@@ -1,0 +1,48 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+ *= require new_design/style
+ *= require new_design/generic
+ *= require new_design/new_posting_ride
+ *= require new_design/bootstrap-select.min
+ *= require new_design/datepicker
+ *= require framework_and_overrides
+ *= require app
+ *= require email_alerts
+ * require dashboard
+ *= require profile
+ *= require locations
+ *= require message_threads
+ *= require messages
+ *= require offer_ride
+ *= require ratings
+ *= require summary
+ *= require bootstrap-datepicker
+ *= require bootstrap-datetimepicker
+ *= require plugins/ladda.min
+ *= require bootstrap-slider
+ *= require_self 
+ */
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+// .flash-message {
+//  &.error {
+//           background-color: #FF6565;
+//     	}
+//   &.notice {    
+//           background-color: #A4E7A0;
+//         }
+ 
+// }

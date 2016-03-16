@@ -1,0 +1,70 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  activerecord:
+    attributes:
+      user:
+        gender: Gender
+        email: Email
+        first_name: First Name
+        last_name: Last Name
+        password: Password
+        password_confirmation: Password Confirmation
+        remember_me: Remember Me
+        birth_year: Birth Year
+      profile:
+        mini_bio: Mini Bio
+
+    errors:
+      models:
+        user:
+          attributes:
+            gender:
+              blank: "Please choose your gender."
+            email:
+              blank: "Please provide an email address."
+              invalid: "Please provide a valid email address."
+            first_name:
+              blank: "Please fill in your first name."
+            last_name:
+              blank: "Please fill in your last name."
+            password:
+              blank: "Please enter a password."
+              too_short: "Password must be at least 6 characters long."
+            password_confirmation:
+              confirmation: "Please confirm your password."
+            birth_year:
+              blank: "Please choose your birth year."
+            current_password:
+              blank: "Please enter a your current password."
+
+        unsubscribe:
+          attributes:
+            unsubscribe_reason_id:
+              blank: "This value should not be blank."
+            recommend:
+              blank: "This value should not be blank."
+            comment:
+              blank: "This value should not be blank."
+
+        profile:
+          attributes:
+            photo:
+              size_too_big: "Photo size is greater than 2MB."
+        ride:
+          attributes:
+            departure_date:
+              blank: "Please choose a departure date."
+            return_date:
+              blank: "Please set a return date or unchecked the round-trip option."
+        location:
+          attributes:
+            address:
+              blank: "Source or destination should not be blank."
+        rating:
+          attributes:
+            star:
+              blank: "Please choose a rating, from 1 to 5 stars"
+            comment:
+              too_short: "Your comment needs to be at least 5 characters long."

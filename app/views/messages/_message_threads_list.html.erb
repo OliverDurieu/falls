@@ -1,0 +1,64 @@
+<div class="messages-container">
+<div class="meassage_count">
+  <div class="form-group">
+    <select class="form-control" id="message_navigate_menu">
+      <option value="1" >Received (<%= get_recieved_message_count %>)</option>
+      <option value="2" >Sent Messages (<%= get_sent_message_count %>)</option>
+      <option value="3" >Achived Messages (<%= get_archived_message_count %>)</option>
+    </select>
+  </div>
+</div>
+  <% if @message_threads.present? %>
+    
+      <% @message_threads.each_with_index do |message_thread| %>
+        <% 
+          @user2 = message_thread.communicator
+          @ride = message_thread.ride
+
+          if message_thread.unread?
+            @holder_unread_class = "unread"    
+          else
+            @holder_unread_class = ""
+          end
+        %>
+
+          <a href="<%= message_thread_path(message_thread.id) %>" class="one-thread">
+        <div class="message-thread-holder <%= @holder_unread_class %>" data-mt-id ="<%= message_thread.id %>" >
+            <div class="col-sm-3 col-xs-3 col-md-2">
+              <div class="message-who">
+                <%= image_tag @user2.profile.picture("inbox"), alt: "#{@user2.display_first_last_name} (#{@user2.age})" %>
+
+                
+              </div>
+                <%# if message_thread.messages.count > 0 %>
+                  <span class="count-message">
+                    <%#= message_thread.messages.count%> 
+                  </span>
+                <%# end %>
+            </div>
+            <div class="col-sm-7 col-xs-7">
+            <h4><%= @user2.display_first_last_name %></h4>
+              <%= render "message_title", message_thread: message_thread, dash: :m %>
+            </div>
+
+
+            <div class="message-date">
+              <%= message_thread.messages.last.created_at.strftime("%d/%m")%>
+              <%#= date_in_today_format(message_thread.messages.last.created_at) %>
+              <% if comes_from == "archived" %>
+                <button class="close delete-message hidden" type="button" data-from="messages"><i class="glyphicon glyphicon-remove"></i></button>
+              <% else %>
+                <button class="close archive-message hidden" type="button"  data-from="messages"><i class="glyphicon glyphicon-remove"></i></button>
+              <% end %>
+            </div>
+            <div class="count_num">
+              <%= message_thread.messages.count %>
+            </div>
+        </div>
+          </a>
+      <% end %>
+
+  <% else %>
+    <p>No messages found</p>
+  <% end %>
+</div>

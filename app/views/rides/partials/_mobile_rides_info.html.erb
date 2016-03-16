@@ -1,0 +1,76 @@
+
+<div class="search_mobile">
+   <div class="top_header text-center">
+      <h4>Please input your desired trip</h4>
+   </div>
+   <div class="caption">
+      <div class="form_area">
+      <%= form_tag rides_info_rides_path, method: :get, class: 'orm-inline ridesearch-form' do %>
+            <div class="row">
+               <div class="form-group col-sm-12">
+                  <div class="input-group"> <span class="input-group-addon home">
+                     </span>
+                  <%= text_field_tag :ride_source, params[:ride_source], autofocus: true, class: ' form-control gmaps-input-address ride-info-maps-input', placeholder: "From" %>
+                  </div>
+               </div>
+               <div class="form-group col-sm-12">
+                  <div class="input-group"> <span class="input-group-addon home">
+                     </span>
+                    <%= text_field_tag :ride_destination, params[:ride_destination], autofocus: true, class: ' form-control gmaps-input-address ride-info-maps-input', placeholder: "To" %>
+                  </div>
+               </div>
+               <div class="search">
+                  <div class="btn-group" role="group">
+                     <img alt="White search" src="/assets/search_icon.png">
+                        <%= submit_tag "Find rides", name: 'search', class: "btn-search btn btn-default" %>
+                  </div>
+               </div>
+            </div>
+            <% end %>
+      </div>
+   </div>
+    <%price_arry=Array.new%>
+      <%longitude_arry=Array.new%>
+      <%latitude_arry=Array.new%>
+         <%@trip = @trip.sort_by { |date| date.date }%>
+             <% @trip.each do |trip| %>
+              <% @ride = Ride.find(trip.ride_id) %>              
+              <%price_arry<<@ride.total_price %>
+
+              <% @ride.locations.each do |l| %>
+                <% if l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:source] %>                
+                        <%longitude_arry<<l.longitude%>
+                        <%latitude_arry<<l.latitude%>
+                 <%end%>
+             <%end%>
+            <%end%> 
+       <%= hidden_field_tag "ride_source_longitude_arry" , longitude_arry %>
+       <%= hidden_field_tag "ride_source_latitude_arry" , latitude_arry %>
+       <%= hidden_field_tag "ride_price_arry" , price_arry %> 
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><img alt="White search" class="pull-right" src="/assets/map_tab.png"></a></li>
+          <li role="presentation"><a href="#profile" aria-controls="profile" id="map_link" role="tab" data-toggle="tab"><img alt="White search" class="pull-left" src="/assets/map_tab2.png"></a></li>
+        </ul>
+  <!-- Tab panes -->
+        <div class="search-ride">
+        <div class="tab-content ">
+          <div role="tabpanel" class="tab-pane active" id="home">
+              <%= render 'rides/partials/mobile_rides_list', trips: @trip%>                  
+          </div>
+          <div role="tabpanel" class="tab-pane" id="profile">
+              <div class="col-md-6 col-sm-6">
+              <div class="">
+                <div class="Flexible-container">           
+                  <div id="pointers_map" style='width: 100%; height: 680px;'></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<script type="text/javascript">
+  $('.nav-tabs').on('shown.bs.tab', function () {
+    google.maps.event.trigger(window, 'resize', {});
+});
+</script>

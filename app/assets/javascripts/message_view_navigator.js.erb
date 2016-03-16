@@ -1,0 +1,36 @@
+$(document).ready(function(){
+  // console.log(window.location.href.split('/').pop());
+  set_selected(window.location.href.split('/').pop());
+  $("#message_navigate_menu").change(function(){
+    navigate($(this).val());
+  });
+});
+
+function navigate(value) {
+  switch (value) {
+    case "1":
+      document.location.href = "/messages/received";
+      break;
+    case "2":
+      document.location.href = "/messages/sent";
+      break;
+    case "3":
+      document.location.href = "/messages/archived";
+      break; 
+  }
+}
+
+function set_selected(view_name){
+  if(view_name == "received")
+  {
+    $("#message_navigate_menu").val("1");
+  }
+  else if(view_name == "sent")
+  {
+    $("#message_navigate_menu").val("2");
+  }
+  else
+  {
+    $("#message_navigate_menu").val("3");
+  }
+}

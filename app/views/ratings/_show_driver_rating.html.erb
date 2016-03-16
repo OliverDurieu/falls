@@ -1,0 +1,13 @@
+<% @rating = user.ratings %>
+<% if @rating.present? %>
+<span>
+  <%= image_tag 'rating/star-on.png', class: "inline-block", style: "margin-top: -4px;" %>
+  
+  <%= "#{(@rating.pluck('star').sum.to_f/@rating.count).round(2)} - #{@rating.count} ratings" %>
+  <br>
+  <% if calculate_rank(user)!="newcomer" %>
+  Ranking :  <%= calculate_rank(user) %>
+  <% end %>
+
+</span>
+<% end %>

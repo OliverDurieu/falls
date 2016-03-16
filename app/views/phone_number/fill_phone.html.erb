@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="box-register">
+        <h4>One quick thing: verify your mobile</h4>
+
+        <h3>It's important for planning your ride</h3>
+
+        <p>It's best when members can call one another before their journey, and it's essential to be reachable the day
+          of your Ride Share!</p>
+
+        <h3>And it's kept very private</h3>
+
+        <p>We promise never to use your number for a commercial purpose. It will ONLY be visible to members planning a
+          journey with you, and who also have a verified number themselves.</p>
+
+        <div class="verify-num">
+
+          <select id="phone_fill_phone_regionCode" name="user_country" class="phone_country">
+            <%= render '/shared/country_list_options' %>
+          </select>
+          <%= hidden_field_tag :country_code, @selected_country.country_code %>
+          <span id="extension_phon_number"> <%= @selected_country.country_code %>
+            <%= text_field_tag :phone_number, @phone_number.try(:body), placeholder: @selected_country.country_format %>
+          </span>
+        </div>
+        <div class="field-error" style="display: none;" id="invalid_phone_error"></div>
+        <div class="pull-right">
+          <%= link_to "Verify Phone Number", "javascript:void(0);", class: "btn btn-primary right", id: "verify_phone_number" %>
+          <% if session[:fride_id].blank? %>
+            <%= link_to "Later", complete_registration_proccess_path %>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

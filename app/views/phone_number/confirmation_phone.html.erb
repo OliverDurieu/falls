@@ -1,0 +1,21 @@
+<%# = render :partial => '/users/header_tabs' %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="box-register">
+        <h2>Mobile Phone Verification Number </h2>
+        An SMS has been sent to <%= @phone_number.body %>. You can <a href="/fill_phone">change your number</a> here
+
+        <div class="verify-num">
+          Please Enter the 4 digit code you recieved by SMS
+          <input type="text" name="verification_code" id="verification_code">
+          <a href="javascript:void(0);" id="phone_confirmation_code_submit" class="btn btn-primary btn-sm">Confirm</a>
+        </div>
+        <div class="field-error" style="display: none;" id="invalid_phone_code"></div>
+        <h3>Why verify my mobile number?</h3>
+
+        <p> We ask all legendary The Falls members to verify their phone numbers so that each and every ride share runs as smoothly as possibly, verifying your number means that the communication between drivers and passengers will not break down.</p>
+      </div>
+    </div>
+  </div>
+</div>

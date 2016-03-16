@@ -1,0 +1,877 @@
+@import "theme";
+.body {
+  background: #fff;
+  margin: 0 auto;
+}
+/* TRIP INfor Page */
+.banner {
+  margin: 0 0 120px;
+}
+.trip-info {
+  width: 82.6%;
+  margin: 0 auto 100px;
+}
+.form-group:after,
+.trip-info .threecolumns:after,
+.banner:after,
+.trip-info .trip-block:after,
+.trip-info:after{
+  display: block;
+  content: '';
+  clear: both;
+}
+.trip-info .form-group {
+  overflow: inherit !important;
+}
+.edit_ride .panel-body{
+  padding: 0;
+}
+.edit_ride.panel-group {
+margin-bottom: 0;
+}
+.edit_ride .panel{
+  box-shadow:none;
+}
+.edit_ride .panel-default{
+  border:0;
+}
+.trip-info h2 {
+  color: $theme-color;
+  font-size: 18px;
+  margin: 0 0 30px;
+  line-height: 21px;
+}
+.trip-info .trip-block {
+  border: 1px solid #eaeaea;
+}
+.trip-info .trip-block .head {
+  margin: 0 0 10px;
+  padding: 45px 30px 46px;
+  border-bottom: 1px solid #eaeaea;
+}
+.trip-info .trip-block .head:after {
+  display: block;
+  clear: both;
+  content: '';
+}
+.trip-info .trip-block  .dropdown-menu{
+  right: 0;
+  margin: 0;
+}
+.trip-info .threecolumns {
+    padding: 37px 30px 53px;
+}
+.trip-info .threecolumns.schedule {
+  padding: 43px 30px 70px;
+}
+.trip-info .threecolumns.repeat {
+
+}
+.threecolumns.schedule .time-area {
+  padding-left: 0;
+    width: 50%;
+    margin-top: -8px;
+}
+.schedule .time-area .col-sm-5 {
+  padding-right: 0;
+    width: 35.1%
+}
+.trip-info  .time-area .form-control {
+  height: 40px;
+}
+.trip-info .number-input {
+  width: 100% ;
+}
+.schedule .am:first-child {
+  padding: 4px 4px 0 0 !important;
+  position: static;
+  left: 26px;
+}
+.schedule .am {
+  padding: 4px 0 0 0 !important;
+  display: inline-block;
+  vertical-align: middle;
+  text-decoration: none;
+  color: #d1bcb3;
+}
+.schedule .am.active,
+.schedule .am:hover {
+  border-bottom: 1px solid $theme-color;
+  padding-bottom: 2px;
+  color: $theme-color;;
+}
+.trip-info .form-control:focus {
+  box-shadow: none;
+}
+.schedule .time-area .col-sm-3 {
+    width: 30%;
+}
+.trip-info .head .choose-car,
+.trip-info .threecolumns label {
+  color: #898989;
+  font-weight: bold;
+  display: block;
+  font-size: 14px;
+  line-height: 17px;
+  margin-bottom: 7px;
+}
+.trip-info .threecolumns a {
+  color: $theme-color;
+}
+.trip-info .threecolumns .form-control {
+  background: #fff;
+  border: none;
+  font-weight: bold;
+  border: 1px #EAEAEA solid;
+  color: #636363;
+  box-shadow: none;
+}
+.trip-info .threecolumns .time_class {
+  border: none;
+  text-align: right;
+} 
+.trip-info .threecolumns .date-icon {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  z-index: 3;
+} 
+.trip-info .threecolumns  .date {
+  border: #EAEAEA solid 1px;
+}
+.trip-info .dl-horizontal dt {
+  display: none;
+}
+.trip-info .head .title {
+  padding: 6px 0 0;
+}
+.trip-info.car-choose .head .title {
+  padding: 0 0 0;
+}
+.trip-info .title {
+  text-transform: uppercase;
+  color: #878787;
+  letter-spacing: 2px;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0 0 0;
+  margin: 0 0 10px;
+  font-weight: normal;
+  display: inline-block;
+  vertical-align: middle;
+}
+.input-group-addon:first-child{
+  border:none;
+  border:none;
+  color: #b3b3b3;
+}
+.trip-info .paricingarea {
+  padding: 0;
+}
+.trip-info .paricingarea .input-group-addon:last-child {
+    border-width: 1px 1px 1px 0;
+    background: #F1F1F1;
+    color: #B3B3B3;
+}
+.trip-info .radio-holder input[type=radio].css-checkbox {
+  position: absolute; 
+  z-index: -1000; 
+  left: -1000px; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height: 1px; 
+  width: 1px; 
+  margin: -1px; 
+  padding: 0; 
+  border: 0;
+}
+
+.trip-info .radio-holder input[type=radio].css-checkbox + label.css-label,
+.trip-info .radio-holder input[type=radio].css-checkbox + label.css-label.clr {
+  padding-left: 36px;
+    line-height: 30px;
+  display:inline-block;
+  background-repeat:no-repeat;
+  background-position: 0 0;
+  line-height: 25px;
+  vertical-align:middle;
+  cursor:pointer;
+  color: #928792;
+  font-size: 14px;
+  margin: 0;
+}
+.trip-info .radio-holder input[type=radio].css-checkbox:checked + label.css-label,
+.trip-info .radio-holder input[type=radio].css-checkbox + label.css-label.chk {
+  background-position: 0 -25px;
+}
+.trip-info .radio-holder label.css-label {
+  background: url('/assets/posting_ride/radio.png') no-repeat; 
+  /*background-image: asset-url("/assets/posting_ride/radio.png") no-repeat;*/
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.trip-info .radio-holder {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 4.5% 0 1%;
+}
+
+
+.trip-info .estimate-time h3{
+  font-size: 14px;
+    line-height: 17px;
+    margin: 0;
+    color: #878787;
+    display: inline-block;
+    vertical-align: middle;
+}
+.edit-time {
+  margin: 0;
+  font-size: 14px;
+    line-height: 1.42857;
+}
+.trip-info .estimate-time .edit {
+  padding: 0 0 0 28px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.trip-info .input-group-addon:last-child {
+    border: medium none;
+}
+.trip-info .threecolumns .form-control {
+  box-shadow: none;
+}
+.trip-info .checkbox-holder {
+  margin: 0 0 28px;
+}
+.trip-info .checkbox-holder:after {
+  display: block;
+  clear: both;
+  content: '';
+}
+.trip-info .checkbox-holder input[type=checkbox].css-checkbox {
+  position:absolute;
+  z-index:-1000; 
+  left:-1000px; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0);
+  height:1px; 
+  width:1px; 
+  margin:-1px; 
+  padding:0; 
+  border:0;
+}
+.trip-info .checkbox-holder input[type=checkbox].css-checkbox + label.css-label {
+  padding-left: 37px;
+  height: 24px; 
+  display: inline-block;
+  line-height: 28px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  font-size: 16px;
+  vertical-align :middle;
+  cursor: pointer;
+  color: #636363;
+  font-weight: normal;
+}
+.trip-info .checkbox-holder input[type=checkbox].css-checkbox:checked + label.css-label {
+  background-position: 0 -24px;
+}
+.trip-info .checkbox-holder label.css-label {
+  background: url('/assets/posting_ride/checkbox.png') no-repeat; 
+  /*background-image: asset-url("checkbox.png", image) no-repeat;*/
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.trip-info .tabs  {
+  margin: 0 0 50px;
+}
+
+.trip-info .tabs :after {
+  display: block;
+  clear: both;
+  content: '';
+}
+.trip-info .tabs .nav {
+  margin: 0 0 33px;
+}
+.trip-info .tabs .nav-tabs {
+  border: none;
+}
+.trip-info .tabs {
+  width: 91%;
+}
+.trip-info .tabs .nav-tabs>li.active>a,
+.trip-info .nav-tabs>li.active>a:focus, 
+.trip-info .nav-tabs>li.active>a:hover {
+    color: $theme-color;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border: none;
+    border-bottom: 2px solid $theme-color;
+    background: none;
+}
+.trip-info .tabs .nav-tabs>li>a:hover {
+  background: none;
+  border-bottom: 2px solid $theme-color;
+}
+.trip-info .tabs .nav-tabs>li a {
+  color: #B3B3B3;
+  height: 41px;
+  border: none;
+}
+.trip-info .tabs .tab-content {
+  border: 1px solid #eaeaea;
+    padding: 20px 20px 30px;
+}
+.trip-info .tabs .tab-content h2 {
+  color: #878787;
+  margin: 0 0 25px;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: normal;
+}
+.trip-info .tabs .btn-primary {
+  background: #fff;
+  color: #B3B3B3 !important;
+  border: none;
+  margin: 0 13px 0 0 ;
+  border-radius: 3px !important;
+  font-weight: normal !important;
+  padding: 8px 8px;
+  border: 1px solid #EAEAEA;
+}
+.trip-info .tabs .btn-primary.active, 
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary,
+.trip-info .tabs .btn-primary:hover {
+  background: $theme-color;
+  border:none;
+  color: #fff !important;
+  box-shadow: none;
+  border: 1px solid $theme-color;
+}
+.trip-info .location {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    width: 42%;
+}
+
+.trip-info .tabs .btn-group>.btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.trip-info .head .checkbox-holder {
+    overflow: inherit;
+    margin: 0 0 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+.trip-info .btn-group .btn-default{
+  background-color: #fff !important;
+  border: 1px solid #EAEAEA;
+  color: #636363;
+}
+.trip-info  .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+  width: 100% !important;
+}
+
+.trip-info .route-area .col-md-4 {
+    margin-left: 3px;
+    margin-right: 9px;
+    width: 35.5%;
+}
+.trip-info .route-area .col-md-6 {
+   width: 46%;
+}
+.trip-info .form-control, 
+.trip-info  .bootstrap-select > .dropdown-toggle{
+  height: 51px;
+}
+.trip-info  .bootstrap-select .dropdown-toggle:focus {
+  outline: none !important;
+  outline-offset: 0;
+  box-shadow: none;
+}
+.trip-info  .btn-group.open .dropdown-toggle{
+  box-shadow: none;
+  outline: none;
+  border: none;
+}
+.trip-info .btn-group .btn-default:hover {
+  background: none;
+  border: 1px solid #EAEAEA;
+}
+.trip-info .map-form {
+  padding: 0 0 0;
+}
+
+.trip-info .map-form .form-group {
+    margin-bottom: 25px;
+}
+.trip-info .legs-info {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  color: #63636c;
+  font-size: 14px;
+  line-height: 17px;
+}
+.trip-info .legs-info  li:first-child {
+  padding-top: 0;
+}
+.trip-info ul.legs-info ul li:first-child {
+  padding: 31px 0;
+}
+.trip-info .legs-info  li {
+  padding: 31px 0 ;
+  overflow: hidden;
+  border-bottom: 1px solid #eaeaea;
+}
+.trip-info .paricingarea {
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+  width: 57%;
+}
+.trip-info .paricingarea .input-group-addon:first-child {
+    border-right: 0;
+    width: 44px !important;
+}
+.trip-info .priceblcok {
+  padding: 0;
+}
+.trip-info .legs-info .number {
+  background: $theme-color;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 14px;
+  line-height: 24px;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  margin: 0 15px 0 0;
+}
+.trip-info .legs-info span{
+  display: inline-block;
+  vertical-align: middle;
+  width: 25%;
+}
+.trip-info .legs-info .arrow {
+  background: url('/assets/posting_ride/legs-arrow.png') no-repeat; 
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 17px;
+  overflow: hidden;
+  text-indent: -9999px;
+  margin: 0 20px;
+}
+.trip-info select {
+  display: none;
+}
+.trip-info .select-image {
+  width: 35px;
+  height: 35px;
+  overflow: hidden;
+  border-radius: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.trip-info .select-text {
+  display: inline-block;
+  vertical-align: middle;
+}
+.trip-info .btn .caret {
+  color: #4A4A4A;
+}
+.trip-info .post-btn-area {
+  text-align: right;
+  margin: 50px 0;
+  overflow: hidden;
+}
+.trip-info .post-btn-area .btn-post {
+  background: #2BB20B !important;
+  border: none;
+  padding: 15px 15px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  color: #fff;
+  min-width: 300px;
+  font-size: 24px;
+  line-height: 27px;
+  font-weight: bold;
+} 
+.trip-info .post-btn-area span {
+  color: #9393a0;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 10px 17px 0 0;
+  display: block;
+} 
+.trip-info .post-btn-area .col-md-12 {
+  padding: 0;
+    margin: 0 0 25px;
+}
+.trip-info .post-btn-area a {
+  color: $theme-color;
+} 
+/* Flexible iFrame */
+.trip-info .Flexible-container {
+    position: relative;
+    padding-top: 0px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.trip-info .gmaps-container {
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 0;
+  z-index: 999;
+}
+.trip-info .Flexible-container iframe,   
+.trip-info .Flexible-container object,  
+.trip-info .Flexible-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.trip-info .tab-pane {
+  padding: 0;
+}
+.trip-info .gmaps-input-address{
+  padding: 0;
+}
+.re_months label{
+  margin-bottom: 5px !important;
+}
+.trip-info .tab-pane {
+  padding: 0;
+}
+.trip-info .location-holder .form-control.sub-route-locations {
+  width: 100% !important;
+  position: relative;
+  padding-right: 66px;
+}
+.trip-info .location-holder .input-group-addon {
+  position: absolute;
+  left: -56px;
+  top: 0;
+  width: 56px;
+  z-index: 1000;
+}
+.trip-info .location-holder .input-group-addon .glyphicon {
+  top: 10px;
+}
+.dropdown-menu.datepicker-orient-left {
+  margin: 0 0 0 19px !important;
+}
+
+.bootstrap-datetimepicker-widget{
+   width: 200px !important;
+}
+.bootstrap-datetimepicker-widget table td{
+  height: 25px !important;
+  line-height: 25px !important;
+  padding:0 !important;
+}
+
+
+/* Media queries */
+@media ( max-width: 1025px){
+  .trip-info {
+    width: 100%;
+  }
+  .trip-info .location {
+    margin: 0 0 30px;
+  }
+  .trip-info .paricingarea {
+    padding: 0 40px;
+    overflow: hidden;
+  }
+  .trip-info .tabs .tab-content {
+    padding: 20px 10px;
+  }
+  .trip-info .tabs .tab-content {
+    text-align: center;
+  }
+  .trip-info .head .checkbox-holder {
+    margin: 19px 0 0;
+  }
+  .trip-info .route-area .col-md-4 {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+   .trip-info .location:after {
+    display: block;
+    clear: both;
+    content: '';
+  }
+  .trip-info .location {
+    margin: 0 0 30px;
+  }
+
+}
+@media ( max-width: 768px){
+  .p0{
+    padding: 0 !important;
+  }
+  .pl0{
+    padding-left: 0 !important;
+  }
+  .pr0{
+    padding-right: 0 !important;
+  }
+  .trip-info ul.experiences{
+    padding-left: 0 !important;
+  }
+  #gmaps-canvas{
+    height: 250px !important;
+  }
+  .sub_nav {
+    z-index: 1000;
+  }
+  .trip-info h2 {
+    margin:  0 0 0;
+  }
+  .banner_post_ride {
+    margin: 23px 0 51px;
+  }
+  .trip-info .location {
+    margin: 0 0 12px;
+    width: 100%;
+  }
+  .trip-info .trip-block {
+    margin: 0 0 40px;
+  }
+  .trip-info .tabs {
+      width: 100%;
+  }
+  .trip-info .trip-block .head {
+    margin: 0 0 51px;
+  }
+  .trip-info .threecolumns {
+      border-bottom: 1px solid #eaeaea;
+      padding: 0 0 28px;
+  }
+  .trip-info .threecolumns.schedule {
+     padding: 10px 0 0;
+  }
+  .trip-info  .radio-holder {
+    margin-right: 12px;
+  }
+  .trip-info .radio-holder {
+     margin-bottom: 12px;
+  }
+  .trip-info {
+    width: 100%;
+  }
+  .trip-info .mob-none {
+    display: none;
+  }
+  .trip-info .trip-block {
+    border: none;
+  }
+  .trip-info .threecolumns {
+    padding: 0 0 28px;
+  }
+  .trip-info .legs-info li {
+    border-bottom:none;
+    padding: 0;
+  }
+  .trip-info .legs-info span {
+    font-weight: bold;
+  }
+  .trip-info .tabs .nav-tabs {
+    border: none;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 0 30px;
+    padding: 0;
+    width: 100%;
+  }
+  .trip-info .ride_schedule-holder {
+    padding: 0;
+  }
+  .trip-info .ride_schedule-holder  ul.experiences {
+    padding-left: 0;
+  } 
+  .trip-info .tabs .nav-tabs>li {
+    float: none;
+    margin-bottom: -1px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .trip-info .tabs .tab-content {
+    padding: 0;
+    border: none;
+  }
+  .trip-info {
+    margin: 0 0 50px;
+  }
+  .trip-info.car-choose {
+    margin: 0;
+  }
+  .trip-info.car-choose .head {
+    border:none;
+    padding: 0;
+    margin: 0 0 13px;
+  }
+  .trip-info.car-choose {
+    border-bottom:none;
+  }
+  .trip-info.car-choose .threecolumns {
+    border-bottom:none;
+    padding: 0;
+  }
+  .trip-info .tabs .btn-primary {
+    margin: 0 3px 5px 0;
+    text-transform: uppercase;
+    width: 58px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+    word-wrap: break-word
+  }
+  .trip-info .location {  
+    margin: 0 0 30px;
+  }
+   .trip-info .location:after {
+    display: block;
+    clear: both;
+    content: '';
+   }
+  .trip-info .paricingarea {
+    padding: 0 40px;
+    overflow: hidden;
+    width: 100%;
+  }
+  .trip-info .trip-block .head {
+    padding: 20px 0;
+  }
+  .trip-info .post-btn-area span {
+    margin: 0 0 15px 0;
+    float: none;
+    display: block;
+  }
+  .trip-info .post-btn-area {
+    text-align: right;
+    margin: 0 0 50px;
+  }
+  .trip-info .tabs {
+    margin: 0 0 9px;
+  }
+  .trip-info .head .checkbox-holder {
+    margin: 0 0 19px;
+  }
+
+  .trip-info .tabs .tab-content h2 {   
+    margin: 0 0 25px;
+    text-align: left;
+  }
+  .trip-info .post-btn-area .btn-post {
+    margin-bottom: 15px;
+  }
+  .trip-info .input-group-addon {
+    padding: 6px 6px;
+    font-size: 11px;
+  }
+  .trip-info .threecolumns .time_class {
+    height: 39px;
+  }
+  .trip-info .threecolumns .date-icon {
+    left: 15px;
+    top: 11px;
+  }
+  .trip-info .route-area .col-md-6 {
+    width: 100%;
+    margin: 0 auto;
+    float: none;
+    display: block;
+  }
+  .trip-info .threecolumns .time_picker {
+    width: 110px;
+    margin: 0 5px 0 0;
+  }
+  .schedule .am {
+    margin: 0 0 0 10px;
+  }
+  .trip-info .post-btn-area .btn-post {
+    border: none;
+    text-transform: capitalize;
+    color: #fff;
+    width: 100%;
+    border-radius: 0;
+    padding: 35px 14px;
+  }
+  .trip-info .checkbox-holder input[type=checkbox].css-checkbox + label.css-label {
+    line-height: 19px;
+    font-size: 13px;
+  }
+  .dropdown-menu.datepicker-orient-left {
+    font-size: 12px !important;
+  } 
+  .trip-info .threecolumns .form-control{
+    box-shadow: 0 !important;
+    background: transparent;
+    outline: none;    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+}
+@media ( max-width: 560px){ 
+  .trip-info .threecolumns .time_picker {
+     width: 100px;
+
+  }
+  .trip-info .route-area .col-md-6{
+    float: left;
+  }
+}
+@media ( max-width: 412px){ 
+  .trip-info .paricingarea {
+    padding: 0 0;
+  }
+  .mob-fullwidth {
+    width: 100% !important;
+  }
+  .trip-info .threecolumns .time_picker {
+    width: 85px;
+    padding:5px;
+    font-size: 12px;
+
+  }
+  .trip-info .estimate-time .edit {
+    vertical-align: bottom;
+  } 
+  .trip-info .threecolumns .date-icon{
+    left: 6px;
+  }
+}
+
+
+
+
+

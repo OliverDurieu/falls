@@ -1,0 +1,243 @@
+   <div id="fb-root"></div>
+    <script src="//connect.facebook.net/en_US/all.js"></script>    
+    <script type="text/javascript">
+   // $(document).ready(function(){
+      
+      // Initialize the Facebook JavaScript SDK
+      FB.init({
+        appId: '562756200542819',
+        xfbml: true,
+        status: true,
+        cookie: true,
+      });
+      
+      // Check if the current user is logged in and has authorized the app
+      //FB.getLoginStatus(checkLoginStatus);      
+      // Login in the current user via Facebook and ask for email permission
+      function authUser() {
+        FB.login(checkLoginStatus, {scope:'email'});
+      }     
+      // Check the result of the user status and display login button if necessary
+      function checkLoginStatus(response) {
+        if(response && response.status == 'connected') {
+                  
+           var uid = response.authResponse.userID;
+           var accessToken = response.authResponse.accessToken;  
+           $.ajax({
+            type: 'POST',        
+            data: {fb_id:uid},
+            url: '/users/verify_uid',
+            success: function(data) {
+//              console.log(data.success);
+              FB.api('/me', function(response) {                        
+  //            console.log(response);
+              if(data.success==true)
+              {
+                alert('User is authorized');
+
+                 $("#v_facebook").html("FACEBOOK CONNECTED");
+ 
+
+                // var link=document.getElementById("v_facebook");
+                // console.log(link.html("yes"));
+
+
+                // var elem = document.getElementById("exampleInputEmail1");
+                // elem.value = response.first_name;
+                // elem = document.getElementById("exampleInputEmail2");
+                // elem.value = response.last_name;
+                // elem = document.getElementById("verified_email");
+                // elem.value = response.email;
+                // var code_email=document.getElementById("email_code_send");
+                // code_email.value=elem.value;
+
+
+              }
+              if(data.success==false)
+              {
+                alert('Facebook ID already linked');      
+              }
+
+              });
+
+            },
+            error: function(){
+//              console.log('error!');
+            }
+        });
+
+       
+          // Hide the login button
+         // document.getElementById('loginButton').style.display = 'none';
+          
+          // Now Personalize the User Experience
+          // console.log('User ID: ' + uid);
+          // console.log('Access Token: ' + accessToken);
+
+        } else if (response.status === 'not_authorized') {
+
+            alert('User logged into Facebook, but not your app');
+
+      // The person is logged into Facebook, but not your app.
+           // document.getElementById('status').innerHTML = 'Please log ' +
+            //  'into this app.';
+          
+          } else {
+
+            alert('User not logged into Facebook, no on app');
+
+            // The person is not logged into Facebook, so we're not sure if
+            // they are logged into this app or not.
+           // document.getElementById('status').innerHTML = 'Please log ' +
+            //  'into Facebook.';
+          
+          }
+      }
+</script>
+<%= javascript_include_tag 'user_verification' %>
+
+
+<!-- flash alert in case of wrong email format -->
+<div id="flash_for_verfication" class="col-md-12 col-sm-12 col-xs-12 alert_msg hidden">
+  <div class="alert alert-warning fade in flash-message notice">
+      <a href="#" class="close" data-dismiss="alert">×</a>
+      <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-3">
+        <img alt="$ img" class="img-responsive" src="/assets/$_img.png">
+      </div>          
+      <div class="col-md-8 col-sm-8 col-xs-7">
+        <i><h4><strong><div id="flash_success">This email is not valid</div></strong></h4></i>           
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<strong>Email:</strong>
+<p>Your current email address is <%= @user.email%></p>
+<%= form_tag  verify_email_phone_profile_index_path, :method => :post do %>
+<div class="panel panel-default">
+  <div class="panel-heading">Verifications
+  </div>
+  <div class="panel-body <%= hide_if_verified(@user)%>">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="form-group">
+
+           
+       <!--      <% if @user.email_verified.present? %>
+            <p class="text-success"><label for="exampleInputEmail3">Email: verified</label></p>
+            <% else %>
+            <label for="exampleInputEmail3">Email: not verified</label>
+            <% end %>
+
+ -->
+            
+            
+       
+            <div class="input-group">
+              <%= text_field_tag 'email_field',nil, class: 'form-control', id: 'email_to_verfiy', value: @user.email %>
+              <button id="user_email_verify_button" class="ladda-button"  data-color="grey" data-style="expand-right" type="button"><span class="ladda-label">VERIFY</span></button>
+            </div>
+          </div>
+
+          <div class="form-group  send_code">
+            <label for="exampleInputEmail1">Email pin</label>
+             <div class="input-group ">
+            <%= text_field_tag 'email_verification_number',nil, class: 'form-control input_width email_verification_pin', placeholder: 'Your 4 digit pin' %>
+          </div>
+        </div>
+        <!-- <div class="col-md-6 col-sm-6 col-xs-12 btn_block text-center btn_change">
+
+          <% if @user.email_verified.blank? %>
+          <a class="  b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" href="/send_verify_email" role="button">VERIFY</a>
+          <a href="#" class="points">+50pts</a>
+          <% end %>
+
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col-md-12 ">
+          <div class="form-group">
+
+           <!--  <% if @user.phone_number %>
+              <% if @user.phone_number.verified_no? %>
+              <p class="text-success"><label for="exampleInputEmail3">Phone: verified</label></p>
+              <%else%>
+              <label for="exampleInputEmail3">Phone: not verified</label>
+             <%end%>
+           <%else%>
+             <label for="exampleInputEmail3">Phone: not  availaible</label>
+           <%end%> -->
+           <!--  <input type="text"  class="form-control" id="exampleInputEmail3" readonly placeholder=<%= @user.phone_number.body%>> -->
+
+
+
+
+
+            <!-- <input type="text"  class="form-control" id="exampleInputEmail3"  placeholder=<%= @user.phone_no_with_ext("") %>> -->
+            <div class="input-group">
+              <%= text_field_tag 'phonenum_field',nil, class: 'form-control', id: 'phone_to_verify', value: @user.phone_no_with_ext("") %>
+              <button id="user_phone_verify_button" class="ladda-button"  data-color="grey" data-style="expand-right" type="button"><span class="ladda-label">VERIFY</span></button>
+            </div>
+
+          </div>
+
+          <div class="form-group  send_code">
+            <label for="exampleInputEmail1">Phone pin</label>
+             <div class="input-group ">
+             <%= text_field_tag 'phone_verification_number',nil, class: 'form-control input_width phone_verification_pin', placeholder: 'Your 4 digit pin' %>
+          </div>
+        </div>
+
+        </div>
+
+      <!--   <div class="col-md-6 col-sm-6 col-xs-12 btn_block text-center btn_change">
+        <% if @user.phone_number.present? %>
+          <% if @user.phone_number.verified_no.blank? %>
+          <a class="  b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" href="/fill_phone" role="button">VERIFY</a>
+          <a href="#" class="points">+50pts</a>     
+          <% end %>
+        <% else %>
+            Please provide your phone number
+        <% end %>         
+        </div> -->
+
+
+
+      </div>
+
+
+
+           <!--  <div class="input-group">
+              <button type="button" id="loginButton"  onclick="authUser();" class="button fb_btn btn-block"><i class="fa fa-facebook"></i> CONNECT FASCEBOOK</button>
+            </div> -->
+
+
+      <div class="row hidden">
+        
+        <div class="col-md-6">       
+          <a href="fallback.html" id ="v_facebook" class="button fb_btn btn-block" onClick="authUser(); return false;">
+          <i class="fa fa-facebook"></i>CONNECT FACEBOOK
+          </a>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12 ">
+          <a href="#" class="mt_10">+50pts</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <%= submit_tag 'Continue', class: 'btn btn-large btn_next pull-right ladda-button', data: {style: 'expand-right'}%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="<%= show_if_verified(@user) %>">
+  <div class="panel-body">
+    <p>Enter your email and phone number and we will send you 4 digit code to help verify your communication channels.</p>
+    <p>Congratulations (<%= @user.email %>) has been verified </p>
+    <p>Congratulations (<%= @user.phone_number.body %>) has been verified </p>
+  </div>
+</div>
+<% end %>

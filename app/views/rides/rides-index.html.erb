@@ -1,0 +1,188 @@
+<div class="row tab-v3">
+<br><br>
+  <%= render 'layouts/rides_offered_navbar' %>
+<%= hidden_field_tag :rides_tab, @active_tab %>
+<% if @rides.present? %>
+<%= hidden_field_tag "nav-tabs", "rides" %>
+  <% @rides.each do |ride| %>
+  <div class="main-block">
+        <div class="header-main-block clearfix">
+          <h2 class="pull-left"><%= ride.show_sorce_destination_route %></h2>
+        </div>
+
+        <div class="content-main-block clearfix">
+        <div class="col-md-7">
+          <h4 class="fade-gray size14 bold">
+            <i class="glyphicon glyphicon-calendar"></i>
+            <% t = ride.departure_date   %>
+            <%= t.strftime("%A %d %B - %I:%M")  %>
+          </h4>
+          <br>
+           <h4>
+           <i class="glyphicon glyphicon-signal"></i>
+          <%= ride.views_count %> visit(s)</h4>
+          </div>
+          <div class="col-md-3">
+          <h4>
+           <div class="col-sm-3">
+              <%= link_to add_seat_ride_path(ride), id: 'plus',class: 'plus-val seats-btn', remote: true, method: :put do %>
+                <i class="glyphicon glyphicon-plus"></i>
+              <% end %>
+              <%= link_to delete_seat_ride_path(ride), id: 'minus',class: 'subtract-val seats-btn', remote: true, method: :put do %>
+                <i class="glyphicon glyphicon-minus"></i>
+              <% end %>
+                </div> 
+          <span id="seats_left_<%= ride.id %>" class='seats-left'>     
+            <%= ride.number_of_seats %>
+          </span>
+                Seats Left
+                <i class="tooltipQ glyphicon glyphicon-question-sign" data-toggle="tooltip"
+data-placement="top" title="When passengers contact you directly to share the ride with you, you need to update manually the count of seats left. This will be done automatically if they book using their credit card."></i></h4>
+         </div>
+         <div class="col-md-2">
+          <h4 style="color: green;">$<%= ride.total_price %> per passenger</h4>
+           
+         </div>
+         <div class="col-md-12">
+         <hr>
+         <div class="col-md-7">
+         <% if ride.return_date.present? %>
+         <p>Return on <%= set_full_month_date_time_style(ride.return_date) %>
+         <% end %>
+         <%= link_to 'Duplicate', 'javascript: void(0);' ,class: "dup_date",  'data-ride'=> ride.id %></p>
+        </div>
+        <div class="col-md-5">
+        
+        <%= link_to ride_path(ride) do %>
+          <i class="glyphicon glyphicon-eye-open"></i> View Trip
+        <% end %>
+      
+        <%= link_to  visitors_ride_path(ride) do%>
+          <i class="glyphicon glyphicon-signal"></i> View visitors  
+        <% end %>
+       
+        <%= link_to edit_ride_path(ride) do %>
+         <i class="glyphicon glyphicon-edit"></i> Edit
+        <% end %>
+        <% if @active_tab == "archived" %>
+          <%= link_to ride, method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <i class="glyphicon glyphicon-remove-sign"></i> Delete
+            <% end %>
+        <% else %>
+          <%= link_to archive_ride_path(ride), method: :patch, data: { confirm: 'Are you sure?' } do %>
+            <i class="glyphicon glyphicon-remove-sign"></i> Destroy
+          <% end %>
+        <% end %>
+        <br>
+          <%= link_to "Share on Facebook",'https://www.facebook.com/dialog/feed?
+              app_id=223943261150250&
+              link=http://www.lamule.com.au/rides/'+ride.id.to_s+'&
+              picture=http://eduleaf-development.s3.amazonaws.com/uploads/lamule_meta_image_large_2.png&
+              name=I am going to this route '+ride.show_sorce_destination_route+'&
+              caption=Departure Time '+ride.departure_date.to_s+'&
+              description='+ride.number_of_seats.to_s+' Seats left and '+ride.total_price.to_s+'$ per passenger&
+              redirect_uri=http://www.lamule.com.au/rides&
+              display=popup', id: "share_on_facebook", :method => :post
+          %>
+
+        </div>
+      
+          </div>
+          <%= form_tag duplicate_ride_ride_path(ride), :method => :post do %>
+           <% if ride.return_date.present? %>
+             <div class="content-main-block clearfix col-md-12" style="display:none; background-color: #fffcb8;" class="dup_content" id='dup_content_<%= ride.id %>'>
+                <div class="col-md-4">
+                <div class="form-group">
+                  <label class: "col-sm-4 control-label">Departure Date</label>
+                  <div class="input-group date date-holder" data-date="<%= ride.try(:departure_date) %>" style="width: 260px;">
+                    <%= text_field_tag :departure_date, set_date_style(ride.try(:departure_date)), class: "form-control departure_date1", id: "departure_date_#{ride.id}" %>
+                    <span class="input-group-addon date_addon"><i class="glyphicon glyphicon-th"></i></span>
+                  </div>
+                 </div>
+                </div>
+                 <div class="col-md-4">
+                  <div class="form-group ruturn-date-holder <%= @return_css %>">
+                    <label class: "col-sm-4 control-label">Return Date</label>
+                      <div class="input-group date date-holder" data-date="<%= ride.try(:return_date) %>" style="width: 260px;">
+                    <%= text_field_tag :return_date, set_date_style(ride.try(:return_date)), class: "form-control return_date1", id: "return_date_#{ride.id}" %>
+                    <span class="input-group-addon date_addon"><i class="glyphicon glyphicon-th"></i></span>
+                  </div>
+                  </div>
+                  </div>
+                  <div class="col-md-4 pulish-button">
+                  <%= submit_tag "Publish", class: "btn btn-primary" %>
+                  <%= link_to "Cancel", 'javascript:void(0);' , class: "btn btn-warning remove_dup", data: {ride: ride.id}  %>
+                  </div>
+                </div>
+
+           <% else %>
+         
+              <div class="content-main-block clearfix col-md-12" style="display:none; background-color: #fffcb8;" class="dup_content" id='dup_content_<%= ride.id %>'>
+                <div class="col-md-4">
+                <div class="form-group">
+                  <label class: "col-sm-4 control-label">Departure Date</label>
+                  <div class="input-group date date-holder" data-date="<%= ride.try(:departure_date) %>" style="width: 260px;">
+                    <%= text_field_tag :departure_date, set_date_style(ride.try(:departure_date)), class: "form-control departure_date1", id: "departure_date_#{ride.id}" %>
+                    <span class="input-group-addon date_addon"><i class="glyphicon glyphicon-th"></i></span>
+                  </div>
+                 </div>
+                </div>
+                 <div class="col-md-4 pulish-button">
+                  <%= submit_tag "Publish", class: "btn btn-primary" %>
+                  <%= link_to "Cancel", 'javascript:void(0);' , class: "btn btn-warning remove_dup", data: {ride: ride.id}  %>
+                  </div>
+                </div>
+                <% end %>
+
+             
+              <% end %>
+                
+                
+                </div>
+        </div>
+         <% end %>
+    <% else %>
+      <div style="margin-top: 18%"></div>
+    <% end %>
+    </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+      $('.tooltipQ').tooltip();
+      // $("." + $('#nav-tabs').val()).addClass('active');
+      // $("." + $('#rides_tab').val()).addClass('active');
+      $('.departure_date1').each(function(){
+        $( "#" + $(this).attr('id') ).datetimepicker({
+            timeFormat: "hh:mm TT",
+            controlType: 'select'
+        });
+      });
+      
+      $('.return_date1').each(function(){
+        $( "#" + $(this).attr('id') ).datetimepicker({
+            timeFormat: "hh:mm TT",
+            controlType: 'select'
+        });
+      });
+
+        $('body').on('click', '.date-holder .date_addon', function (e) {
+            if (!$('#ui-datepicker-div').is(':visible')) {
+                $(this).parents('.date-holder').find('input').trigger("focus");
+            }
+        });
+
+        $(".dup_date").click(function(){
+          var rideId = $(this).data("ride");
+          $("#dup_content_"+rideId).show();
+
+        });
+          $(".remove_dup").click(function(){
+          var rideId = $(this).data("ride");
+          $("#dup_content_"+rideId).hide();
+
+        });
+
+ 
+
+       });
+          
+</script>

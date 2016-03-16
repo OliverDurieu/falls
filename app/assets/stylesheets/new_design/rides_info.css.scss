@@ -1,0 +1,1963 @@
+@import "theme";
+
+a:hover,
+a:active,
+a:focus {
+outline: 0 !important;
+}
+@font-face {
+font-family: 'Avenir LT Std 95 Black';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 95 Black'), url('AvenirLTStd-Black.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 45 Book';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 45 Book'), url('AvenirLTStd-Book.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 85 Heavy';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 85 Heavy'), url('AvenirLTStd-Heavy.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 35 Light';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 35 Light'), url('AvenirLTStd-Light.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 65 Medium';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 65 Medium'), url('AvenirLTStd-Medium.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 55 Roman';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 55 Roman'), url('AvenirLTStd-Roman.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 95 Black Oblique';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 95 Black Oblique'), url('AvenirLTStd-BlackOblique.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 45 Book Oblique';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 45 Book Oblique'), url('AvenirLTStd-BookOblique.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 85 Heavy Oblique';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 85 Heavy Oblique'), url('AvenirLTStd-HeavyOblique.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 35 Light Oblique';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 35 Light Oblique'), url('AvenirLTStd-LightOblique.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 65 Medium Oblique';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 65 Medium Oblique'), url('AvenirLTStd-MediumOblique.woff') format('woff');
+}
+@font-face {
+font-family: 'Avenir LT Std 55 Oblique';
+font-style: normal;
+font-weight: normal;
+src: local('Avenir LT Std 55 Oblique'), url('AvenirLTStd-Oblique.woff') format('woff');
+}
+@font-face {
+font-family: 'nanum_penregular';
+src: url('nanumpenscript-regular.eot');
+src: url('nanumpenscript-regular.eot?#iefix') format('embedded-opentype'), url('nanumpenscript-regular.woff2') format('woff2'), url('nanumpenscript-regular.woff') format('woff'), url('nanumpenscript-regular.ttf') format('truetype'), url('nanumpenscript-regular.svg#nanum_penregular') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+.body {
+	background: #fff;
+	margin: 0 auto;
+}
+/* TRIP INfor Page */
+.banner {
+	overflow: hidden;
+	margin: 0 0 93px;
+}
+.trip-info {
+	width: 82.6%;
+	margin: 20px auto 100px;
+	overflow: hidden;
+}
+.trip-info h2 {
+	color: $theme-color;
+	font-size: 18px;
+	margin: 0 0 30px;
+	line-height: 21px;
+}
+.trip-info .trip-block {
+	overflow: hidden;
+	border: 1px solid #eaeaea;
+}
+.trip-info .trip-block .head {
+	margin: 0 0 10px;
+	padding: 45px 30px 46px;
+	border-bottom: 1px solid #eaeaea;
+}
+.trip-info .trip-block .head:after {
+	display: block;
+	clear: both;
+	content: '';
+}
+.trip-info .threecolumns {
+	  padding: 37px 30px 53px;
+	  overflow: hidden;
+}
+.trip-info .threecolumns.schedule {
+	padding: 43px 30px 70px;
+}
+.trip-info .threecolumns.repeat {
+
+}
+.threecolumns.schedule .time-area {
+	padding-left: 0;
+    width: 50%;
+    margin-top: -8px;
+}
+.schedule .time-area .col-sm-5 {
+	padding-right: 0;
+    width: 35.1%
+}
+.trip-info  .time-area .form-control {
+	height: 40px;
+}
+
+.schedule .time-area .am {
+	padding: 12px 0 0;
+	display: inline-block;
+	vertical-align: middle;
+	text-decoration: none;
+	color: #d1bcb3;
+}
+.schedule .time-area .am.active,
+.schedule .time-area .am:hover {
+	border-bottom: 1px solid $theme-color;
+	padding-bottom: 2px;
+	color: $theme-color;;
+}
+.trip-info .form-control:focus {
+	box-shadow: none;
+}
+.schedule .time-area .col-sm-3 {
+    width: 30%;
+}
+.trip-info .head .choose-car,
+.trip-info .threecolumns label {
+	color: #898989;
+	font-weight: bold;
+	display: block;
+	font-size: 14px;
+	line-height: 17px;
+	margin-bottom: 7px;
+}
+.trip-info .threecolumns a {
+	color: $theme-color;
+}
+.trip-info .threecolumns .form-control {
+	background: #eaeaea;
+	border: none;
+	font-weight: bold;
+	color: #cbb8b3;
+	box-shadow: none;
+}
+.trip-info .head .title {
+	padding: 6px 0 0;
+}
+.trip-info .title {
+	text-transform: uppercase;
+	color: #928792;
+	font-size: 14px;
+	line-height: 17px;
+	padding: 0 0 0;
+	margin: 0 0 10px;
+	font-weight: normal;
+	display: inline-block;
+	vertical-align: middle;
+}
+.input-group-addon:first-child{
+	border:none;
+	border:none;
+	color: #b3b3b3;
+}
+.trip-info .paricingarea {
+	padding: 0;
+}
+.trip-info .paricingarea .input-group-addon:last-child {
+    border: medium none;
+    width: 49px;
+}
+.trip-info .radio-holder input[type=radio].css-checkbox {
+	position: absolute; 
+	z-index: -1000; 
+	left: -1000px; 
+	overflow: hidden; 
+	clip: rect(0 0 0 0); 
+	height: 1px; 
+	width: 1px; 
+	margin: -1px; 
+	padding: 0; 
+	border: 0;
+}
+.trip-info .radio-holder input[type=radio].css-checkbox + label.css-label,
+.trip-info .radio-holder input[type=radio].css-checkbox + label.css-label.clr {
+	padding-left: 36px;
+	  line-height: 30px;
+	display:inline-block;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+	line-height: 25px;
+	vertical-align:middle;
+	cursor:pointer;
+	color: #928792;
+	font-size: 14px;
+	margin: 0;
+}
+.trip-info .radio-holder input[type=radio].css-checkbox:checked + label.css-label,
+.trip-info .radio-holder input[type=radio].css-checkbox + label.css-label.chk {
+	background-position: 0 -25px;
+}
+.trip-info .radio-holder label.css-label {
+	background: url('../images/radio.png') no-repeat;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.trip-info .radio-holder {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 4.5% 0 1%;
+}
+.trip-info .estimate-time h4{
+	margin: 0 0 10px !important;
+}
+.trip-info .estimate-time h4,
+.trip-info .estimate-time h3{
+	font-size: 14px;
+    line-height: 17px;
+    margin: 32px 0 62px;
+    color: #878787;
+}
+.trip-info .estimate-time .edit {
+	padding: 0 0 0 28px;
+}
+.trip-info .input-group-addon:last-child {
+    border: medium none;
+}
+.trip-info .threecolumns .form-control {
+	box-shadow: none;
+}
+.trip-info .checkbox-holder {
+	overflow: hidden;
+	margin: 0 0 28px;
+}
+.trip-info .checkbox-holder input[type=checkbox].css-checkbox {
+	position:absolute;
+	z-index:-1000; 
+	left:-1000px; 
+	overflow: hidden; 
+	clip: rect(0 0 0 0);
+	height:1px; 
+	width:1px; 
+	margin:-1px; 
+	padding:0; 
+	border:0;
+}
+.trip-info .checkbox-holder input[type=checkbox].css-checkbox + label.css-label {
+	padding-left: 37px;
+	height: 24px; 
+	display: inline-block;
+	line-height: 24px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	font-size: 14px;
+	vertical-align :middle;
+	cursor: pointer;
+	color: #636363;
+	font-weight: normal;
+}
+.trip-info .checkbox-holder input[type=checkbox].css-checkbox:checked + label.css-label {
+	background-position: 0 -24px;
+}
+.trip-info .checkbox-holder label.css-label {
+	background: url('../images/checkbox.png') no-repeat;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.trip-info .tabs  {
+	overflow: hidden;
+	margin: 0 0 50px;
+}
+.trip-info .tabs .nav {
+	margin: 0 0 33px;
+}
+.trip-info .tabs .nav-tabs {
+	border: none;
+}
+.trip-info .tabs {
+	width: 91%;
+}
+.trip-info .tabs .nav-tabs>li.active>a,
+.trip-info .nav-tabs>li.active>a:focus, 
+.trip-info .nav-tabs>li.active>a:hover {
+    color: $theme-color;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border: none;
+    border-bottom: 2px solid $theme-color;
+    background: none;
+}
+.trip-info .tabs .nav-tabs>li>a:hover {
+	background: none;
+	border-bottom: 2px solid $theme-color;
+}
+.trip-info .tabs .nav-tabs>li a {
+	color: #d1b9b3;
+	height: 41px;
+	border: none;
+}
+.trip-info .tabs .tab-content {
+	border: 1px solid #eaeaea;
+    padding: 20px;
+}
+.trip-info .tabs .tab-content h2 {
+	color: #878787;
+	margin: 0 0 25px;
+	font-size: 14px;
+	line-height: 17px;
+	font-weight: normal;
+}
+.trip-info .tabs .btn-primary {
+	background: #eaeaea;
+    color: #b3b3b3 !important;
+    border: none;
+    margin: 0 13px 0 0 ;
+    border-radius: 4px !important;
+    font-weight: normal !important;
+    padding: 8px 8px;
+}
+.trip-info .tabs .btn-primary.active, 
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary,
+.trip-info .tabs .btn-primary:hover {
+	background: $theme-color;
+	border:none;
+	color: #fff !important;
+	box-shadow: none;
+}
+.trip-info .tabs .btn-group>.btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.trip-info .head .checkbox-holder {
+    overflow: inherit;
+    margin: 0 0 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+.trip-info .btn-group .btn-default{
+	background-color: #eaeaea !important;
+	border: none;
+	color: #636363;
+}
+.trip-info  .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+	width: 100% !important;
+}
+.trip-info .route-area {
+
+}
+.trip-info .route-area .col-md-4 {
+    margin-left: 3px;
+    margin-right: 9px;
+    width: 35.5%;
+}
+.trip-info .route-area .col-md-6 {
+	 width: 46%;
+}
+.trip-info .form-control,	
+.trip-info  .bootstrap-select > .dropdown-toggle{
+	height: 51px;
+}
+.trip-info .btn-group .btn-default:hover {
+	background: none;
+	border: none;
+}
+.trip-info .map-form {
+	padding: 0 0 0;
+}
+.trip-info .map-form .form-group {
+    margin-bottom: 25px;
+}
+.trip-info .legs-info {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	color: #63636c;
+	font-size: 14px;
+	line-height: 17px;
+}
+.trip-info .legs-info  li:first-child {
+	padding-top: 0;
+}
+.trip-info .legs-info  li {
+	padding: 31px 0 ;
+	overflow: hidden;
+	border-bottom: 1px solid #eaeaea;
+}
+.trip-info .legs-info .number {
+	background: $theme-color;
+	border-radius: 100%;
+	color: #fff;
+	font-size: 14px;
+	line-height: 24px;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	margin: 0 15px 0 0;
+}
+.trip-info .legs-info span{
+	display: inline-block;
+	vertical-align: middle;
+	width: 25%;
+}
+.trip-info .legs-info .arrow {
+	background: url('/assets/posting_ride/legs-arrow.png') no-repeat;
+	display: inline-block;
+	vertical-align: middle;
+	width: 24px;
+	height: 17px;
+	overflow: hidden;
+	text-indent: -9999px;
+	margin: 0 35px 0 0;
+}
+.trip-info select {
+	display: none;
+}
+.select-image {
+	width: 35px;
+    height: 35px;
+    overflow: hidden;
+    border-radius: 100%;
+    float: left;
+}
+.trip-info .btn .caret {
+	color: $theme-color;
+}
+.trip-info .post-btn-area {
+	text-align: right;
+    margin: 50px 0 0;
+}
+.trip-info .post-btn-area .btn-post {
+ 	background: $theme-color;
+ 	border: none;
+ 	padding: 15px 15px;
+ 	border-radius: 50px;
+ 	text-transform: uppercase;
+ 	color: #fff;
+ 	font-size: 14px;
+ 	line-height: 17px;
+ 	font-weight: bold;
+} 
+.trip-info .post-btn-area span {
+	color: #9393a0;
+	font-size: 14px;
+	line-height: 17px;
+	margin: 0 17px 0 0;
+} 
+.trip-info .post-btn-area .col-md-12 {
+	padding: 0;
+    margin: 0 0 25px;
+}
+.trip-info .post-btn-area a {
+	color: $theme-color;
+} 
+/* Flexible iFrame */
+.trip-info .Flexible-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    border-radius: 10px;
+    height: 380px;
+    overflow: hidden;
+}
+.trip-info .Flexible-container iframe,   
+.trip-info .Flexible-container object,  
+.trip-info .Flexible-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Trip Info Page Ended */
+/* Search a Ride page */
+.search-ride-info{
+  margin-left: 10%;
+  padding: 35px 0 0;
+  position: relative;
+}
+.search-ride {
+  padding: 0;
+}
+.trip_profile:after,
+.search-ride:after {
+	display: block;
+	clear: both;
+	content: '';
+}
+.search-ride h2 {
+	color: #656565;
+  font-size: 14px;
+  line-height: 16.5px;
+  margin: 0 0 25px;
+ font-family: 'Avenir LT Std 45 Book' !important;
+  font-weight: 500;
+}
+
+.search-ride-holder {
+	padding: 0;
+}
+.search-ride-holder :after {
+	display: block;
+	clear: both;
+	content: '';
+}
+.ridesearch-form{
+	overflow: hidden;
+	margin: 0 0 23px;
+}
+.search-ride .ridesearch-form .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    width: 24.2%;
+}
+.search-ride .ridesearch-form .form-control { 
+	border: 1px solid #f3f3f3;
+  border-radius: 3px;
+  box-shadow: none;
+  color: #9b9b9b;
+  font-size: 24px;
+  font-weight: bold;
+  height: 57px;
+  line-height: 27px;
+  margin: 0;
+  width: 100%;
+  padding: 0 10px 0 30px;
+  font-size: 14px;
+ font-family: 'Avenir LT Std 45 Book' !important;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  line-height: 15px;
+}
+.search-ride .form-control:focus {
+	box-shadow: none;
+}
+.stripe_model .loctaion_area{
+	margin:0 0 24px;
+}
+.stripe_model .form-control{
+	height: 34px;
+	border-radius: 0px;
+	padding: 10px 30px;
+	position: relative;
+}
+.stripe_model .input_icon{
+	position: absolute;
+	top: 8px;
+	left: 7px;
+}
+.stripe_model .num_seats{
+	color:$theme-color;
+	margin:16px 0 ;
+}
+.table-condensed thead tr{
+	position:relative !important;
+}
+.stripe_model .sub_text p{
+	margin-bottom:0;
+}
+.stripe_model .authform:not(.login-popover) form{
+	padding:0 !important;
+}
+.stripe_model .checkbox{
+	margin-top:0;
+	margin-bottom:0;
+}
+.stripe_model .incress_btn .button{
+	background: transparent;
+	color: #fff;
+	border-color: #eee;
+	border-radius: 100%;
+	width: 45px;
+	height: 45px;
+	margin: 0 5px;
+
+}
+.stripe_model .incress_btn{
+	text-align:center;
+}
+.stripe_model .incress_btn .inc.button{
+	border-color: #FF8150;
+	color:#fff;
+}
+.stripe_model .incress_btn .dec.inc i,
+.stripe_model .incress_btn .inc i{
+	color:#FF8150 !important;
+	margin: 0 0 0 -9px;
+}
+.stripe_model .incress_btn .dec i{
+	color:#eee !important;
+	margin: 0 0 0 -4px;
+}
+.stripe_model .incress_btn input{
+	width: 62px;
+	text-align:center;
+	font-size: 26px;
+	border: 0;
+}
+.stripe_model .incress_btn i{
+	font-size: 18px;
+	line-height: 29px;
+}
+.stripe_model .btn_area .btn-default{
+	padding: 15px;
+	border-radius: 4px;
+
+}
+.stripe_model .btn_area .btn-default.cancel_btn{
+	background:#eee;
+	color:#4a4a4a;
+	border-color:#eee;
+
+}
+.stripe_model .btn_area .pay_btn,
+.stripe_model .btn_area .btn-default.pay_btn{
+	background:#FF8150 !important;
+	border-color:#FF8150;
+	color:#fff;
+	margin:0 0 0 11px;
+}
+.stripe_model .loctaion_area .arrow,
+.search-ride .arrow {
+	background: url('/assets/posting_ride/legs-arrow.png') no-repeat;
+	overflow: hidden;
+	text-indent: -9999px;
+	width: 35px;
+    height: 19px;
+    margin: 0 1px 0 7px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.search-ride .btn-search {
+	background: #eaeaea none repeat scroll 0 0;
+  border: medium none;
+  color: #4a4a4a;
+  font-size: 14px;
+  font-weight: 700;
+  height: 55px;
+  line-height: 27px;
+  margin-left: 35px;
+  min-width: 164px;
+  padding: 13px 31px;
+ font-family: 'Avenir LT Std 45 Book' !important;
+  letter-spacing: 1.3px;
+  line-height: 15px;
+}
+.search-ride .btn-search:hover{
+	box-shadow: none;
+	background: #eaeaea;
+	border:none;
+}
+.sidebar {
+	padding: 0 0 10px 15px;
+}
+.search-ride .sidebar h2 {
+	color: #656565;
+  font-size: 16px;
+  line-height: 16.5px;
+  margin: 0 0 25px;
+ font-family: 'Avenir LT Std 45 Book' !important;
+  font-weight: normal;
+}
+
+.search-ride .passenger-block {
+	background: #fff;
+	// padding: 10px 10px 30px;
+	-webkit-box-shadow: 0 1px 0px 1px rgba(231,231,231,0.9);
+	-moz-box-shadow: 0 1px 0px 1px rgba(231,231,231,0.9);
+	box-shadow: 0 1px 0px 1px rgba(231,231,231,0.9);
+	border-width: 0 1px 0 1px;
+	// border-style: solid;
+	border-color: rgba(231, 231, 231, 0.9);
+	margin: 5px;
+	border-radius: 5px;
+	margin: 4px 10px 0;
+	}
+.passenger-holder {
+	margin: 0 0 38px;
+}
+.form_area_box .message_ride  .form-control{
+	min-height: 100px;
+border-radius: 3px;
+text-align: left;
+margin: 0 0 15px;
+
+}
+.message_ride .ladda-button{
+	background: #FF8150 !important;
+padding: 7px;
+width: 100%;
+margin: 10px 0;
+}
+.message_ride.search-ride .passenger-block{
+	box-shadow:none;
+	padding:0;
+	border:0;
+}
+.passenger-holder:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+.search-ride .passenger-block .image-holder {
+	display: inline-block;
+    margin: 0;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: 140px;
+    float: right;
+}
+.passenger-holder .col-md-5 {
+    padding: 0 0 0 16px;
+    width: 39.5%;
+}
+
+.passenger-holder .passenger-textarea {
+    padding: 7px 10px 0 20px;
+    width: 60.333%;
+}
+.search-ride .image-holder .rating {
+	background: $theme-color none repeat scroll 0 0;
+  border-radius: 21px;
+  color: #fff;
+  font-size: 13px;
+  left:0px;
+  line-height: 17px;
+  min-width: 77px;
+  padding: 9px 22px 10px 20px;
+  position: absolute;
+  top: -1px;
+ font-family: 'Avenir LT Std 45 Book' !important;
+  font-weight: normal;
+}
+.message_ride.search-ride .passenger-block .image-holder {
+display: inline-block;
+margin: 0;
+position: relative;
+text-align: center;
+vertical-align: middle;
+width: 71px;
+float: right;
+margin: 0 -45px 0 0;
+}
+.message_ride.search-ride .image-holder .rating{
+	background: #64325c none repeat scroll 0 0;
+border-radius: 21px;
+color: #fff;
+font-size: 13px;
+left: -49px;
+line-height: 17px;
+min-width: 86px;
+padding: 10px;
+position: absolute;
+top: -1px;
+font-family: 'Avenir LT Std 45 Book' !important;
+font-weight: normal;
+}
+.search-ride .rating.height-rating {
+	background: #22e233;
+}
+.search-ride .rating .glyphicon {
+    margin: 0 4px 0 0;
+}
+.search-ride .passenger-block img {
+	width: 76px;
+    height: 76px;
+    border-radius: 100%;
+    margin: 0 auto;
+    float: right;
+}
+.message_ride.search-ride .passenger-block{
+	margin-bottom:31px;
+}
+.message_ride .sub_text {
+	margin-bottom:31px;
+}
+.message_ride .sub_text h1{
+	color:$theme-color;
+	font-family: 'Avenir LT Std 65 Medium' !important;
+	font-size:48px;
+	font-family:normal;
+	line-height: 21px;
+}
+.message_ride .btn_booking  .ladda-button{
+	width: 61%;
+	display: block;
+	margin: 14px auto 0;
+	padding: 17px 12px;
+}
+.message_ride.search-ride .loctaion_area p{
+	margin-bottom:5px;
+	overflow:hidden;
+}
+.contact_area{
+	margin: 36px auto  0;
+	text-align: left;
+	width:80%;
+}
+.message_ride.search-ride .passenger-block h4{
+	  text-align: center;
+	    margin: 33px 0 8px -11px;
+}
+
+.search-ride .passenger-block h4{
+	color: #636363;
+  font-size: 16px;
+  line-height: 16.5px;
+font-family: 'Avenir LT Std 45 Book' !important;
+  margin: 0 0 8px;
+
+  font-weight: 600;
+}
+.search-ride .passenger-block span.search_page{
+	font-family: 'Avenir LT Std 45 Book' !important;
+}
+.stripe_model .loctaion_area span,
+.search-ride .passenger-block span{
+    color: #636363;
+    font-size: 16px;
+    line-height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    font-family: 'Avenir LT Std 85 Heavy';
+}
+.search-ride .passenger-block span.heading{
+  color: $theme-color;
+}
+.passenger-status {
+	display: inline-block;
+	vertical-align: middle;
+	width: 50%;
+}
+.search-ride .passenger-detail {
+	color: #878787;
+  display: inline-block;
+  /* font-size: 21px; */
+  line-height: 21px;
+  list-style: outside none none;
+  margin: 0;
+  padding: 0;
+  /* text-align: center; */
+  vertical-align: middle;
+  width: 100%;
+  padding-left: 15px;
+  font-family: 'Avenir LT Std 45 Book' !important;
+}
+.search-ride .passenger-detail li:first-child{
+	 margin: 0 46px 0 0;
+}
+.search-ride .passenger-detail li {
+	display: inline-block;
+    margin: 0 0 0 0;
+    text-align: left;
+    vertical-align: middle;
+}
+.search-ride .passenger-detail h3 {
+    color: $theme-color;
+    font-size: 25px;
+    line-height: 24px;
+    margin: 0 0 6px;
+    font-family: 'Avenir LT Std 45 Book' !important;
+    letter-spacing: -1.25px;
+}
+.search-ride .price-heading {
+	color: #656565;
+  float: left;
+  font-size: 16px;
+  font-family: 'Avenir LT Std 45 Book' !important;
+  padding: 9px 0 0;
+}
+.search-ride .Flexible-container {
+    position: relative;
+    margin-bottom: 50px;
+    padding-top: 30px;
+    border-radius: 10px;
+    height: 680px;
+    overflow: hidden;
+}
+.search-ride .Flexible-container iframe,   
+.search-ride .Flexible-container object,  
+.search-ride .Flexible-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+ /* Bar */
+.step-bar-holder {
+    margin: 0 0 29px;
+    padding: 0 17px 0 0;
+}
+ .bs-wizard {
+ 	margin-top: 0px;
+ 	margin-bottom: 0px;
+ }
+
+/*Form Wizard*/
+.bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;}
+.bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
+.bs-wizard > .bs-wizard-step + .bs-wizard-step {}
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {
+  color: #656565;
+  font-size: 16px;
+  line-height: 16.5px;
+  padding: 0 6px 0 60px;
+  font-family: 'Avenir LT Std 45 Book' !important;
+}
+.bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #d8d8d8; top: 22px; left: 50%; border: 1px solid #9f9f9f; margin-top: -15px; margin-left: -15px; border-radius: 50%;} 
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #d8d8d8; border-radius: 50px; position: absolute; top: 8px; left: 8px; } 
+.bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 5px; box-shadow: none; margin: 20px 0; background: #979797;}
+.bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: $theme-color;}
+.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
+.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:50%;}
+.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {width:0%;}
+.bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {width: 100%;}
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {background-color: #f5f5f5;}
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {opacity: 0;}
+.bs-wizard > .bs-wizard-step:first-child  > .progress {left: 50%; width: 50%;}
+.bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
+.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
+
+
+/*END Form Wizard*/ 
+.search-ride .mob-block {
+	display: block;
+}
+.order-data {
+	display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.order-data span a:hover,
+.order-data span i{
+    color: #B3B3B3 !important;
+    text-decoration: none;
+}
+.order-data span a{
+  padding: 8px 0;
+  display: inline-block;
+  color: #B3B3B3;
+  margin-left: 5px;
+}
+.btn-today {
+    border: 2px solid $theme-color;
+    border-radius: 28px;
+    color: #636363;
+    font-size: 16px;
+    line-height: 21px;
+    padding: 13px 41px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 46px 0 0;
+}
+.btn-today:active:focus, 
+.btn-today:active:hover,
+.btn-today:active,
+.btn-today.focus,
+.btn-today:hover {
+	 border: 2px solid $theme-color; 
+	 background: none;
+	 box-shadow: none;
+}
+.order-data label {
+	color: #b3b3b3;
+	font-size: 14px;
+	line-height: 20px;
+}
+.datepicker {
+	display: inline-block;
+	vertical-align: middle;
+	width: 15%;
+}
+/* Search a Ride page ended */
+/* Trip Profile page */
+
+.trip-profile .passenger-holder {
+	margin: 0 0 68px;
+}
+.trip-profile .passenger-holder:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+#sidebar .passenger-holder .col-md-4 {
+    margin: 0 23px 0 0;
+}
+.trip-profile .image-holder {
+	display: inline-block;
+    margin: 0 24px 0 0;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: 160px;
+}
+.sidebar .passenger-holder .col-md-4 {
+    padding: 0 15px 0 0;
+    width: 39.5%;
+}
+.trip-profile .passenger-holder .passenger-textarea {
+    padding: 7px 10px 0 0;
+    width: 60.333%;
+}
+.trip-profile .image-holder .rating {
+	background: $theme-color none repeat scroll 0 0;
+    border-radius: 21px;
+    color: #fff;
+    font-size: 18px;
+    left: 10px;
+    line-height: 17px;
+    min-width: 77px;
+    padding: 7px 22px 10px 20px;
+    position: absolute;
+    top: -1px;
+}
+.trip-profile .rating.height-rating {
+	background: #22e233;
+}
+.trip-profile .rating .glyphicon {
+    margin: 0 4px 0 0;
+}
+.trip-profile .image-holder img {
+	width: 76px;
+    height: 76px;
+    border-radius: 100%;
+    margin: 0 auto;
+    float: right;
+}
+.trip-profile .profile-block h4{
+	color: #646464;
+    font-size: 24px;
+    line-height: 27px;
+    margin: 0 0 8px;
+}
+.trip-profile .trip-profile:after,
+.trip-profile .additional-info:after,
+.trip-profile .passenger-detail:after {
+	display: block;
+	color: both;
+	content:'';
+}
+.trip-profile .profile-block span{
+	color: #757575;
+    font-size: 20px;
+    line-height: 23px;
+}
+.trip-profile .passenger-status {
+	display: inline-block;
+	vertical-align: middle;
+	width: 50%;
+}
+.trip-profile .profile-block img {
+	width: 76px;
+    height: 76px;
+    border-radius: 100%;
+    margin: 0 auto;
+    float: right;
+}
+.trip-profile .passenger-detail {
+	color: #878787;
+    font-size: 21px;
+    line-height: 21px;
+    margin: 0 0 54px;
+}
+.trip_profile .search-ride .Flexible-container {
+
+    height: 450px !important;
+    overflow: hidden;
+    padding-bottom: 0;
+}
+.trip_profile .search-ride .Flexible-container iframe, .search-ride .Flexible-container object, .search-ride .Flexible-container embed {
+
+    height: 100% !important;
+    overflow: hidden;
+}
+.trip-profile .passenger-detail:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+.trip-profile .passenger-detail h3 {
+	color: $theme-color;
+    font-size: 35px;
+    line-height: 39px;
+    margin: 0 0 6px;
+}
+.trip-profile .wagga-trip {
+	overflow: hidden;
+	text-align: center;
+	margin: 0 0 64px;
+}
+.trip-profile .wagga-trip h3 {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 24px;
+	line-height: 27px;
+	color: #636363;
+	margin: 0;
+}
+.trip-profile .wagga-trip .arrow {
+	background: url('/assets/posting_ride/legs-arrow.png') no-repeat;
+	display: inline-block;
+	vertical-align: middle;
+	width: 24px;
+	height: 17px;
+	line-height: 27px;
+	overflow: hidden;
+	text-indent: -9999px;
+	margin: 0 35px 0;
+}
+.trip-profile .additional-info .info-detail{
+	font-size: 14px;
+	line-height: 17px;
+	color: #878787;
+	padding: 0 37px;
+}
+.trip-profile .additional-info h3{
+	color: #878787;
+    font-size: 35px;
+    line-height: 39px;
+    margin: 0 0 6px;
+}
+.trip-profile .additional-info .title {
+	color: $theme-color;
+    font-size: 18px;
+    line-height: 21px;
+    display: block;
+    margin: 0 0 10px;
+}
+.trip-profile .trip-info-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 14px;
+	line-height: 17px;
+	color: #9b9b9b;	
+}
+.trip-profile .trip-info-list li:first-child {
+	padding: 0 0 21px;
+}
+.trip-profile .trip-info-list li {
+	padding: 25px 0 33px;
+	border-bottom: 1px solid #f4f4f4;
+}
+.trip-profile .trip-info-detail {
+	padding: 76px 0 0;
+}
+.trip-profile .trip-info-detail h2{
+	color: $theme-color;
+	margin: 0 0 5px;
+	font-size: 16px;
+	line-height: 19px;
+}
+.trip-profile .trip-info-list .number {
+	background: $theme-color;
+	border-radius: 50%;
+	padding: 5px 10px;
+	color: #fff;
+	float: left;
+	margin: 0 5px 0 0;
+}
+.trip-profile .trip-info-list .seat-deatil{
+	padding: 12px 33px;
+}
+.trip-profile .trip-info-list .date {
+	font-style: normal;
+	font-weight: normal;
+}
+.trip-profile .trip-info-list  em{
+	font-style: normal;
+}
+.trip-profile .trip-info-list .input-group {
+    width: 45%;
+}
+.trip-profile .trip-info-list .form-control {
+	color: #b3b3b3;
+	height: 37px;
+	border: 1px solid #eaeaea;
+	background: #f1f1f1;
+	box-shadow: none;
+}
+.trip-profile .trip-info-list .form-control:focus {
+	border: none;
+	background: #f1f1f1;
+	box-shadow: none;
+	border: 1px solid #eaeaea;
+}
+.trip-profile .trip-info-list .form-control:hover {
+	background: #f1f1f1;
+	border: 1px solid #eaeaea;
+}
+.trip-profile .input-group-addon:last-child {
+	border: none;
+}
+.arrow-back {
+	background: url('../images/back-arrow.png') no-repeat 50% 50%;
+	color: #656565;	
+	font-weight: bold;
+    font-size: 24px;
+    line-height: 27px;
+    color: #656565;
+    float: left;
+    padding: 0 50px 0 0;
+    margin: 38px 0 38px;
+    text-decoration: none;
+}
+.arrow-back:hover {
+	color: #656565;
+	text-decoration: none;
+}
+/* Trip Profile page */
+/*search a ride new page start*/
+.trip_profile{
+	margin-bottom:  50px;
+}
+
+.trip_profile a.back_search{
+	display: inline-block;
+	padding: 15px;
+	background:$theme-color;
+	color: #fff;
+	width: 100%;
+	text-align: center;
+}
+
+.trip_profile .search-ride .passenger-block .loctaion_area{
+	margin: 25px 0;
+}
+.trip_profile .search-ride .passenger-detail li{
+	float: left;
+	margin: 0 15px;
+}
+.trip_profile .search-ride .passenger-detail h3,
+.trip_profile .search-ride .passenger-detail h4{
+	font-size: 20px;
+	line-height: 23px;
+}
+.trip_profile .search-ride .passenger-detail li:first-child{
+	margin: 0;
+}
+.search-ride .passenger-block{
+	
+	margin-bottom:15px;
+}
+.trip_profile .search-ride .passenger-block{
+	position: relative;
+    margin: -17px 0px 0px;
+    box-shadow: none;
+	border-radius: 0;
+    background: none repeat scroll 0% 0% transparent;
+}
+.trip_profile .add_block h3{
+	font-size: 20px;
+	line-height: 23px;
+}
+.trip_profile .add_block{
+	color: #878787;
+}
+.trip_profile .add_block ul li{
+	margin: 0 0 0 22px;
+}
+.trip_profile .add_block  a{
+	font-size: 16px;
+	color: $theme-color;
+}
+.trip_profile .trip_info h5{
+	color: $theme-color;
+	margin: 20px 0 20px -11px;
+}
+.trip_profile .trip_info ul li{
+	color: #9b9b9b;
+	margin: 0 0 5px;
+	font-size: 16px;
+}
+.trip_profile .trip_info ul{
+	border-bottom: 1px solid #eaeaea;
+	padding: 15px 0 36px;
+}
+.trip_profile .trip_info ul:last-child{
+	border: 0;
+}
+.trip_profile .trip_info .input-group{
+	width: 170px;
+}
+.trip_profile .trip_info .input-group-addon,
+.trip_profile .trip_info .form-control{
+	color: #b3b3b3;
+	background: #eaeaea;
+
+}
+.trip_profile .trip_info .number {
+    background: $theme-color none repeat scroll 0 0;
+    border-radius: 100%;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    margin: -5px 3px 0 -29px;
+    text-align: center;
+    vertical-align: middle;
+    width: 24px;
+}
+.trip_profile .btn_block{
+	min-height: 380px;
+	position: relative;
+}
+.trip_profile .btn_block .btn{
+	position: absolute;
+	bottom: 0;
+	  background: $theme-color  !important;
+    border: medium none;
+    border-radius: 50px;
+    padding: 8px 20px;
+    color: #fff;
+}
+.trip_profile .passenger-holder.holder{
+	margin: -83px 0 0;
+}
+.trip_profile .passenger-holder.holder h4{
+  margin: 25px 0 8px;
+  text-align: left;
+  font-family: 'Avenir LT Std 85 Heavy' !important;
+}
+.trip_profile .list-unstyled {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.step-bar-holder .slider-handle{
+  background: #D8D8D8;
+  border: 1px solid  #979797;
+}
+.step-bar-holder .slider.slider-horizontal .slider-selection{
+  background: $theme-color;
+}
+.step-bar-holder .slider.slider-horizontal .slider-track{
+  height: 4px;
+}
+.step-bar-holder .slider.slider-horizontal .slider-track-low,
+.step-bar-holder .slider.slider-horizontal .slider-track-high{
+  background: #979797;
+}
+.step-bar-holder .slider.slider-horizontal .slider-handle {
+    margin-left: -10px;
+    margin-top: -8px;
+}
+.step-bar-holder .slider.slider-horizontal{
+  width: 100%;
+}
+ .step-bar-holder .slide_box h2{
+    color: #656565;
+    font-weight: normal;
+
+ }
+ .step-bar-holder h2{
+  margin: 0 !important;
+ }
+ .rides_rides_info .main-area{
+ 	margin: 21px 0 0;
+ }
+ .cost_per_seat2{
+	color: $theme-color !important;
+}
+.passenger-textarea2{
+	color: #878787 !important;
+	font-family: Avenir Next !important;
+}
+
+.marker_labels {
+background: url('/assets/lable.png') no-repeat;
+margin: 0 0 0;
+padding: 7px;
+height: 59px;
+width: 100%;
+background-position: 0 0;
+color: #fff;
+}
+
+/*search a ride new page end*/
+.left-arrow {
+float: left;
+width: 32px;
+}
+
+
+
+
+/* Media queries */
+@media ( max-width: 1025px){
+	.trip_profile .passenger-holder .passenger-textarea {
+	    padding: 7px 10px 0 0;
+	    width: 50%;
+	}
+	/* Tirp Info  Page   */
+	.trip-info {
+		width: 100%;
+	}
+	.trip-info .location {
+		margin: 0 0 30px;
+		overflow: hidden;
+	}
+	.trip-info .paricingarea {
+		padding: 0 40px;
+		overflow: hidden;
+	}
+	.trip-info .tabs .tab-content {
+		padding: 20px 10px;
+	}
+	.trip-info .tabs .tab-content {
+		text-align: center;
+	}
+	.trip-info .head .checkbox-holder {
+		margin: 19px 0 0;
+	}
+	.trip-info .route-area .col-md-4 {
+		width: 100%;
+	}
+	/* Tirp Info  Page End  */
+	/* Search Ride Page */
+	.ridesearch-form {
+	    overflow: hidden;
+	    margin: 0 0 30px;
+	}
+	.order-data {
+		margin: 0 0 30px;
+	}
+	.search-ride .ridesearch-form h2 {
+		margin: 0 0 40px;
+	}
+	.search-ride .ridesearch-form .form-group {
+	    width: 30%;
+	}
+	.search-ride .ridesearch-form .form-control {
+		font-size: 18px;
+	    width: 100%;
+	    padding: 0 21px 0;
+	    text-align: center;
+	}
+	.search-ride .btn-search {
+		margin-left: 6px;
+		font-size: 18px;
+	}
+	.search-ride h2 {
+	    margin: 0 32px 50px;
+	}
+	/* Search Ride Page Eind */
+
+	/* Trip  Proflie Page */
+	.trip-profile .trip-info-list .input-group {
+    	width: 70%;
+	}
+	.sidebar .passenger-holder .col-md-4 {
+	    padding: 0 10px 0 0;
+	    width: auto;
+	}
+	.trip-profile .passenger-holder .passenger-textarea {
+	    padding: 7px 0 0 0;
+	    width: auto;
+	}
+
+}
+@media ( max-width: 768px){
+	/* Tirp Info  Page  */
+	.trip-info .tabs {
+	    width: 100%;
+	}
+	.banner {
+		margin: 0 0 41px;
+	}
+	.trip-info .trip-block .head {
+		margin: 0 0 51px;
+	}
+	.trip-info .trip-block {
+		margin: 0 0 60px;
+	}
+	.trip-info .threecolumns {
+	    border-bottom: 1px solid #eaeaea;
+	    padding: 0 0 28px;
+	}
+	.trip-info .threecolumns.schedule {
+		 padding: 43px 0 70px;
+	}
+	.trip-info  .radio-holder {
+		margin-right: 12px;
+	}
+	.trip-info {
+		width: 100%;
+	}
+	.trip-info .mob-none {
+		display: none;
+	}
+	.mob-none {
+		display: none;
+	}
+	.trip-info .trip-block {
+		border: none;
+	}
+	.trip-info .threecolumns {
+		padding: 0 0 28px;
+	}
+	.trip-info .paricingarea .input-group-addon:last-child {
+		width: 81px;
+	}
+	.trip-info .legs-info li {
+		border-bottom:none;
+	}
+	.trip-info .tabs .nav-tabs {
+	    border: none;
+	    display: inline-block;
+	    vertical-align: middle;
+	    text-align: center;
+	    margin: 0 0 30px;
+	    padding: 0;
+	    width: 100%;
+	}
+	.trip-info .tabs .nav-tabs>li {
+	    float: none;
+	    margin-bottom: -1px;
+	    display: inline-block;
+	    vertical-align: middle;
+	    text-align: center;
+	}
+	.trip-info .tabs .tab-content {
+		padding: 0;
+		border: none;
+	}
+	.trip-info {
+		margin: 0 0 50px;
+	}
+	.trip-info.car-choose {
+		margin: 0;
+	}
+	.trip-info.car-choose .head {
+		border:none;
+		padding: 0;
+		margin: 0 0 26px;
+	}
+	.trip-info .tabs .btn-primary {
+		margin: 0 3px 5px 0;
+		text-transform: uppercase;
+		width: 58px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		word-break: break-all;
+		word-wrap: break-word
+	}
+	.trip-info .location {
+		margin: 0 0 30px;
+		overflow: hidden;
+	}
+	.trip-info .paricingarea {
+		padding: 0 40px;
+		overflow: hidden;
+	}
+	.trip-info .legs-info span {
+		width: 33%;
+	}
+	.trip-info .trip-block .head {
+		padding: 20px 0;
+	}
+	.trip-info .post-btn-area span {
+	    margin: 0 0 15px 0;
+	    float: none;
+	    display: block;
+	}
+	.trip-info .post-btn-area {
+	    text-align: right;
+	    margin: 15px 0 0;
+	}
+	/* Tirp Info  Page End  */
+	/* Search Ride Page */
+	.search-ride .ridesearch-form .form-group {
+    	width: 27%;
+	}
+	.search-ride .ridesearch-form .form-control {
+		font-size: 14px;
+		width: 100%;
+		height: 40px;
+		padding: 0 5px 0;
+		text-align: center;
+	}
+	.search-ride .btn-search {
+		min-width: 120px;
+    	padding: 7px 31px;
+    	height: 40px;
+	}
+	.search-ride .mob-block {
+		display: block;
+	}
+    .search-ride .passenger-block h4 {
+	    font-size: 20px;
+	    line-height: 22px;
+	    margin: 0 0 8px;
+    }
+    .search-ride .passenger-block span {
+	    font-size: 18px;
+	    line-height: 23px;
+	}
+	.search-ride .passenger-detail h3 {
+	    font-size: 26px;
+	    line-height: 30px;
+	}
+	/* Search Ride Page End */
+	
+	/* Trip  Proflie Page */
+	.trip-profile .trip-info-list .input-group {
+    	width: 100%;
+	}
+	.trip_profile .passenger-block .loctaion_area {
+		border-bottom: 1px solid #eaeaea;
+		border-top: 1px solid #eaeaea;
+		padding: 19px 0 11px;
+	}
+	
+	.trip_profile .passenger-block span {
+		padding: 0;
+		float: none;
+		display: table-cell;
+		width: 1%;
+		vertical-align: middle;
+	}
+	.trip_profile .passenger-block span:last-child {
+		text-align: right;
+	}
+  .trip_profile .passenger-block span.heading {
+    text-align: left;
+  }
+	.trip_profile  .passenger-detail {
+		font-size: 16px;
+    	line-height: 19px;
+    	text-align: center;
+	}
+	.trip_profile .search-ride .passenger-detail li:first-child {
+		 margin: 0 5.5%;
+	}
+	.trip_profile .search-ride .passenger-detail li:last-child {
+		text-align: right;
+	}
+	.trip_profile .search-ride .passenger-detail li {
+	    float: none;
+	   margin: 0 5.5%;
+	   display: table-cell;
+	   width: 1%;
+	}
+	.trip_profile .search-ride .passenger-detail h3, 
+	.trip_profile .search-ride .passenger-detail h4 {
+	    font-size: 16px;
+	    line-height: 19px;
+	}
+	.trip_profile .sidebar {
+		padding: 0 15px;
+	}
+	.trip_profile .btn_block {
+	    min-height: 0;
+	    position: relative;
+	    width: 100%;
+	}
+	.trip_profile .add_block {
+	    margin: 0 0 30px;
+	}
+	.trip_profile .btn_block {
+		text-align: center;
+		width: auto;
+	}
+	.trip_profile .btn_block .btn {
+	    border-radius: 0;
+	    position: inherit;
+	    width: 100%;
+	    padding: 20px 20px;
+	}
+	.trip_profile {
+		padding: 0;
+	}
+	.trip_profile .search-ride .arrow {
+		background: url('/assets/posting_ride/legs-arrow.png') no-repeat 50% 50%;
+	}
+  .sidebar{
+        padding: 0  15px 15px;
+  }
+  .search-ride-info{
+    margin-left: 0% !important;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .trip_profile .search-ride .Flexible-container {
+    height: 298px !important;
+}
+}
+@media ( max-width: 550px){
+	/* Search Ride Page */
+	.search-ride .passenger-block .image-holder {
+	    width: 90px;
+      float: right;
+	}
+	.search-ride .passenger-block img {
+	    height: 50px;
+	    margin: 0 auto;
+	    width: 50px;
+	}
+	.search-ride .image-holder .rating {
+		font-size: 16px;
+		left: 23px;
+		line-height: 17px;
+		min-width: 50px;
+		padding: 4px 15px 6px;
+	}
+	.search-ride .btn-search {
+	    min-width: 103px;
+	    padding: 7px 16px;
+	    font-size: 12px;
+	}
+	.search-ride .ridesearch-form .form-group {
+	    width: 25%;
+	}
+	.search-ride .ridesearch-form .form-control {
+	    font-size: 12px;
+	    padding: 0 5px;
+	    text-align: center;
+	    width: 100%;
+	}
+	
+	.search-ride .passenger-block .image-holder {
+		width: 90px;
+    float: right;
+	}
+	.search-ride .image-holder .rating {
+		font-size: 12px;
+		left: 18px;
+		line-height: 14px;
+		min-width: 19px;
+		padding: 1px 4px 2px 3px;
+		position: absolute;
+		top: -1px;
+	}
+	.btn-today {
+		margin: 0 10px 0 0;
+	}
+	/* Search Ride Page End*/
+
+	/* Trip  Proflie Page */
+	.trip-profile .search-ride .image-holder .rating {
+		font-size: 16px;
+		left: 23px;
+		line-height: 17px;
+		min-width: 50px;
+		padding: 4px 15px 6px;
+	}
+	.trip_profile .search-ride .passenger-detail li:first-child {
+		 margin: 0 3%;
+	}
+	.trip_profile .search-ride .passenger-detail li {
+	    float: none;
+	   margin: 0 3%;
+	}
+	.trip_profile .search-ride .passenger-detail li:first-child {
+		margin: 0;
+	}
+	.trip_profile .search-ride .passenger-detail li {
+	    float: none;
+	    margin: 0 1%;
+	}
+	.trip_profile .add_block ul li {
+		margin: 0;
+	}
+	.trip_profile .add_block .list-unstyled li {
+		margin: 0;
+	}
+
+  .search-ride .passenger-detail.search {
+    padding-left: 0 !important;
+}
+}
+@media ( max-width: 500px){
+	.form_area_box.modal-dialog{
+		width: 100%;
+	}
+	.search-ride .ridesearch-form h2{
+		text-align: left;
+		margin: 0 0 20px;
+	}
+	/* Search Ride */
+	.search-ride .passenger-detail {
+	    font-size: 16px;
+	    line-height: 19px;
+	}
+ 
+	.search-ride .passenger-detail h3 {
+	    font-size: 18px;
+	    line-height: 24px;
+	}
+	.passenger-holder {
+   		margin: 0 0 17px;
+	}
+	.passenger-holder .col-md-5 {
+	    padding: 0;
+	    width: 39.5%;
+	}
+	.passenger-holder .passenger-textarea {
+	    /*padding: 0;*/
+	    width: 60.333%;
+      text-align: left;
+	}
+	.message_ride .passenger-holder .passenger-textarea{
+		text-align: center !important;
+		margin: 0 0 0;
+	}
+	.message_ride.search-ride .passenger-block h4 {
+		text-align: center;
+		margin: 13px 0 8px -11px;
+		}
+	.search-ride .passenger-block h4 {
+	    font-size: 18px;
+	    line-height: 21px;
+	    margin: 0 0 5px;
+	}
+	.visa_holder {
+	float: left;
+	margin: 0 10px 0 0;
+	width: 64px;
+	max-width: 75%;
+	min-height: 85px;
+	}
+	.visa_holder img{
+		width: 50px;
+	}
+	.search-ride .passenger-block span {
+	    font-size: 16px;
+	    line-height: 23px;
+	}
+	.btn-today {
+    	margin: 0 5px 0 0;
+	}
+	.btn-today {
+	    float: left;
+	    margin: 0;
+	    padding: 6px 28px;
+	}
+	.trip_profile .search-ride .passenger-detail {
+	    font-size: 13px;
+	    line-height: 17px;
+	}
+/*  .search-ride .passenger-detail{
+      padding-left: 40px !important;
+  }*/
+   .search-ride .passenger-detail.search{
+    padding-left: 0 !important;
+}
+  .search-ride .passenger-detail li:first-child {
+    margin: 0 25px 0 0;
+}
+	/* Search Ride Page End*/
+}
+@media ( max-width: 454px){ 
+	.form_center{
+		width: 100%;
+	}
+	.message_ride.search-ride .image-holder .rating {
+background: #64325c none repeat scroll 0 0;
+border-radius: 21px;
+color: #fff;
+font-size: 13px;
+left: -27px;
+line-height: 17px;
+min-width: 67px;
+padding: 5px;
+position: absolute;
+top: -8px;
+font-family: 'Avenir LT Std 45 Book' !important;
+font-weight: normal;
+}
+	/* Search Ride Page */
+	.search-ride .arrow {
+		display: none;
+	}
+	.search-ride .ridesearch-form .form-group {
+	    margin: 0 0 13px;
+	    width: 99%;
+	}
+	.search-ride .btn-search{
+  width: 100%;
+  margin: 0;
+  }
+	.ridesearch-form {;
+	    text-align: center;
+	}
+	/* Search Ride Page End*/
+	/* Trip  Proflie Page */
+	.trip_profile .search-ride .passenger-detail {
+	    font-size: 11px;
+	    line-height: 15px;
+	}
+}
+@media ( max-width: 360px){
+	/* Search Ride Page */
+	.search-ride .passenger-detail li:first-child {
+	    margin: 0;
+	}
+	.trip_profile .search-ride .passenger-detail li:first-child {
+		 margin: 0 0%;
+	}
+	.trip_profile .search-ride .passenger-detail li {
+	    float: none;
+	   margin: 0 1%;
+	}
+	/* Search Ride Page End*/
+}

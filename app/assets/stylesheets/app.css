@@ -1,0 +1,169 @@
+/*.img-block {
+	display: block;
+	width: 350px;
+	height: 220px;
+	padding: 10px 0 0 0;
+} 
+*/
+.video iframe {
+    width: 350px;
+    height: 220px;
+    overflow: hidden;
+    border: 0px;
+}
+
+.location_tag {
+    float: left;
+    margin-right: 5px;
+}
+
+.location .form-group {
+    overflow: hidden !important;
+    margin-bottom: 5px !important;
+}
+
+.location .bg-danger {
+    padding: 20px;
+    border: dotted #F5A7A7;
+}
+
+.horizontal-line {
+    margin: 8px 0px !important;
+}
+
+span.right {
+    float: right;
+}
+
+.location .driver {
+    margin: 0 auto;
+}
+
+.location strong {
+    display: block;
+}
+
+.main-column .main-column-block {
+    font-size: 14px;
+}
+
+.main-column .main-column-title {
+    margin-bottom: 17px;
+    padding-top: 17px;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    border-top: 1px solid #ccc;
+}
+
+.img-phone {
+    background-position: 0 0;
+}
+
+.img-marker, .img-calendar, .img-clock, .img-phone, .img-response, .img-facebook, .img-email {
+    padding: 3px 0 3px 22px;
+    background-image: url('/assets/ride/sprite-icons.png');
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-position: 0 0;
+}
+
+.img-clock {
+    background-position: 0 -360px;
+}
+
+.img-calendar {
+    background-position: 0 -433px;
+}
+
+.img-email {
+    background-position: 0 -72px;
+}
+
+.img-facebook {
+    background-position: 0 -143px;
+}
+
+.verification-list span {
+    display: block;
+    min-height: 22px;
+}
+
+.verification-list span.checked {
+    background: url(/assets/ride/verification-checked.png) no-repeat 100% 50%;
+}
+
+.verification-list span.no-checked {
+    background: url(/assets/ride/verification-no-check.png) no-repeat 100% 50%;
+}
+
+.verification-list span.checked p, .verification-list span.no-checked a {
+    padding-left: 5px;
+}
+
+.img-marker {
+    background-position: 0 -216px;
+}
+
+.location .bg-danger a,
+.location .bg-danger {
+    text-align: center;
+    color: #F5A7A7;
+}
+
+.trip-roads {
+    background: #AAADA8;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 24px;
+    line-height: 100%;
+    margin: 0 0 23px 0px;
+    padding: 12px;
+    position: relative;
+}
+
+.car-sharing:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid #AAADA8;
+    position: absolute;
+    bottom: -12px;
+    left: 65px;
+}
+
+.location .add {
+    margin: 0 3% 0 3%;
+}
+
+.price-green {
+    color: #68be57;
+}
+
+.btn-top {
+    margin: 10px 0;
+}
+
+.main {
+    margin-top: 0 !important
+}
+
+.margin {
+    margin: 5px 0 0;
+}
+
+.side_text {
+    float: left;
+    overflow: hidden;
+}
+
+.passnger-detail label {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}

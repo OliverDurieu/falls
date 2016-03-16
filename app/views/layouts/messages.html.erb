@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+<head>
+  <%= hidden_field_tag "user-main-tabs", "messages" %>
+  <!-- <link rel="image_src" href="https://launchrock-assets.s3.amazonaws.com/background-files/INQGHM35_1394699837815.jpg" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= content_for?(:title) ? yield(:title) : "The Falls" %></title>
+  <meta property="og:title" content="Rideshare to Falls" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://falls.lamule.com.au/" />
+  <meta property="og:description" content="Find other festival lovers to share the ride with to Falls Festival in Byron Bay, Lorne and Marion Bay this NYE." />
+  <meta property="og:image" content="http://res.cloudinary.com/dvwhtomnv/image/upload/v1446713985/fb_meta_share_nqxybz.png" />
+  <meta property="og:site_name" content="LaMule Falls" />
+  <meta property="fb:app_id" content="562756200542819" />
+  <!-- <meta property="og:image" content="https://launchrock-assets.s3.amazonaws.com/background-files/INQGHM35_1394699837815.jpg" /> -->
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "https://apis.google.com/js/plusone.js" %>
+  <%= csrf_meta_tags %>
+  <%= render 'layouts/favicon' %>
+  <link href='http://fonts.googleapis.com/css?family=Muli:400,300,300italic,400italic' rel='stylesheet' type='text/css'>
+  <script src="//load.sumome.com/" data-sumo-site-id="f8bdfdbcde18ac6d6c7aeb88f45573d7c12993f1a8998766428a983023ebf811" async="async"></script>
+</head>
+<body>
+<header>
+  <%= render 'layouts/default_navigation' %>
+</header>
+<div class="main-area">
+<%= render partial: '/users/header_tabs' %>
+<main role="main">
+  <%= render 'layouts/flash_messages' %>
+  
+  <div class="container main-container">
+    <div class="row tab-v3">
+        <%= render 'layouts/message_navbar' %>
+
+        <%= yield %>
+      </div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+</main>
+</div>
+
+<!-- Google Code for Remarketing Tag -->
+<script type="text/javascript">
+/ <![CDATA[ /
+var google_conversion_id = 948647481;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/ ]]> /
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/948647481/?value=0&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+<!-- End of Google Code for Remarketing Tag -->
+
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+      $('.list-message-item').removeClass('active');
+      $("." + $('#active-side-nav-link').val()).addClass('active');
+      $("." + $('#user-main-tabs').val()).addClass('active');
+    
+      $('.archive-message').click(function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var from_come = $this.data('from');
+        var message_thread = $this.parents('.message-thread-holder');
+        $.ajax({
+          type: "POST",
+          url: "/message_threads/" + message_thread.data('mt-id') + "/set_archive",
+          dataType: "JSON",
+          success: function(data){
+            if (from_come == "messages"){
+              message_thread.remove();
+              if( $(".message-thread-holder").length == 0 ){
+                
+              }
+            }else{
+              document.location.href = "/messages/archived";
+            }
+          }
+        });
+
+        // bootbox.dialog({
+        //   message: "Are you sure you want to archive this message?",
+        //   title: "Confirm the archiving",
+        //   buttons: {
+        //     confirm: {
+        //       label: "Confirm",
+        //       className: "btn-primary",
+        //       callback: function() {
+        //         var message_thread = $this.parents('.message-thread-holder');
+                 
+        //         $.ajax({
+        //           type: "POST",
+        //           url: "/message_threads/" + message_thread.data('mt-id') + "/set_archive",
+        //           dataType: "JSON",
+        //           success: function(data){
+        //             if (from_come == "messages"){
+        //               message_thread.remove();
+        //               if( $(".message-thread-holder").length == 0 ){
+                        
+        //               }
+        //             }else{
+        //               window.location.reload();
+        //             }
+        //           }
+        //         });
+        //       }
+        //     },
+        //     cancel: {
+        //       label: "Cancel",
+        //       className: "btn-default"
+        //     }
+        //   }
+        // });
+
+      });
+
+      $('.delete-message').click(function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var from_come = $this.data('from');
+        bootbox.dialog({
+          message: "Are you sure you want to delete this message?",
+          title: "Yes, delete",
+          buttons: {
+            confirm: {
+              label: "Confirm",
+              className: "btn-primary",
+              callback: function() {
+//                console.log($this);
+                var message_thread = $this.parents('.message-thread-holder');
+                $.ajax({
+                  type: "DELETE",
+                  url: "/message_threads/" + message_thread.data('mt-id'),
+                  dataType: "JSON",
+                  success: function(data){
+                    if (from_come == "messages"){
+                      message_thread.remove();
+                    }else{
+                      window.location.href = '/messages/archived';
+                    }
+                  }
+                });
+              }
+            },
+            cancel: {
+              label: "Cancel",
+              className: "btn-default"
+            }
+          }
+        });        
+
+      });
+
+
+    });
+
+
+</script>

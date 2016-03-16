@@ -1,0 +1,71 @@
+<%= stylesheet_link_tag 'new_design/rides_info' %>
+<% content_for :script do %>
+  <%#= javascript_include_tag 'gmaps/google' %>
+  <%#= javascript_include_tag :posting_a_ride %>
+  <%= javascript_include_tag :ride_info %>
+<% end %>
+<script type="text/javascript">
+  $(function () {
+      $(".reverse-places").click(function () {
+        var temp = $("#ride_source").val();
+        $("#ride_source").val( $("#ride_destination").val() );
+        $("#ride_destination").val(temp);
+        $(this).parents('form').submit();
+      })
+      $(".slider-range").slider({
+          range: true,
+          min: 0,
+          max: 24,
+          step: 1,
+          values: [ $('#start_time').val(), $('#last_time').val() ],
+          slide: function (e, ui) {
+              var initial_hour = ui.values[0];
+              var final_hour = ui.values[1];
+              $('.start-time').html(initial_hour);
+              $('.last-time').html(final_hour);
+              $('#start_time').val(initial_hour);
+              $('#last_time').val(final_hour);
+          },
+          stop: function (e, ui) {
+              $(this).parents('form').submit();
+          }
+      });
+      $('.radio-profile').change(function () {
+          $(this).parents('form').submit();
+      });
+      $('#departure_date').change(function () {
+          $(this).parents('form').submit();
+      });
+
+      $('.sort-btn').click(function () {
+          $('#order_by').val($(this).attr('data-order-by'));
+          $(this).parents('form').submit();
+      });
+
+      $('#departure_date').datepicker({
+        dateFormat: "dd/mm/yy"
+      });
+  });
+</script>
+
+<% if browser.mobile? %>
+    <%= render 'rides/partials/mobile_rides_info'%>                  
+  <%else%>
+    <%= render 'rides/partials/desktop_rides_info'%>                  
+<%end%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

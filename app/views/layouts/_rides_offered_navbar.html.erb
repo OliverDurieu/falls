@@ -1,0 +1,48 @@
+<div class="col-md-3 col-sm-3 col-xs-12 ">
+  <div class="offer_ride  booking profile_side rides">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#c_rides" aria-controls="c_rides" role="tab" data-toggle="tab">Current Rides</a></li>
+      <li role="presentation"><a href="#p_rides" aria-controls="p_rides" role="tab" data-toggle="tab">Past Rides</a></li>
+      <li role="presentation"><a href="#a_rides" aria-controls="a_rides" role="tab" data-toggle="tab">Archived Rides</a></li>
+    </ul>
+  </div>
+</div>
+<div class="col-sm-9 col-xs-12">
+  
+  <div class="offer_ride booking profile ">
+    <!-- Tab panes -->
+    <div class="tab-content">
+       <div role="tabpanel" class="tab-pane active" id="c_rides">
+        <div class="panel panel-default">
+          <div class="panel-body rides">
+            <%= render 'rides/partials/rides_list', rides: @rides, tab_name: 'Current' %>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="p_rides">
+        <div class="panel panel-default">
+          <div class="panel-body rides">
+            <%= render 'rides/partials/rides_list', rides: @p_rides, tab_name: 'Past' %>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="a_rides">
+        <div class="panel panel-default">
+          <div class="panel-body rides">
+            <%= render 'rides/partials/rides_list', rides: @a_rides, tab_name: 'Archived' %>
+          </div>
+        </div>
+      </div>
+      <div class="offer_ride_footer">
+        <div class="panel panel-default  col-sm-12 col-xs-12">
+          <div class=" col-sm-3 col-xs-12">
+            <div class="img_holder">
+              <a href="#"><img alt="Icon man 108" class="img-responsive" src="/assets/icon_2.png"></a>
+            </div>
+          </div>
+           <p>Going somewhere? <a href="/offer-seats/1">Post your ride here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

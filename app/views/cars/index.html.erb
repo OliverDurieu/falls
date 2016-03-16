@@ -1,0 +1,43 @@
+<%= hidden_field_tag "active-side-nav-link", "cars" %>
+<div class="profile-box">
+  <h2>Your car</h2>
+  <section class="row">
+    <% @cars.each do |car| %>
+        <div class="row mb20">
+        <div class="user-car col-xs-12 col-sm-2 col-md-2 text-center">
+          <div class="car-image-container text-center">
+            <%= image_tag car.picture("profile") %>
+            <%= form_for car, url: upload_image_car_path(car), html: { multipart: true, class: 'form-horizontal', role: 'form' } do |f| %>
+              <span class="btn btn-link fileinput-button">
+                <span><strong>Upload photo</strong></span>
+                <%= f.file_field :car_image, class: 'upload-attachment' %>
+              </span>
+
+            <% end %>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-5 col-md-10 text-center add-col">
+          <ul class="unstyled">
+            <li>
+              <span class="photo-moderation"><strong><%= car.image_status %></strong></span>
+            </li>
+            <li>
+              <h3 class="vehicle-title"> <%= "#{car.try(:car_maker).try(:name)} #{car.try(:car_model).try(:name)}" %></h3>
+            </li>
+            <li>
+              <%= "#{car.number_of_seats} seats" %>
+              <span class="level-of-comfort"> <%= GlobalConstants::CAR_COMFORT_LEVEL[car.level_of_comfort][0] %></span>
+            </li>
+            <li>
+              <%= link_to "edit", edit_car_path(car), class: 'btn btn-mini btn-primary' %>
+              <%= link_to t('.destroy', default: t("helpers.links.destroy")), car_path(car), method: :delete, data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) }, class: 'btn btn-mini btn-danger' %>
+            </li>
+          </ul>
+        </div>
+        </div>
+    <% end %>
+
+  </section>
+</div>
+<br/>
+<%= link_to "Add a car", new_car_path, class: "btn btn-primary" %>

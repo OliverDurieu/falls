@@ -1,0 +1,395 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.show-gmap').click(function () {
+      if ($('.gmap-holder').hasClass("hidden")) {
+        $('.gmap-holder').removeClass("hidden");
+        $('#gmaps-canvas').removeClass("hidden");
+        $('.show-gmap.main-show').text("Hide map");
+        if (hasNotMap("gmaps-canvas")) {
+          drawGMap();
+        }
+      }
+      else {
+        $('.gmap-holder').addClass("hidden");
+        $('#gmaps-canvas').addClass("hidden");
+        $('.show-gmap.main-show').text("Show map");
+      }
+    });
+
+    $('select#ride_car_id').change(function (event) {
+      var target = $(event.target);
+      if (target.val() != '0') {
+                $(target.parents('form').get(0)).submit(); //better ways to do it
+                event.stopPropagation();
+                return false;
+              }
+            });
+  });
+  $(document).ready(function () {
+    var max_char = 200;
+    $('.star-rating').raty({
+      readOnly: true,
+      hints: ['1', '2', '3', '4', '5'],
+      score: function () {
+        return $(this).attr('data-score');
+      },
+      precision: true
+    });
+    $('#quantity').on("input change keyup keypress cut paste", function (event) {
+      var isnum = /^\d+$/.test($('#quantity').val());
+      if(isnum){
+        var qty = parseInt($('#quantity').val());
+        var price = parseInt('<%= @ride.total_price %>');
+        var seats = parseInt('<%= @ride.number_of_seats %>');
+        if(qty > 0 && qty <= seats ){ 
+          var amount = qty*price;
+          var str = amount+"$ will be charge";
+          var result = str.fontcolor("green");
+          document.getElementById("charged").innerHTML = result;
+          $('input[type=submit]').attr('disabled', false);
+        }
+        else{
+          var st = seats+1;
+          if(qty <= 0){
+            var str = "Please enter value greater than 0";
+            var result = str.fontcolor("red");
+            document.getElementById("charged").innerHTML = result;
+
+          }
+          else{
+            var str = "Please enter less than "+st+" seats";
+            var result = str.fontcolor("red");
+            document.getElementById("charged").innerHTML = result;
+          }
+          $('input[type=submit]').attr('disabled', true);
+        }
+      }
+      else{
+        var str = "Please enter valid seats";
+        var result = str.fontcolor("red");
+        document.getElementById("charged").innerHTML = result;
+        $('input[type=submit]').attr('disabled', true);
+      }
+    });
+});
+function hasNotMap(id) {
+  return !document.getElementById(id).firstChild;
+}
+</script>
+<% @ride.locations.each do |l| %>
+<% if l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:source] %>
+<%= hidden_field_tag "ride_source", l.address %>
+<%= hidden_field_tag "ride_source_longitude", l.longitude %>
+<%= hidden_field_tag "ride_source_latitude", l.latitude %>
+<% elsif l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:destination] %>
+<%#= render :partial => '/users/header_tabs' %>
+<div class="row">
+  <div class="col-md-12 ">
+    <span class="col-sm-9 col-md-6 nav nav-list booking-back-arrow">
+      <%= link_to bookings_path do %>
+        <i class="glyphicon glyphicon-arrow-left"></i> Back to bookings
+      <% end %>
+    </span>
+  </div>
+</div>
+<%= hidden_field_tag "ride_destination", l.address %>
+<%= hidden_field_tag "ride_destination_longitude", l.longitude %>
+<%= hidden_field_tag "ride_destination_latitude", l.latitude %>
+<% else %>
+<%= hidden_field_tag "location_address", l.address, class: "sub-route-locations" %>
+<% end %>
+<% end %>
+<div class="row location">
+  <div class="well col-sm-12 col-md-12">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="trip-roads car-sharing"><span class="from trip-roads-stop"><%= route_state_abbrv(@source) %>
+          <i class="glyphicon glyphicon-arrow-right"></i> <%= route_state_abbrv(@destination) %>
+        </span>
+      </h1>
+    </div>
+    <div class="well header_map col-sm-11 col-md-11 add">
+      <div class="header-main-block  clearfix row" >
+        <% if @booking.token.present? %>
+          <span class="col-md-10">Reservation Code: <span class="price-green">
+            <% if @booking.status == "accepted" %>
+              <%= @booking.token %>
+            <% else %>
+              Token will be provided after confirmation from the driver.
+            <% end %>
+            </span></span>
+        <% else %>
+          <span class="col-md-10">Reservation code not present</span>
+        <% end %>
+        <span class="" style="color: green"><%= @booking.status.humanize if @booking.status.present? %></span>
+      </div>
+      <fieldset>
+        <div class=" clearfix row">
+          <div class="simple-round-container" style="width:97%;">
+            <div class="col-md-12 gmap-holder hidden text-center">
+              <span>
+                <%= "#{@ride.total_distance}, #{@trip_price}" %>
+              </span>
+              <a href="javascript:void(0);" class="show-gmap"><i class="glyphicon glyphicon-remove" style="float:right;"></i></a>
+            </div>
+            <div id="gmaps-canvas" style="height:550px; width:100%;" class="hidden"></div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <%= label_tag 'Pick up point', nil, class: "col-sm-2 control-label" %>
+            <div class="col-sm-8">
+              <p class="form-control-static">
+                <%= image_tag "ride/search-from-plot.png", class: "location_tag" %>
+                <%= @source %>
+              </p>
+            </div>
+            <div class="col-md-2"><%= link_to "Show map", "javascript:void(0);", class: "show-gmap main-show btn btn-primary" %></div>
+          </div>
+          <hr class="horizontal-line"/>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <%= label_tag 'Drop of point', nil, class: "col-sm-2 control-label" %>
+            <div class="col-sm-8">
+              <p class="form-control-static">
+                <%= image_tag "ride/search-to-plot.png", class: "location_tag" %>
+                <%= @destination %>
+              </p>
+            </div>
+          </div>
+          <hr class="horizontal-line"/>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <%= label_tag 'Date', nil, class: "col-sm-2 control-label" %>
+            <div class="col-sm-4">
+              <p class="form-control-static">
+                <%= @time.strftime("%A %d %B") %>
+              </p>
+            </div>
+            <%= label_tag 'Departure Time', nil, class: "col-sm-3 control-label" %>
+            <div class="col-sm-3">
+              <p class="form-control-static">
+                <%= @time.strftime("%H:%M") %>
+              </p>
+            </div>
+          </div>
+          <hr class="horizontal-line"/>
+        </div>
+        <% if @booking.no_of_seats_booked.present? %>
+          <% bSeats = @booking.no_of_seats_booked %>
+          <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+              <%= label_tag 'Seats', nil, class: "col-sm-2 control-label" %>
+              <div class="col-sm-4">
+                <p class="form-control-static">
+                  <span class="form-control-static pull-left"><%= bSeats %></span>
+                </p>
+              </div>
+              <%= label_tag 'Amount', nil, class: "col-sm-3 control-label" %>
+              <div class="col-sm-3">
+                <p class="form-control-static">
+                <span class="form-control-static price-green">$<%= @ride.total_price * bSeats.to_i %></span>
+                </p>
+              </div>
+            </div>
+            <hr class="horizontal-line"/>
+          </div>
+        <% end %>
+      </fieldset>
+      <div class=" col-sm-6 col-md-5">
+        <div class="well row">
+          <div class="header-main-block  clearfix row" >
+            <span>Driver</span>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <% if @user.profile.is_picture? %>
+              <%= image_tag @user.profile.picture, class: "img-responsive" %>
+              <% else %>
+              <%= image_tag @user.profile.picture, class: "img-responsive" %>
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <strong><%= link_to "#{@user.first_name} #{@user.last_name}", public_profile_user_path(@user) %></strong>
+              <span><%= @user.age %> </span>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+          <% if !@self_user %>
+          <button type="button" class="btn btn-primary pull-right btn-lg" data-toggle="modal" data-target="#driver-contact">contact driver
+          </button>
+          <% end %>
+          <% if @ride.user.phone_number.try(:body).present? %>
+            <label class="p-name">Phone:</label><h4 class="img-phone tip"><%= @ride.user.phone_no_with_ext(" ") %></h4>
+          <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+      <div class=" col-sm-6 col-md-5">
+        <div class="well row">
+          <div class="header-main-block  clearfix row" >
+            <span>Vehicle</span>
+          </div>
+          <% @car = @ride.car %>
+          <div class="row">
+            <div class="col-md-12">
+              <% if @car.present? %>
+              <% if @car.car_image.present? %>
+              <%= image_tag @car.picture, width: "150", height: "100", style: "width: 150px; height: 100px;" %>
+              <% else %>
+              <%= image_tag @car.picture, width: "150", height: "100", style: "width: 150px; height: 100px;" %>
+              <% end %>
+              <% end %>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= label_tag :car, nil, class: "col-sm-6 control-label" %>
+                <div class="col-sm-6">
+                  <p class="form-control-static">
+                    <%= @car.car_name %>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= label_tag "Color", nil, class: "col-sm-6 control-label" %>
+                <div class="col-sm-6">
+                  <p class="form-control-static">
+                    <%= @car.color.name %>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= label_tag 'Luggage Size', nil, class: "col-sm-6 control-label" %>
+                <div class="col-sm-5">
+                  <p class="form-control-static">
+                    <%= @ride.max_luggage_size %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+      <div class=" col-sm-12 col-md-12">
+        <div class="well row">
+          <div class="header-main-block  clearfix row" >
+            <span>Reservation Code</span>
+          </div>
+          <div class="row">
+            <div class="col-md-6 booking-code">
+              <% if @booking.status == "accepted" %>
+                <span class="price-green"><%= @booking.token %></span><p>Communicate this code to the driver after the trip so he can get paid</p>
+              <% else %>
+                Token will be provided after confirmation from the driver.
+              <% end %>
+            </div>
+            <div class="col-md-6 alert alert-warning">
+            <div >
+              <%= image_tag "lightbulb2.png"%>
+            </div>
+              <div class="col-md-10">
+                <p>Tip: You also got the reservation code by sms</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" col-sm-12 col-md-12">
+        <div class="well row">
+          <div class="header-main-block  clearfix row" >
+            <span>Cancelation and refund conditions</span>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= label_tag "Driver cancels :", nil, class: "col-sm-6 control-label" %>
+                <div class="col-sm-6">
+                  <p class="form-control-static">
+                    full refund
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= label_tag "You cancel more than 24 hours before scheduled departure :", nil, class: "col-sm-6 control-label" %>
+                <div class="col-sm-6">
+                  <p class="form-control-static">
+                    90% of the amount
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= label_tag "You cancel up to 24 hours before schedule departure :", nil, class: "col-sm-6 control-label" %>
+                <div class="col-sm-6">
+                  <p class="form-control-static">
+                    50% of the amount
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= label_tag "You cancel after scheduled departure :", nil, class: "col-sm-6 control-label" %>
+                <div class="col-sm-6">
+                  <p class="form-control-static">
+                    no refund
+                  </p>
+                </div>
+              </div>
+              <%= link_to "Cancel Reservation",@booking, :data => {:confirm => "Are you sure you'd like to cancel this trip?"}, :method => :delete, class: "pull-right" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
+</div>
+<div class="modal fade" id="driver-contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Contact <%= @user.display_first_last_name %> to inquire about or book
+          your seat</h4>
+        </div>
+        <div class="modal-body">
+          <%= form_tag contact_to_the_driver_ride_path(@ride.id), method: :get, role: "form" do %>
+          <!-- && @ride.user.phone_number.public_status?  -->
+          <% if @ride.user.phone_number.try(:body).present? %>
+          <div class="form-group">
+            <label class="p-name">By phone:</label>
+            <h4 class="img-phone tip form-control-static"><%= @ride.user.phone_no_with_ext(" ") %></h4>
+          </div>
+          <% else %>
+          <div class="form-group">
+            <label>Contact number not available</label>
+          </div>
+          <% end %>
+          <% if @self_user %>
+          you can't send to private message to yourself.
+          <% else %>
+          <div class="row" style="margin-left: 10px;">
+            <div class="col-sm-10 well">
+              <div class="form-group">
+                <%= label_tag "By private message:" %>
+                <%= text_area_tag "private_msg", nil, class: "form-control", rows: 4, placeholder: "Contact this driver via private message here: you can ask them about trip details and seat availability.", required: true %>
+              </div>
+              <%= submit_tag "Send", name: nil, class: "btn btn-primary" %>
+            </div>
+            <div class="col-sm-2">
+              <%= image_tag @user.profile.picture("driver"), class: "img-responsive" %>
+            </div>
+          </div>
+          <div class="alert alert-info">
+            Once you have sent your message, We will notify this driver by SMS. This is free service.
+          </div>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>

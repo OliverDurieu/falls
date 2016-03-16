@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<%= render 'layouts/head_content' %>
+<head>
+ 	<!-- <link rel="image_src"  type="image/png" href="http://eduleaf-development.s3.amazonaws.com/uploads/lamule_meta_image_large_2.png" />
+	<meta property="og:image" content="http://eduleaf-development.s3.amazonaws.com/uploads/lamule_meta_image_large_2.png" />
+	<meta name= "og:description" content = "The Falls is more than just ride sharing, we are a community of people, businesses and organizations who all think that Australia needs to travel smart." /> --><!--formated -->
+</head>
+<body onload="gmapAutocompleteInitialize()" class='<%= "#{controller_name}_#{ action_name}" %>'>
+
+  <div id="dashboard_main_alert" class="alert alert-warning alert-dismissible" role="alert" style="display: none;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <i class="fa fa-bullhorn"></i><strong> Sorry! </strong><span class="alert_content"></span>
+  </div>
+
+  <header class="header">
+    <div id="background"></div>
+      <%= render 'layouts/navigation_2' %>
+  </header>
+  <div id="labels"></div>
+
+  <%= yield :banner %>
+  <div class="main-area">
+
+    <%= render 'layouts/flash_messages' %>
+
+    <%= yield %>
+
+   </div>
+
+    <!-- Google Code for Remarketing Tag -->
+    <script type="text/javascript">
+    / <![CDATA[ /
+    var google_conversion_id = 948647481;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    / ]]> /
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/948647481/?value=0&amp;guid=ON&amp;script=0"/>
+    </div>
+    </noscript>
+    <!-- End of Google Code for Remarketing Tag -->
+    
+  <script type="text/javascript">
+    <% if flash[:alert].present? %>
+      $('#dashboard_main_alert .alert_content').html('<%= flash[:alert] %>');
+      $('#dashboard_main_alert').fadeIn();
+      window.setTimeout(function() { $('#dashboard_main_alert').fadeOut(); }, 4000);
+    <% end %>
+  </script>
+
+</body>
+</html>

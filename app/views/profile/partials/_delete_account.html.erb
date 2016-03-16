@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Delete My account 
+  </div>
+  <div class="panel-body delete_account">
+    <p>If you would like to delete your account because you weren't able to solve a problem, please allow us to suggest some tips that may be of use:</p>
+    <ul>
+      <li>To change your phone number or your email address, you can <a href="<%= general_profile_index_path %>">edit your profile.</a></li>
+      <li>To hide your phone number, you can <a href="<%= general_profile_index_path %>">edit your profile.</a></li>
+      <li>To resolve a technical issue, please <a href="\dashboard/contact_us">contact us.</a></li>
+      <li>To stop receiving emails, you can <a href="<%= general_profile_index_path %>">edit your profile.</a>
+      <li>To deal with a rating that you feel is unjustified, please <a href="\dashboard/contact_us">contact us.</a> (if this is the case, do not delete your account -- you will not be able to create a new account).</li>
+    </ul>
+    <p>If you still want to delete your account, please help us improve our service by letting us know why.</p>
+    <div class="row">
+      <%= form_for @unsubscribe, url: delete_account_unsubscribes_path, html: { method: :delete } do |f| %>
+        <div class="col-md-6 mt24">
+          <div class="form-group">
+            <label for="exampleInputEmail3">Reason</label>
+            <!-- <input type="text" placeholder="Choose " id="exampleInputEmail3" class="form-control"> -->
+            <%= handle_error_text(@unsubscribe, :unsubscribe_reason_id) %>
+            <%= f.select :unsubscribe_reason_id, options_from_collection_for_select(UnsubscribeReason.all, :id, :name), { prompt: "Choose" }, class: "form-control", required: true %>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail4">Would you reccomend the platform? </label>
+            <!-- <input type="text" placeholder="Choose " id="exampleInputEmail4" class="form-control"> -->
+            <%= handle_error_text(@unsubscribe, :recommend) %>
+            <%= f.select :recommend, [['Yes', 1], ['No', 0]], { prompt: "Choose" }, class: "form-control", required: true %>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail5">What could you improve ? </label>
+            <!-- <textarea class="form-control text_box" placeholder="text " rows="3"  id="exampleInputEmail5"></textarea> -->
+            <%= handle_error_text(@unsubscribe, :comment) %>
+            <%= f.text_area :comment, class: "form-control text_box", rows: "3", cols: "40", required: true %>
+          </div>
+          <%= f.submit 'Delete', class: "btn btn-danger" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

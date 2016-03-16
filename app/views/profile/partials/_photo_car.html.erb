@@ -1,0 +1,120 @@
+<%= javascript_include_tag 'upload_pic' %>
+<div class="panel panel-default  Photo_car">
+  <div class="panel-heading">Photo & car
+  </div>
+  <div class="panel-body m-15">
+    <div class="col-md-12">
+        <%= form_for @profile, url: upload_photo_profile_path(@profile), html: { multipart: true, role: 'form' } do |f| %>
+            <div class="row profile_photo">
+               <h4>Profile Photo</h4>
+                <div class="col-sm-6">
+                  <div class="img_holder">
+
+                  <%= image_tag @profile.picture("profile"), alt: "#{@profile.get_displayed_as} (#{@profile.user.age})", id:'user_image_holder', style: "width: 296px; height: 225px", class: "pull-left" %>
+                   
+                  <!-- s<span class="btn-link fileinput-button"> -->
+                    <!-- s<span><strong>Upload Photo</strong></span>                    -->
+                    <%= f.file_field :photo, required: true, accept: "image/*", class: 'upload-attachment',:onchange =>"validateFiles(this);", style: 'display: none;', id: 'profile_photo_uploader', :data => { :max_file_size => 2.megabytes }%>
+                    <!-- s</span>                    -->
+                  </div>
+
+                </div>
+                <div class="col-sm-6">
+                  <p>Add your photo ! Other members will be reassured to see with whom they'll be travelling. Photos also help members recognizing each other
+                  </p>
+                  <p>Your face must be recognisable (without sunglasses) for your photo to be approved. Make sure to upload a PNG or JPG file.</p>
+                </div>
+              </div>
+          <span>Choose a photo (Max: 2MB)</span>
+          <%= handle_error_text(@profile, :photo) %>
+            <div class=" col-sm-12 col-xs-12 btn_block text-center btn_change">
+            
+              <%= f.submit 'SAVE', class: "pull-right b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn hidden" %>
+
+            <!-- 
+                  <a class="  b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" href="/offer-seats/1" role="button">SAVE</a>
+           -->
+            </div>            
+          <% end %> 
+
+        <%= hidden_field_tag "active-side-nav-link", "cars" %>
+        <%= form_for @car = Car.new ,url: '/cars', html: { multipart: true, role: 'form' } do |f| %>
+
+          
+              <div class="row">
+               <h4>Your Car</h4>
+                <div class="col-sm-6">
+                  <div class="img_holder">
+            
+                  <img src="/assets/user/icon-man-108.png" class="img-responsive" alt="photo" id="car_image_holder">
+                   <%= f.file_field :car_image, accept: "image/*", class: '',:onchange =>"validateFiles(this);", style: 'display: none;', id: 'car_photo_uploader', :data => { :max_file_size => 2.megabytes }%>
+            
+      
+                  </div>
+                
+                  <div class="col-md-12">
+                    <!-- <a href="#" class="mt_10">Add car +</a> -->
+                  </div>
+                </div>
+                <div class="col-sm-5 text-center select_car">
+                  <div class="col-xs-12 row">
+                  <div class="form-group">
+                  <%= f.select :car_maker_id, options_for_select(CarMaker.all.try(:each).try(:collect) { |maker| [maker.name, maker.id] }, @car.car_maker_id), { }, class: "form-control car-maker-select" %> 
+                  </div>
+
+                  <div class="form-group">
+                      <%= f.select :car_model_id, options_for_select(Car.first.car_maker.car_models.try(:each).try(:collect) { |mo| [mo.name, mo.id] }, @car.try(:car_model_id)), {  }, class: "form-control car-model-select" %>
+                      </div>
+                 
+
+      <div class="form-group">
+          <%= f.select :number_of_seats, options_for_select((1..9).to_a.each { |no| [no, no] }, @car.number_of_seats || 4), {}, class: "form-control"  %>
+      </div>
+
+      <div class="form-group">
+          <%= f.select :car_category_id, options_for_select(CarCategory.all.try(:each).try(:collect) { |cat| [cat.name, cat.id] }, @car.car_category_id), {  }, class: "form-control" %>
+      </div>               <div class="col-md-12">
+                    <a href="#" class="mt_10">+50pts</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+              <div class=" col-sm-12 col-xs-12 btn_block text-center btn_change">
+                  <%= f.submit 'SAVE', class: "pull-right b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" %>
+                </div>
+                <%end%>
+
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function validateFiles(inputFile) {
+    var maxExceededMessage = "This file exceeds the maximum allowed file size (2 MB)";
+ 
+    var maxFileSize = $(inputFile).data('max-file-size');
+    var sizeExceeded = false; 
+    $.each(inputFile.files, function() {
+      if (this.size && maxFileSize && this.size > parseInt(maxFileSize)) {sizeExceeded=true;};
+    });
+    if (sizeExceeded) {
+      document.getElementById("size_error").style.visibility = "visible";
+      document.getElementById("size_error").innerHTML = "Image File size exceeded 2MB";
+      $(inputFile).val('');
+    };
+  }
+
+ $(".car-maker-select").change(function () {
+    var $this = $(this);
+    $.ajax({
+        type: 'GET',
+        url: '/car_makers/' + $this.val() + '/car_models',
+        dataType: 'html',
+        success: function (data) {
+            $('.car-model-select').html(data);
+        }
+    });//end of ajax;
+  });
+</script>
+
+

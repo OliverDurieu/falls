@@ -1,0 +1,41 @@
+<div class="form_area_box form_center">
+<div class="authform">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form', class: 'login-form' }) do |f| %>
+     <%= link_to user_omniauth_authorize_path(:facebook), class: 'button fb btn-block' do %>
+        <i class="fa fa-facebook"></i>LOG IN FACEBOOK
+      <% end %>
+      <p class="menu-separator"><span>OR</span></p>
+      <%#= devise_error_messages! %>
+      <div class="form-group">
+
+  <!--       <%= f.label :email %> -->
+        <%= f.email_field :email, :autofocus => true, class: 'form-control email_input ', placeholder: "Email" %>
+        <div class="lock_icon"></div>
+      </div>
+      <div class="form-group">
+        <%= f.password_field :password, class: 'form-control', placeholder: "Password" %>
+      </div>
+          <div class="form-group remember">
+            <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+              <%= link_to "Forgot password?", new_password_path(:user), class: 'right' %>
+       
+          </div>
+        <div class="form-group">
+          <%= f.submit 'LOG IN', :class => 'button right btn-block login_btn' %>
+        </div>
+      <hr/>
+      <% if session[:ride_id].present? && Ride.find_by(id: session[:ride_id], user_id: nil).present? %>
+          <%= f.hidden_field :ride_id, value: session[:ride_id] %>
+      <% end %>   
+      <strong>
+          <span class="mr5">Don't have  an account?</span> 
+          <%= link_to 'javascript:void(0);', class: 'visible-md visible-lg', id: 'button2_next_modal',  data: { container: 'body',  placement: 'bottom', content: "", html: 'true' } do %>
+             Sign up 
+        <% end %></strong>
+           <li><%= link_to "Sign Up", "/users/signUp_email_page", class: 'visible-xs visible-sm' %></li>
+          <%#= link_to 'sign up', id: 'button2_next_modal'%>
+          <%#= link_to 'Sign up', new_registration_path(:user) %>
+  <% end %>
+</div>
+</div>
+

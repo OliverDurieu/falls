@@ -1,0 +1,306 @@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        drawGMap();
+        getGMapDistance();
+        sum_prices();
+        $('#ride_is_details_same').change(function () {
+            if ($(this).is(':checked')) {
+                $("#ride_specific_details").addClass("hidden");
+            } else {
+                $('#ride_specific_details').removeClass("hidden");
+            }
+        });//end of check all or uncheck all
+
+        $('.price-btn.plus-val').click(function () {
+            var input_field = $(this).parents('.num-input-holder').find('input.num-input');
+              input_field.increment_the_val();
+              sum_prices();
+        });
+
+        $('.price-btn.subtract-val').click(function () {
+            var input_field = $(this).parents('.num-input-holder').find('input.num-input');
+            if (parseInt(input_field.val()) > 0) {
+              input_field.decrement_the_val();
+              sum_prices();
+            }  
+        });
+
+        $('.seats-btn.plus-val').click(function () {
+            var input_field = $(this).parents('.num-input-holder').find('input.num-input');
+            if (parseInt(input_field.val()) < 7) {
+                input_field.increment_the_val();
+            }
+        });
+
+        $('.seats-btn.subtract-val').click(function () {
+            var input_field = $(this).parents('.num-input-holder').find('input.num-input');
+            if (parseInt(input_field.val()) > 1) {
+                input_field.decrement_the_val();
+            }
+        });
+
+        $("#ride_number_of_seats").change(function () {
+            if (parseInt($(this).val()) > 7) {
+                $(this).val(7);
+            }
+        });
+
+        $('.price-input').change(function () {
+            sum_prices();
+        });
+    }); // end of document ready
+
+    jQuery.fn.increment_the_val = function () {
+        var incremented_input_val = parseInt($(this).val()) + 1;
+        $(this).val(incremented_input_val);
+    }
+
+    jQuery.fn.decrement_the_val = function () {
+        var decremented_input_val = parseInt($(this).val()) - 1;
+        $(this).val(decremented_input_val);
+    }
+
+    function sum_prices() {
+        var sum = 0;
+        $('.price-input').each(function () {
+            sum = sum + parseInt($(this).val());
+        });
+        $('.whole-price').val(sum);
+    }
+</script>
+
+<div class="publication-container">
+<% @locations.each do |l| %>
+    <% if l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:source] %>
+
+        <%= hidden_field_tag "ride_source", l.address %>
+        <%= hidden_field_tag "ride_source_longitude", l.longitude %>
+        <%= hidden_field_tag "ride_source_latitude", l.latitude %>
+    <% elsif l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:destination] %>
+        <%= hidden_field_tag "ride_destination", l.address %>
+        <%= hidden_field_tag "ride_destination_longitude", l.longitude %>
+        <%= hidden_field_tag "ride_destination_latitude", l.latitude %>
+    <% else %>
+        <%= hidden_field_tag "location_address", l.address, class: "sub-route-locations" %>
+    <% end %>
+<% end %>
+
+
+<div class="row publication publication-step2">
+
+<%= form_for @ride, url: url, html: { role: 'form' } do |ride_form| %>
+
+    <h2>Offer a ride on your next long journey</h2>
+
+    <section class="breadcrumb-container">
+      <ul class="publication-breadcrumb unstyled clearfix">
+        <li class="step1 current">
+                <span>
+                  <%= link_to "My itinerary", edit_ride_path(@ride) %>
+                </span>
+        </li>
+        <li class="step2 current">
+          <span>Price</span>
+        </li>
+      </ul>
+    </section>
+    <div class="row">
+      <div class="col-sm-7">
+        <fieldset class="main-block ride-block clearfix">
+          <div class="header-main-block clearfix">
+            <h2 class="pull-left">Price per passenger</h2>
+          </div>
+
+          <%= ride_form.hidden_field :enable_routes_validation, value: true %>
+          <%= ride_form.hidden_field :full_completed, value: (Ride.find(@ride.id).full_completed + 1) %>
+          <%= ride_form.hidden_field :total_distance %>
+          <%= ride_form.hidden_field :total_time %>
+          <%= ride_form.fields_for :routes, @routes do |route_form| %>
+              <div class="row">
+
+
+                <div class="col-sm-8">
+                  <h4> <%= "#{route_form.object.source.get_route_name} → #{route_form.object.destination.get_route_name}" %> </h4>
+
+                  <p class="text-muted">(price normally asked: $1) </p>
+                </div>
+                <div class="col-sm-4">
+                  <div class="row num-input-holder">
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <span class="input-group-addon price-add">$</span>
+                        <%= route_form.text_field :price, class: "form-control num-input price-input", placeholder: "1", required: true %>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <a href="javascript:void(0);" class="plus-val price-btn"><i class="glyphicon glyphicon-plus"></i></a>
+                      <a href="javascript:void(0);" class="subtract-val price-btn"><i class="glyphicon glyphicon-minus"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <% end %>
+          <% if @routes.count > 1 %>
+              <hr style="border-top: 1px solid #cccccc;"/>
+              <div class="row">
+                <div class="col-sm-8">
+                  <h4> <%= @ride.show_sorce_destination_route %> </h4>
+
+                  <p class="text-muted">(price normally asked: $ <%= @routes.count %>) </p>
+                </div>
+                <div class="col-sm-4">
+                  <div class="row">
+                    <div class="col-sm-9">
+                      <div class="input-group">
+                        <span class="input-group-addon price-add">$</span>
+                        <input class="form-control num-input whole-price" type="text" placeholder="<%= @routes.count %>" disabled>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+          <% end %>
+        </fieldset>
+
+        <fieldset class="main-block">
+          <div class="row">
+            <div class="col-sm-8">
+              <h4> Number of seats offered: </h4>
+            </div>
+            <div class="col-sm-4">
+              <div class="row num-input-holder">
+                <div class="col-sm-9">
+                  <%= ride_form.text_field :number_of_seats, class: "form-control num-input", placeholder: "1" %>
+                </div>
+                <div class="col-sm-3">
+                  <a href="javascript:void(0);" class="plus-val seats-btn"><i class="glyphicon glyphicon-plus"></i></a>
+                  <a href="javascript:void(0);" class="subtract-val seats-btn"><i class="glyphicon glyphicon-minus"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%= handle_error_text(@ride, :number_of_seats) %>
+        </fieldset>
+
+        <fieldset class="main-block ride-block clearfix">
+          <div class="header-main-block clearfix">
+            <h2 class="pull-left">Further details</h2>
+          </div>
+
+          <div class="content-main-block clearfix">
+            <div class="form-group">
+            <% if @ride.return_date.present? %>
+                <%= ride_form.label :is_details_same, "#{ride_form.check_box :is_details_same} Publish the same comment for the departure and the return".html_safe, class: "control-label" %>
+            <% end %>
+            <%= ride_form.text_area :general_details, autofocus: true, class: "form-control", rows: 4, placeholder: "Provide extra information about your trip. More details about the meeting point, what music you listen to, why you are travelling or anything else your passengers should know." %>
+
+            <p class="helper">
+              Your contact details (mobile number &amp; email) already appear in your profile, please do not add them
+              here!
+              <%= link_to "(See our rules)" ,summary_policy_path, :target => "_blank" %>
+            </p>
+            </div>
+            <% if @ride.return_date.present? %>
+
+                <% @specific_details_status_css = "" %>
+                <% @specific_details_status_css = "hidden" if @ride.is_details_same.present? %>
+                <div class="form-group">
+                  <%= ride_form.text_area :specific_details, autofocus: true, class: "form-control #{@specific_details_status_css}", rows: 4, placeholder: "Enter specific information about your return trip here" %>
+                </div>
+            <% end %>
+            <% if current_user.present? %>
+                <% if current_user.cars.present? %>
+
+                    <div class="form-group">
+                      <%= ride_form.label :car_id, "Your car:", class: "col-sm-6 control-label" %>
+                      <div class="col-sm-4">
+                        <% @car_options = [["Choose", 0]] %>
+                        <%= ride_form.select :car_id, options_for_select( @car_options.concat(current_user.cars.try(:collect) { |car| [car.car_name, car.id] }), @ride.car_id), {}, class: "form-control" %>
+                      </div>
+                    </div>
+                <% else %>
+                    <div class="form-group">
+                      <%= ride_form.label :car_id, "Your car:", class: "col-sm-6 control-label" %>
+                      <div class="col-sm-4">
+                        <%= ride_form.hidden_field :car_id, value: 0 %>
+                        <%= link_to "Add Car", new_car_path({ rid: @ride.id, fr: "of2" }), class: "btn btn-primary" %>
+                      </div>
+                    </div>
+                <% end %>
+                
+                <%= handle_error_text(@ride, :car_id) %>
+            <% end %>
+
+            <div class="form-group">
+              <%= ride_form.label :max_luggage_size, "Max Luggage Size:", class: "col-sm-6 control-label" %>
+              <div class="col-sm-4">
+                <%= ride_form.select :max_luggage_size, options_for_select(GlobalConstants::Rides::MAX_LUGGAGE_SIZE, @ride.max_luggage_size || GlobalConstants::Rides::MAX_LUGGAGE_SIZE[1][1]), {}, class: "form-control" %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= ride_form.label :leaving_delay, "I will leave:", class: "col-sm-6 control-label" %>
+              <div class="col-sm-4">
+                <%= ride_form.select :leaving_delay, options_for_select(GlobalConstants::Rides::LEAVING_DELAY, @ride.leaving_delay || GlobalConstants::Rides::LEAVING_DELAY[0][1]), {}, class: "form-control" %>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= ride_form.label :detour_preferences, "I can make a detour:", class: "col-sm-6 control-label" %>
+              <div class="col-sm-4">
+                <%= ride_form.select :detour_preferences, options_for_select(GlobalConstants::Rides::DETOUR_PREFERENCES, @ride.detour_preferences || GlobalConstants::Rides::DETOUR_PREFERENCES[1][1]), {}, class: "form-control" %>
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+
+        <fieldset class="main-block">
+          <div class="col-sm-1">
+            <%= ride_form.check_box :accept_tos, {}, "yes", "no" %>
+          </div>
+          <%= ride_form.label :accept_tos, "I hereby certify that I hold a driving licence and valid car insurance ".html_safe, class: "control-label pr6" %><%= link_to "See Our TO's" ,summary_termsconditions_path, :target => "_blank" %>
+          <%= handle_error_text(@ride, :accept_tos) %>
+        </fieldset>
+        <div class="btn-container">
+          <%= link_to "<span class='glyphicon glyphicon-chevron-left'></span>Back".html_safe, edit_ride_path(@ride), class: 'btn btn-default' %>
+          <%= ride_form.submit 'Publish offer', class: 'btn btn-primary' %>
+        </div>
+      </div>
+      <div class="col-sm-5 publication-sidebar">
+        <div class="publication-summary-container wrapper">
+          <h2>Route itinerary</h2>
+
+          <div id="gmaps-canvas" style='width: 100%; height: 400px;'></div>
+          <br/>
+
+          <p class="text-center">
+            <strong>
+              <%= @ride.show_sorce_destination_route %>
+            </strong>
+          </p>
+          <dl class="dl-horizontal">
+
+            <dt>Departure:</dt>
+            <dd><%= set_date_style(@ride.departure_date) %></dd>
+            <% if @ride.return_date.present? %>
+                <dt>Return trip:</dt>
+                <dd><%= set_date_style(@ride.return_date) %></dd>
+            <% end %>
+            <br/>
+            <dt>Distance:</dt>
+            <dd class="ride_total_distance"></dd>
+            <dt>Driving time:</dt>
+            <dd class="ride_total_time"></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+<% end %>
+
+</div>
+</div>

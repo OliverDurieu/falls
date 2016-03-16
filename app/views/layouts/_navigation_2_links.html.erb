@@ -1,0 +1,212 @@
+<%# add navigation links to this file %>
+<% if user_signed_in? %>
+<div class="mobile_header">
+  <nav class="mobile_nav">
+   <div class="list_mobile ">
+        <div class="profile_area">
+            <div class="profile_img">
+              <% if current_user.profile.photo.present? %>
+                  <%= image_tag "#{current_user.profile.photo.url}", class: 'img-responsive' %>
+              <% elsif current_user.profile.remote_photo.present? %>
+                  <%= image_tag "#{current_user.profile.remote_photo}", class: 'img-responsive' %>
+              <% else %>    
+                  <%= image_tag "user/icon-man-108.png", class: 'img-responsive' %>
+              <% end %>
+            </div>
+              <span class="u_name"><%= current_user.first_name || current_user.name %></span>
+        </div>
+          <ul class="" role="menu">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Profile", general_profile_index_path %></li>
+            <li><%= link_to "Post a Ride", '/offer-seats/1' %></li>
+            <li><%= link_to "Search a Ride", root_path %></li>
+            <li><%= link_to "My Bookings", bookings_path %></li>
+            <li><%= link_to "My Rides Offered", rides_path %></li>
+            <li><%= link_to "Messages", "/messages/received" %></li>
+            <li><%#= link_to "Email Alerts", email_alerts_path %></li>
+            <li><%#= link_to "Rating", "/ratings/hints" %></li>
+            
+            <li><%= link_to 'Log Out', destroy_user_session_path, :method => 'delete' %></li>
+          </ul>
+    </div>
+  </nav>
+   
+  <div class="navbar navbar-inverse ">      
+      <div class="navbar-header ">
+        <a id="nav-expander" class="nav-expander fixed mobile_side_btn">
+          <!-- <img src="assets/menu.png" class="img-responsive"> -->
+          <%= image_tag 'menu.png', class: 'img-responsive'%>
+        </a>
+        <!--Include your brand here-->
+        <a class="navbar-brand mobile_logo" href= <%=root_path%>>
+          <!-- <img src="assets/logo.png" class="img-responsive"> -->
+          <%= image_tag 'inner_logo.png', class: 'img-responsive'%>
+          
+        </a>
+        <a href="/offer-seats/1" class="post_ride_icon">
+        <%= image_tag 'icon_2.png', class: 'img-responsive icon_car pull-right' %>
+        </a>
+      </div>
+  </div>
+</div>
+
+    <div class="btn-group m_10 hide_btn">
+        <%if controller_name != 'driver_verifications'%>
+        <button aria-expanded="false" type="button" data-toggle="dropdown" class=" bb_t btn btn-default dropdown-toggle"> 
+        <%end%>
+        <%# if params[:controller] == "driver_verifications" && (params[:action] == "steps" || params[:action] == "finished") %>
+        <% if @mobile_header_flage == true %>
+        <div class="profile_img hidden">
+                <% if current_user.profile.photo.present? %>
+                    <%= image_tag "#{current_user.profile.photo.url}", class: 'img-responsive' %>
+                <% elsif current_user.profile.remote_photo.present? %>
+                    <%= image_tag "#{current_user.profile.remote_photo}", class: 'img-responsive' %>
+                <% else %>    
+                    <%= image_tag "user/icon-man-108.png", class: 'img-responsive' %>
+                <% end %>
+        </div>
+        <%else%>
+        <div class="profile_img">
+                <% if current_user.profile.photo.present? %>
+                    <%= image_tag "#{current_user.profile.photo.url}", class: 'img-responsive' %>
+                <% elsif current_user.profile.remote_photo.present? %>
+                    <%= image_tag "#{current_user.profile.remote_photo}", class: 'img-responsive' %>
+                <% else %>    
+                    <%= image_tag "user/icon-man-108.png", class: 'img-responsive' %>
+                <% end %>
+        </div>
+        <%end%>
+        <%if controller_name != 'driver_verifications'%>
+        <span class="u_name"><%= current_user.first_name || current_user.name %></span></button>
+          <ul class="message2 dropdown-menu text-center" role="menu">
+            <li><%= link_to "Dashboard", dashboard_show_dashboard_path %></li>
+            <li><%= link_to "Offer A Ride", '/offer-seats/1' %></li>
+            <li><%= link_to "Rides Offered", rides_path %></li>
+            <li><%= link_to "Messages", "/messages/received" %></li>
+            <li><%= link_to "Email Alerts", email_alerts_path %></li>
+            <li><%= link_to "Rating", "/ratings/hints" %></li>
+            <li><%= link_to "Profile", general_profile_index_path %></li>
+            <li><%= link_to 'Sign Out', destroy_user_session_path, :method => 'delete' %></li>
+          </ul>
+        <%end%>
+    </div>
+    <div class="btn-group m_10 hide_btn ">
+          <%if  (controller_name == "rides"  &&  (action_name == "show"  ||  action_name == "rides_info"))  ||  (controller_name == "dashboard"  &&  action_name == "index")  ||  (controller_name == "driver_verifications"  &&  action_name == "steps")  ||  (controller_name == "rides"  &&  action_name == "offer_seat_1") ||  (controller_name == "rides"  &&  action_name == "successfully_posted_rides")  %>  
+          <%else%>
+            <% if @mobile_header_flage==true %>
+             <button aria-expanded="false" type="button" data-toggle="dropdown" class=" bb_t btn btn-default dropdown-toggle hidden"><i class="fa fa-envelope"></i>  
+             <%else%>
+             <button aria-expanded="false" type="button" data-toggle="dropdown" class=" bb_t btn btn-default dropdown-toggle"><i class="fa fa-envelope"></i>
+             <%end%>        
+         <%end%>
+
+
+
+          <% if unread_message_count > 0 && @message_icon_flag !=true %>
+            <span class="message_num"><%= unread_message_count %></span>
+          <% end %>  
+        </button>
+        <ul class="message dropdown-menu">
+          <% unread_messages = unread_message_threads %>
+          <% unread_messages.each do |message| %>
+            <li><a href="<%= message_thread_path(message.id) %>">
+                <div class="profile_img">
+                    <%= image_tag message.communicator.profile.picture("inbox"), alt: "#{message.communicator.display_first_last_name} (#{message.communicator.age})", style: "width: 54px; height: 54px" %>
+                </div>
+                    <span><%= message.communicator.first_name %></span>
+                </a>
+            </li>
+            <% end %>
+            <li><%= link_to "Show all messages", messages_received_path %></li>
+        </ul>
+    </div>
+    <% #if params[:controller] == "driver_verifications" && (params[:action] == "steps" || params[:action] == "finished") %>
+        <% if @mobile_header_flage == true %>
+        <a class=" hidden-xs b_25 color btn_offer btn btn-default btn-sm active  navbar_ride_btn hidden" href="/offer-seats/1" role="button">OFFER A RIDE</a>
+        <%else%>
+        <a class=" hidden-xs b_25 color btn_offer btn btn-default btn-sm active  navbar_ride_btn" href="/offer-seats/1" role="button">OFFER A RIDE</a>
+        <%end%>
+
+<% else %>    
+    <div class="mobile_header">
+          <nav class="mobile_nav">
+           <div class="list_mobile ">
+                <div class="profile_area">
+                      <span class="u_name"><h2>Welcome</h2><%#= current_user.first_name || current_user.name %></span>
+                </div>
+                  <ul class="" role="menu">
+                    <li><%= link_to "Home", root_path %></li>
+                    <li><%= link_to "Sign Up", "/users/signUp_email_page" %></li>
+                    <li><%= link_to "Log in", "/users/sign_in" %></li>
+                    <li><%= link_to "Search a Ride", root_path %></li>  
+                    <li><%= link_to "Post a ride", '/offer-seats/1' %></li>
+                    <%#= link_to '#', post_path(comment.post), anchor: "#{video_div}" %>
+                    <li><%= link_to "How it works", root_path, anchor: "video_div" %></li> 
+                    <li><%= link_to "Contact us", "/dashboard/contact_us" %></li> 
+                  </ul>
+            </div>
+          </nav>
+           
+          <div class="navbar navbar-inverse ">      
+              <div class="navbar-header ">
+                <a id="nav-expander" class="nav-expander fixed mobile_side_btn">
+                  <%= image_tag 'menu.png', class: 'img-responsive'%>
+                </a>
+                <a class="navbar-brand mobile_logo" href=<%=root_path%>>
+                  <%= image_tag 'inner_logo.png', class: 'img-responsive'%>
+                  
+                </a>
+                 <a href="/offer-seats/1" class="post_ride_icon">
+        <%= image_tag 'icon_2.png', class: 'img-responsive icon_car pull-right' %>
+        </a>
+
+              </div>
+          </div>
+        </div>
+
+
+    <div id="login-form-data" class="hide"></div>    
+    <a class="b_25 color btn_offer btn btn-default btn-sm active navbar_ride_btn" href="/offer-seats/1" role="button">OFFER A RIDE</a>
+    <div class="login btn-group mobile">
+        <li><%= link_to 'Login', 'javascript:void(0);', class: 'login-btn  b_bg ', "data-toggle" => "modal",  'data-target' => '#myModal',  data: { container: 'body',  placement: 'bottom', content: "", html: 'true' } %></li>
+
+   
+        <li><%= link_to 'Signup','javascript:void(0);', class: 'hidden login-btn  b_bg ', "data-toggle" => "modal",  'data-target' => '#intial_signup_modal',  data: { container: 'body',  placement: 'bottom', content: "", html: 'true' } %></li>
+        
+        <li><%#= link_to 'Login',new_user_session_path, class: 'd_hide' %></li>
+       
+    </div>
+<% end %>
+<!-- modal signup step one  -->
+<div class="modal fade" id="intial_signup_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="form_area_box modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <%= render 'layouts/sign_up_step_one' %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal signin  -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="form_area_box modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <%= render 'layouts/login_form' %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal signup step two  -->
+<div class="modal fade" id="registration_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="form_area_box modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <% if !user_signed_in? %>
+            <%= render 'layouts/registration_partial'%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

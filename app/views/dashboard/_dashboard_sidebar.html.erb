@@ -1,0 +1,96 @@
+
+    <div class="col-md-12">
+      <div class="main-column-block">
+      <h4 class="main-column-title">Ride share preferences</h4>
+      <p> <b>Chattiness: </b><%= GlobalConstants::Preferences::LEVELS_TEXT[current_user.preference.chattiness] %></p>
+                    <p> <b>Music: </b><%= GlobalConstants::Preferences::LEVELS_TEXT[current_user.preference.music] %></p>
+                    <p> <b>Smoking: </b> <%= GlobalConstants::Preferences::LEVELS_TEXT[current_user.preference.smoking] %></p>
+                    <p> <b>Pet: </b> <%= GlobalConstants::Preferences::LEVELS_TEXT[current_user.preference.pets] %></p>
+
+       <div class="see-profil">
+           <%= link_to "→ Edit your ride share preferences", '/profile/preferences' %>
+      </div>
+
+      </div>
+    <hr>
+    <div class="main-column-block">
+      <h4 class="main-column-title">Member verifications</h4>
+      <ul class="main-column-list verification-list margin-bottom unstyled">
+        <% if current_user.phone_number.present? %>
+          <% if current_user.phone_number.verified_no %>
+            <li class="img-phone tip">
+              <span class="checked">
+                <p>Phone Number verified<p>
+              </span>
+            </li>
+          <% elsif current_user %>
+            <li class="img-phone tip">
+              <span class="no-checked">
+                <a href="/profile/verifications" class="blue">Verify Your Phone Number</a>
+              </span>
+            </li>
+          <% end %>
+          <% else %>
+            <li class="img-phone tip">
+              <span class="no-checked">
+                <p>Not Present<p>
+              </span>
+            </li>
+        <% end %>
+        <% if current_user.email_verified %>
+          <li class="img-email tip">
+            <span class="checked">
+              <p>Email verified</p>
+            </span>
+          </li>
+        <% elsif current_user %>
+          <li class="img-email tip">
+            <span class="no-checked">
+                <a href="/profile/verifications"> Verify Your Email</a>
+            </span>
+          </li>
+        <% end %>
+        <!-- TODO facebook -->
+        <% if current_user.provider == "facebook" %>
+          <li class="img-facebook tip">
+            <span class="checked">
+              <p><%= pluralize(current_user.total_count, "Friend") %></p>
+            </span>
+          </li>
+        <% elsif current_user %>
+          <li class="img-email tip">
+            <span class="no-checked">
+                <a href="/profile/social_sharing"> Verify Your Facebook account</a>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+        <div class="see-profil">
+      <%= link_to "→ Complete your verifications", verifications_profile_index_path %>
+      </div>
+    </div>
+    <hr>
+    <div class="main-column-block">
+      <h4 class="main-column-title">Member activity</h4>
+      <ul class="main-column-list unstyled margin-bottom">
+        <li class="img-marker clearfix">
+          <div class="activities-text-container">
+            <%= current_user.rides.count %>
+            <%= current_user.rides.count > 1 ? "rides" : "ride" %> offered
+          </div>
+        </li>
+        <li class="img-clock clearfix">
+          <div class="activities-text-container">
+            Last
+            online: <%=  current_user.last_sign_in_at.to_date  == Date.today ? "Today #{ current_user.last_sign_in_at.strftime("%I:%H:%S")}" :  current_user.last_sign_in_at.strftime(" %d %b %Y Time: %I : %H : %S") %>
+          </div>
+        </li>
+        <li class="img-calendar clearfix">
+          <div class="activities-text-container">
+            Member since: <%= current_user.created_at.strftime("%d %b %Y") %>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>

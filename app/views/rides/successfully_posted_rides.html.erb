@@ -1,0 +1,75 @@
+
+<%= stylesheet_link_tag 'new_design/successfully_posted_ride' %>
+<div class="done-wraper">
+  <div class="container">
+    <div class="confirmed-payment">
+      <div class="payment-head">
+        <h1> Well Done!</h1>
+        <p>You have just posted a ride<p>
+      </div>
+      <div class="passenger-block">
+        <div class="passenger-holder">
+          <div class="col-md-5 col-sm-6 col-xs-6">
+            <div class="image-holder">
+              <%= image_tag @ride.user.profile.picture, class: 'img-responsive'%>
+            </div>
+          </div>
+          <div class="passenger-textarea col-md-7 col-sm-6 col-xs-6">
+            <h4><%= @ride.user.display_first_last_name%></h4>
+          </div>
+        </div>
+        <% @ride.routes.each do |route| %>
+          <div class="col-md-12 xol-sm-12 loctaion_area">
+            <p>
+                <span><%= route.source.address.partition(',').first %></span>
+                <span class="arrow">&gt;&gt;</span>
+                <span><%= route.destination.address.partition(',').first %></span>
+            </p>
+              <span>($ <%= route.price%>/passenger)</span>
+          </div>
+        <% end %>
+        <ul class="passenger-detail">
+          <li>
+            <h3>Departing</h3>
+            <p><%= @ride.departure_date.strftime("%I:%M%p")%></p>
+          </li>
+          <li>
+            <h3><%= @ride.departure_date.strftime("%A")%></h3>
+            <p><%= @ride.departure_date.to_date %></p>
+          </li>
+        </ul>
+        <div class="add_block">
+          <div class="holden">
+            <h3><%= @ride.car.car_maker.name %></h3>
+            <p><%= @ride.car.car_model.name %></p>
+          </div>
+          <div class="person">
+            <h3>$<%= @ride.total_price %></h3>
+            <p>Per Person</p>   
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 social-area">
+        <a class="pts" href="#">+15pts</a>
+        <%= link_to "Share on Facebook",'https://www.facebook.com/dialog/feed?
+            app_id=562756200542819&
+            link=https://falls.lamule.com.au/rides/'+@ride.id.to_s+'&
+            picture=http://eduleaf-development.s3.amazonaws.com/uploads/lamule_meta_image_large_2.png&
+            name=I am going to this route '+@ride.show_sorce_destination_route+'&
+            caption=Departure Time '+@ride.departure_date.to_s+'&
+            description='+@ride.number_of_seats.to_s+' Seats left and '+@ride.total_price.to_s+'$ per passenger&
+            redirect_uri=https://falls.lamule.com.au/&
+            display=popup', id: "share_on_facebook", class: 'facebook-btn btn btn-primary', :method => :post
+        %>
+      </div>
+      <div class="btn_block mob-none">
+        <!-- <button class="btn-manage btn btn-default" type="submit">MANAGE RIDES</button> -->
+        <%= link_to 'MANAGE RIDES', rides_path, class: 'btn-manage btn btn-default'%>
+      </div>
+      <div class="btn_block desktop-none">
+        <!-- <button class="btn-manage btn btn-default" type="submit">Manage Rides</button> -->
+        <%= link_to 'MANAGE RIDES', rides_path, class: 'btn-manage btn btn-default'%>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="dashboard">
+  <div class="col-md-3 col-sm-4 col-xs-12 side_box">
+    <div class="user_profile text-center">
+      <div class="img_holder">
+       <%= link_to "#{image_tag user.profile.picture, class: "img-responsive"}".html_safe, public_profile_user_path(user.id) %>
+        <span class="tag"><i class="fa fa-star"></i>
+          <% if (user.ratings.present?) %>  
+            <%= (user.ratings.pluck('star').sum.to_f/user.ratings.count).round(2) %>
+          <% else %>
+            N/A  
+          <% end %>
+        </span>
+      </div>
+      <h3><%= user.display_first_name %></h3>
+      <p><%= link_to "Veiw Profile", public_profile_user_path(user.id) %></p>
+    </div>
+  </div>
+  <div class="col-md-9 col-sm-8 col-xs-12">
+    <div class=" details_box">
+      <ul>
+        <li>Total ride posted: <%= user.rides.size %></li>
+        <li>Total passengers: <%= user.get_total_seats_booked %></li>
+        <li>Total rides gained as passenger: <%= user.rides_gained_count %></li>
+        <li>Total ratings: <%= user.ratings.size %></li>
+        <li>Ratings: <%= user.ratings.size %></li>
+      </ul>
+      <div class="checkout">
+        <ul class="list-unstyled pull-right mobile_show">
+          <li class=""><h4>Guru</h4><h3>+5000pts</h3></li>
+        </ul>
+        <%= progress_bar 0.7 %> 
+        <ul class="list-unstyled hide_mobile">
+          <li class="active"><p>Newbie</p>+50pts</li>
+          <li class="next"><p>Friends</p>+500pts</li>
+          <li class=""><p>Old Mate</p>+1000pts</li>
+          <li class=""><p>Guru</p>+5000pts</li>
+          <li class=""><p>LAMULE AMBASSADOR</p>+10,000pts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

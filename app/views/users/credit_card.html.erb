@@ -1,0 +1,59 @@
+<%= hidden_field_tag "active-side-nav-link", "credit_card" %>
+
+<%= form_for current_user, url: profile_update_credit_card_info_path, html: { class: 'form-horizontal', role: 'form' } do |user| %>
+    <fieldset>
+      <div class="main-block">
+        <div class="header-main-block clearfix">
+          <h2 class="pull-left">Credit card</h2>
+        </div>
+
+        <div class="content-main-block clearfix">
+          <h3 class="fade-gray size14 bold">Do you like online transfer</h3>
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <div class="checkbox">
+                    <%= user.check_box :credit_status %>
+                    <%= user.label :credit_status," User can pay for your ride using their credit card"%>
+                  </div>
+                </div>
+              </div>
+          <div>
+            <%= user.submit 'Save', class: "btn btn-primary" %>
+          </div>
+          <% if current_user.stripe_id.blank? %>
+          <!-- Commented code for payments -->
+            <%#= link_to image_tag('blue-on-light.png'), "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_6HNi36oB2WlVMJydtlkReqhNKKCpKaNo&scope=read_write"%>
+            
+          <% end %>
+        </div>
+    </fieldset>
+<% end %>
+<% if current_user.stripe_id.present? %>
+<!-- Commented code for payments -->
+ <!-- <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#pay-online">Transfer of Funds</button> -->
+<% end %> 
+ <div class="modal fade" id="pay-online" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Get Paid!</h4>
+          </div>
+          <div class="modal-body">
+            <div class="well">
+              <%= form_tag transfers_transfer_funds_path do %>
+                <div class="col-md-8 form-group">
+                  <%= label_tag :booking_token, "Provide the booking token number" %>
+                  <%= text_field_tag :booking_token, '', name: 'booking_token', class: "form-control", required: true  %>
+                </div>
+                <div class="col-md-8 form-group">
+                  <%= submit_tag "Proceed", class: "col-md-2 btn btn-success btn-sm pull-right" %>
+                </div>
+                <div class="row"></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    

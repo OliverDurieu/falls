@@ -1,0 +1,38 @@
+en:
+  # account:
+  #   groups:
+  #     new:
+  #       manage_users: Manage Users
+  # errors:
+  #   not_found:
+  #     message: 404 Not Found
+  #   internal_server_error:
+  #     message: 500 Internal Server Error
+  #   unprocessable_entity:
+  #     message: 422 Unprocessable Entity
+  # layouts:
+  #   errors:
+  #     main:
+  #       back: Go Back
+  #     footer:
+  #       site_status: Site Status
+  #       contact_support: Contact Support
+  #   public:
+  #     header:
+  #       learn_more: Learn More
+  #       what_is_patients_create: What is Patients Create
+  #       who_is_involved: Who is involved
+  #       where_will_my_ideas_go: Where will my ideas go
+  #       features: Features
+  #       sign_in_or_create_account: Sign in or Create Account
+  #       sign_in: Sign in
+  #       sign_out: Sign Out
+  #     footer:
+  #       subscribe_to_our_newsletter: Subscribe to our newsletter
+  #       subscribe: Subscribe
+  #       ensure_change: Ensure Change
+  #       about_patientscreate: About CreateHealth.io
+  #       whats_next: What's Next?
+  #       privacy_policy: Privacy Policy
+  #       terms_and_conditions: 'Terms & Conditions'
+  # 

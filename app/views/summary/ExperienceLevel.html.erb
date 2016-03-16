@@ -1,0 +1,228 @@
+    <div class="row">
+    <div class="container">
+        
+
+        <h2>About Experience Levels:</h2><!-- 
+        <p>When you share a ride on LaMule, you travel with a member of a trusted community. Every member has an Experience Level that evolves with time and activity. Levels help you choose the right co-traveller for the ideal LaMule journey. There are five Levels:</p> -->
+        <p>The Falls is a very trusted community of travelers, when ever you share a ride on The Falls your experience levels go up so you can build your reputation within the community. The five different The Falls experience levels help gauge how advanced each member is within the community.</p>
+        <h2>Experience Levels:</h2>
+        <table class="table table-basic table-experience margin-bottom how_it_work">
+            <thead>
+                <tr>
+                <th class="defult heading-row-color"></th>
+                <th id="beginner" class="heading-row-color">Newcomer</th>
+                <th id="regular" class="heading-row-color">Intermediate</th>
+                <th id="confirmed" class="heading-row-color">Experienced</th>
+                <th id="expert" class="heading-row-color">Expert</th>
+                <th id="ambassador" class="heading-row-color">Ambassador</th>
+                </tr>
+            </thead>
+        <tbody>
+            <tr>
+                <th class="table-bg default table-heading-col" >Verified email and mobile</th>
+                <td class="vertical-middle">Welcome!</td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                    <i class="glyphicon glyphicon-ok-sign"></i>
+                </td>
+            </tr>
+            <tr>
+                <th class="table-bg">Profile completion</th>
+                <td class="vertical-middle"></td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <div> 60%</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <div> 70%</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <div> 80%</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <div> 90%</div>
+                </td>
+            </tr>
+            <tr>
+                <th class="table-bg">Positive ratings received</th>
+                <td class="vertical-middle"></td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-star"></i>
+                    <div>1 rating</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-star"></i>
+                    <div>3 ratings</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-star"></i>
+                    <div>6 ratings</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-star"></i>
+                    <div>12 ratings</div>
+                </td>
+            </tr>
+            <tr>
+                <th class="table-bg">Seniority</th>
+                <td class="vertical-middle"></td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <div>1 month</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <div>3 months</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <div>6 months</div>
+                </td>
+                <td class="vertical-middle">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <div>12 months</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>How your experience level is measured:</h2>
+    <p>When you have a high Level it shows that you are a highly trusted member of the LaMule community. Your Level is based on four factors:</p>
+    <ul class="unstyled no-margin">
+        <li class="xp-validate"><i class="glyphicon glyphicon-ok-sign"></i>&nbsp;&nbsp;Verify your self, email & phone.</li>
+        <li class="xp-profile"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;The completion of your profile.</li>
+        <li class="xp-rating"><i class="glyphicon glyphicon-star"></i>&nbsp;&nbsp;The average Start rating given by others from previous rides shared.</li>
+        <li class="xp-date"><i class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Your times as a The Falls member.</li>
+    </ul>
+    <p>Your experience levels are updated at 2am each day.</p>
+    <h2>How to build your Experience level:</h2>
+    <strong>Be sure to have your The Falls profile completed in the following categories:</strong>
+<br>
+<% if current_user.present? %>
+<ul class="unstyled list-raise-xp margin-top">
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-validate.jpg" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to "Verify your email address and mobile number (15%)", verifications_profile_index_path %>
+                This raises your Level because other members know they will be able to contact you and it will be easy to organise journey details.
+            </p>
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-profile.png" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to " Add your profile photo (15%)", photo_profile_index_path %>
+                <a href="#" class="blue display-block"></a>
+            </p>
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/preferences.png" class="pull-left margin-right" alt="">
+            <%= link_to " Fill in your preferences (20%)", '/profile/preferences' %>
+            <p>
+                This raises your Level because members have more information about you. You can indicate whether you smoke, you like travelling with animals, and if you are Bla, BlaBla or BlaBlaBla (Hence the name LaMule!). It's quick and easy to do.
+            </p>
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-car.png" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to "  Give details on your car (20%)", cars_path %>
+                If you are a driver, this raises your Level, because passengers like to know the car they will be travelling in. <br> If you don't have a car, indicate it in your profile (it will also count for 20%).
+            </p>
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-biography.png" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to "  Fill in your mini bio", general_profile_index_path %>
+                This raises your level because members like having more information about you, which makes them feel more confortable when ride sharing. You can write about your passions, hobbies, profession and why you use our site for example.
+            </p>
+            <div class="align-center margin-top">
+                <a href="/dashboard/show_dashboard" class="btn-primary btn-large">Complete your profile now!sacz</a>
+            </div>
+        </li>
+        <li class="margin-bottom clearfix">
+            <a href="#"><img src="/assets/summary/img-star.png" class="pull-left margin-right" alt=""></a>
+            <p>
+                <strong class="display-block">Give and get <%= link_to "ratings", hints_ratings_path %>:</strong>
+                Ratings have a powerful impact on your Level. Members get ratings from other members after they have travelled together. The more positive ratings you get, the higher your Level becomes. The ratings system ranges from Exceptionally awesome to Very Disappointing.  To pass to the next Level, 90% of your ratings need to be either Exceptionally Awesome, Excellent or Good. The best way to get ratings is to travel often and always leave them for other members: 75% of members who receive a rating leave one in return!
+            </p>
+        </li>
+ </ul>
+
+ <% else %>
+    <ul class="unstyled list-raise-xp margin-top">
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-validate.png" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to "Get your email & phone number verified (15%)", new_user_session_path({next_page: "/profile/verifications"}) %>
+                communication is key and if other The Falls members know that you have verified your phone and email then they know they will be able to contact you when needs be.
+
+            </p>
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-profile.png" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to "Upload a profile picture (15%)", new_user_session_path({next_page: photo_profile_index_path}) %> 
+                <br>Everybody loves to put a name to a face so upload your mug shot to help become easily recognized amongst other The Falls members.
+                <a href="#" class="blue display-block"></a> 
+            </p>
+        
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/preferences.png" class="pull-left margin-right" alt="">
+            <%= link_to "Fill your profile preferences (20%)", new_user_session_path({next_page: "/profile/preferences"}) %>
+            <p>
+                The more other The Falls members know about you the easier you will be able to enjoy a well suited ride.
+            </p>
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-car.png" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to "Add your car details (20%)", new_user_session_path({next_page: cars_path}) %> especially if you are a driver detailing what type of car you have is very beneficial, as this will allow passengers to recognize you when you begin your ride share. Be sure to upload a photo of your car to make it as easy as possible to recognize if you don’t have a car indicate that on your profile it will count for (20%).
+            </p>
+        </li>
+        <li class="margin-bottom clearfix">
+            <img src="/assets/summary/img-biography.png" class="pull-left margin-right" alt="">
+            <p>
+                <%= link_to "Fill in your mini bio", new_user_session_path({next_page: general_profile_index_path}) %>
+                This can be a great conversation starter or icebreaker for when you do share a ride. Also your mini bio will help allow others to know a little more about the person who they are traveling with so you can gauge whether they are going to be suited company.
+            </p>
+            <div class="align-center margin-top">
+                <a href='<%= new_user_session_path({next_page: '/dashboard/show_dashboard'})  %>' class="btn-validation btn btn-primary btn-large">Complete your profile now!</a>
+            </div>
+        </li>
+        <li class="margin-bottom clearfix">
+            <a href="#"><img src="/assets/summary/img-star.png" class="pull-left margin-right" alt=""></a>
+            
+                <p class="display-block">Give and get <%= link_to "ratings", new_user_session_path({next_page: hints_ratings_path}) %>:
+                Ratings have a heavy impact on your experience level the more positive ratings you get the higher your level goes. The ratings range from ‘very disappointing to exceptionally awesome’. To pass up to the next level of experience 90% of your ratings have to be positive. It is always nice to leave a good rating to someone who was a good driver or a good passenger, so they have a likely chance to gain a ride in the future.
+            </p>
+        </li>
+ </ul>
+ <% end %>
+ <!-- <h2>Becoming an Ambassador what it does for you</h2> -->
+ <h2>What is means to become part of the most trusted on The Falls</h2>
+ <p class="margin-bottom">
+       <!-- Ambassadors have a special status in the LaMule community.<br> - Members will trust you more, will choose travelling with you and your car will get filled quicker.<br> - Ambassadors are invited to TV interviews and focus groups, they can share feedback on new features to come, and much more...  -->
+Becoming a The Falls ‘Guru’ means that anyone who is looking for a ride will trust your more than anyone else, therefore your will get more passengers quicker.<br> Also you will be asked to share your stories with The Falls to the community as an example of what we are all about.<br> Becoming a The Falls ‘Guru’ means that you will be open for The Falls special offers and possibly freebies.
+    </p>
+    
+    <!-- <h2>Trust is the key</h2> -->
+    <h2>For the love of trust!</h2>
+    <div class="trust-explanation clearfix">
+        <p>Building your experience level means that your trust amongst others will increase, so we encourage you to get as <br> involved as possible with building your experience levels. Yew The Falls!!!</p>
+    </div>
+    </div>
+    </div>

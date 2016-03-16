@@ -1,0 +1,107 @@
+
+<!-- <div class="row"> -->
+  <div class="message-thread-holder" data-mt-id ="<%= @message_thread.id %>" >
+      <%#= link_to "Trip from #{@ride.source_location.get_route_name} to #{@ride.destination_location.get_route_name} - #{date_in_today_format(@ride.departure_date)}", ride_path(@ride.id) %>
+    <% @messages.each do |msg| %>
+      <% if msg.message_type == GlobalConstants::Messages::TYPE[:received] %>
+        <!-- <div class="trip-qa">
+          <%= render "show_message", msg: msg, user: @communicator, holder_class: "pull-left msg-photo-container" %>
+        </div> -->
+        <div class="send_message">  
+          <div class="sender1">
+            <div class="message-thread-holder " data-mt-id="2">
+              <div class="col-sm-3 col-xs-3 col-md-2">
+                <div class="message-who">
+                  <%= render "show_user_picture", user: @communicator %>  
+                  <div class="date_area">
+                    <%= msg.created_at.strftime("%e %B") %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 col-xs-7">
+                 <div class="message-title">
+                  <h4><%= @communicator.display_first_name %></h4>
+                  <%= msg.body %>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+      <% else %>
+      <!--   <div class="trip-my-qa">
+          <%= render "show_message", msg: msg, user: @user, holder_class: "pull-right msg-photo-container" %>
+        </div> -->
+       <div class="send_message">   
+        <div class="sender1">
+          <div class="message-thread-holder " data-mt-id="2">
+            <div class="col-sm-3 col-xs-3 col-md-2 pull-right">
+              <div class="message-who pull-right">
+                <%= render "show_user_picture", user: @user %>
+                <div class="date_area">
+                  <%= msg.created_at.strftime("%e %B") %>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-7 col-xs-7">
+              <div class="message-title">
+                 <h4><%= @user.display_first_name %></h4>
+                <%= msg.body %>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+      <% end %>
+    <% end %>
+
+    <div class="send_message">   
+      <div class="message_write">
+        <div class="holder">
+          <div class="col-sm-3 col-xs-3 col-md-3 pull-right">
+            <div class="message-who pull-right">
+              <%= render "show_user_picture", user: @user %>
+            </div>
+          </div>
+          <div class="col-sm-9 col-xs-9">
+            <%= form_for [@message_thread, @message], method: :post, html: { role: 'form' } do |f| %>
+              <div class="text_area">
+                <%= f.text_area :body, class: "form-control", rows: "5", required: true, placeholder: "Your messages......" %>
+                <%= f.submit 'SEND', class: "btn btn-warning  btn_alert" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="btn_achive_thread">
+    <input class="btn btn-warning   pull-right" type="submit" value="Achive Thread" data-toggle="modal" data-target=".bs-example-modal-sm">
+  </div>
+  <div class="clearfix"></div>
+  <div class="message_with">
+    <h4>Message With:</h4>
+  </div>
+
+  <div class="delete_thread modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content text-center">
+       <h4>Delete thread </h4>
+       <img alt="delete" src="/assets/delete_icon.png" >
+       <p>Are you sure you want to Your delete your message thread
+      with <h4><%= @communicator.display_first_name %>?</h4></p>
+      <input class="btn btn-warning  btn_alert archive-message" type="submit" value="DELETE THREAD">
+
+      </div>
+    </div>
+  </div>
+
+
+
+   
+
+</div>
+<div class="col-md-12">
+  <%= render partial: '/messages/partials/communicator_info_section', locals: { user: @communicator } %>  
+</div>
+  
+<!--   </div> -->
+  

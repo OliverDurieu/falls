@@ -1,0 +1,268 @@
+.search-member-review {
+  background: none repeat scroll 0 0 #E5F3FF;
+  border: 1px solid #A6D6FF;
+  border-radius: 3px !important;
+  box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.45) inset;
+  padding: 19px 13px;
+  overflow: hidden;
+}
+
+.hint-rating-review {
+  background-color: #FAFAFA;
+  background-image: url("/assets/lightbulb2.png");
+  background-position: 15px 15px;
+  background-repeat: no-repeat;
+  border: 1px solid #E6E6E6;
+  margin-top: 19px;
+  padding: 18px;
+  width: 100%;
+}
+
+.hint-rating-review p {
+  margin: 0;
+  padding-left: 32px;
+}
+
+.progress {
+  border-radius: 4px !important;
+  margin: 0 0 5px;
+  display: inline-block;
+}
+
+.progress-bar {
+  color: #000;
+}
+
+.list-progress {
+  float: right;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ratings-text-container {
+  display: inline-block;
+  width: 100px;
+}
+
+.progress-container {
+  display: inline-block;
+}
+
+.progress {
+  width: 114px;
+  background-color: #F5F5F5;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+  height: 13px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(#FEDC21, #FDE72E) repeat scroll 0 0 #FDF139;
+  border-radius: 3.5px;
+  font-size: 9px;
+  box-shadow: 1px 1px 1px #CC9E06 inset, -1px -1px 1px #F3C201 inset;
+}
+
+.search-member-review .btn.btn-primary {
+  margin: 23px 0 0;
+}
+
+.num-area {
+  margin: 0 -17px 0 0;
+}
+
+.form-group {
+  overflow: hidden;
+}
+
+.choose-profil-container {
+  border-bottom: 1px solid #CBCBB6;
+  padding: 10px 0;
+  overflow: hidden;
+}
+
+.list-choose-profil {
+  border-right: 1px solid #CBCBB6;
+  box-shadow: 1px 0 0 #FFFFFF;
+  float: left;
+  padding-right: 25px;
+}
+
+.checkbox, .radio {
+  min-height: 20px;
+  padding-left: 20px;
+}
+
+.checkbox input[type="checkbox"], .radio input[type="radio"] {
+  float: left;
+  margin-left: -20px;
+}
+
+.user-infos {
+  float: left;
+  margin: 0;
+  padding-left: 25px;
+
+}
+
+.user-infos-general {
+  float: left;
+}
+
+.user-infos-general li {
+  clear: both;
+}
+
+.user-infos-general li {
+  font-size: 16px;
+  margin: 6px 0;
+  list-style: none;
+}
+
+.user-infos-general h3 {
+  font-size: 20px;
+  line-height: 23px;
+}
+
+.unstyled.user-infos-general.clearfix {
+  margin: 0;
+  padding: 0;
+}
+
+.section_area {
+  overflow: hidden;
+  padding: 10px 0;
+}
+
+.section_area h2 {
+  font-size: 16px !important;
+  font-weight: bold;
+}
+
+.glyphicon.glyphicon-star {
+  padding: 0 2px;
+}
+
+.glyphicon.glyphicon-star:hover {
+  color: #FF0;
+}
+
+.section_form .form-control {
+  margin: 0 0 10px;
+}
+
+.profile-area {
+  background: #EBEBE3;
+  border-radius: 5px;
+  padding: 5PX 11PX;
+}
+
+.check-area {
+  border: 1px solid;
+  float: left;
+  border: 1px solid #CCCCCC;
+  float: left;
+  padding: 9px;
+}
+
+.driving-mentions {
+  float: right;
+  margin: 0 0 0 19px;
+}
+
+.driving-mentions img {
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+.user-skill-div {
+  overflow: hidden;
+  margin: 0 20px;
+}
+
+.add {
+  margin: 20px;
+}
+
+.list-left-advices .left-advice-container {
+  border: 1px solid #ddd;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 19px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px;
+}
+
+.tab-pane {
+  border: 1px solid;
+  border-radius: 6px !important;
+  padding: 20px;
+}
+
+.progress {
+  border-radius: 4px !important;
+  margin: 0 0 5px;
+  display: inline-block;
+
+}
+
+.progress-bar {
+  color: #000;
+}
+
+.list-progress {
+  float: right;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ratings-text-container {
+  display: inline-block;
+  width: 100px;
+}
+
+.progress-container {
+  display: inline-block;
+}
+
+.progress {
+  width: 114px;
+  background-color: #F5F5F5;
+  border: 1px solid #EEEEEE;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+  height: 13px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(#FEDC21, #FDE72E) repeat scroll 0 0 #FDF139;
+  border-radius: 3.5px;
+  font-size: 9px;
+  box-shadow: 1px 1px 1px #CC9E06 inset, -1px -1px 1px #F3C201 inset;
+}
+
+ul.unstyled.list-progress.clearfix strong {
+  display: inline;
+}
+
+.add_rating {
+  padding: 10px 0 0;
+
+}
+
+.add_ul_rating {
+  margin: 0px;
+  padding: 0 0 10px;
+
+}

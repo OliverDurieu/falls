@@ -1,0 +1,81 @@
+  <p class="lead">Sorry! We have no rides available from <%= params[:from] %> to <%= params[:to] %> matching your search criteria for now. </p>
+  <p class="lead">
+    Here are the latest rides posted on The Falls
+  </p>
+  <% @rides.each do |ride| %>
+  <% if ride.user_id.present? %>
+  <% @p = Profile.find_by(user_id: ride.user_id) %>
+  <% @user = User.find(ride.user_id) %>
+  <a href="<%= ride_path(ride.id)%>" class="trip-search-oneresult email main-block">
+    <!-- <div class="header-main-block clearfix">
+      <h2 class="pull-left"><%#= ride.show_sorce_destination_route %></h2>
+    </div> -->
+
+    <div class="content-main-block clearfix">
+      <div class="col-md-12">
+        <div class ="col-md-3">
+          <p class="col-md-12" style="margin: 0 0 12px -32px;">
+            <% if @p.is_picture?%>
+              <%=image_tag @p.picture  , class: "pull-left"%></p>  
+            <% elsif @p.photo.present? %>
+              <%=image_tag @p.photo  , class: "pull-left"%></p> 
+            <% else %>
+              <%=image_tag "user/icon-man-144.png", class: "pull-left"%>
+            <% end %>
+          </p> 
+          <!-- http://graph.facebook.com/1380293008926694/picture?type=large -->
+        </div>
+
+        <div class="description col-xs-12 col-sm-12 col-md-9 ">
+          <h4 class="time">
+            <strong>Departure - </strong><% t = ride.departure_date   %>
+            <%= t.strftime("%A %d %B - %I:%M %p")  %>
+          </h4>
+          <h4 style="color: green;"><strong>Price - </strong>$<%= ride.total_price %> per passenger</h4>
+          <strong>Location - </strong><%= ride.show_sorce_destination_route %>
+          <div class="availability">
+            <span><strong>Seats - </strong> <%= pluralize(ride.number_of_seats,'seat') %> left</span>
+          </div>
+          <% if ride.car.present? && ride.car.car_maker.present? %>
+          <dl>
+            <dt>
+              Car: <%= ride.car.car_maker.name %>
+            </dt>
+            <!-- <dd>
+              <span class="rating-car star_4 tip" title="Comfort: Luxury">Comfort: <%#= GlobalConstants::CAR_COMFORT_LEVEL[ride.car.level_of_comfort][0]%> </span>
+            </dd> -->
+            <dd>
+              <div class="user-trust">
+          <img class="inline-block" src="/assets/user/fb-small.png" alt="Fb small">
+          <%= pluralize(@user.total_count,'Friend')%>
+        </div>
+            </dd>
+          </dl>
+          <% end %>
+        </div>
+        <p class="col-xs-12 col-sm-12 col-md-12"><%= @user.first_name %> <%= @user.last_name %>
+        </p>
+        
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-12">
+       <hr>
+       <div class="col-md-7">
+         <% if ride.return_date.present? %>
+         <p>Return on <%= set_full_month_date_time_style(ride.return_date) %></p>
+         <% end %>
+       </div>
+       <div class="col-md-5 viewtrip">
+
+        <%#= link_to ride_path(ride) do %>
+        <!-- <i class="glyphicon glyphicon-eye-open"></i> View Trip -->
+        <%# end %>
+      </div>
+    </div>
+  </div>
+</a>
+<% end %>
+<% end  %>
+<div class="email_below_alert col-md-12">
+  <p><i class="glyphicon glyphicon-info-sign"></i>  Drivers usually publish their offers 2 to 3 days before their trip</p>
+</div>

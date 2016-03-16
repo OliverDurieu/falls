@@ -1,0 +1,134 @@
+         <% if bookings.present? %>
+          <% bookings.each do |booking| %>
+          <% ride = Ride.find(booking.ride_id) %>
+          <% user = User.find(ride.user_id) %>
+          
+            <div class="row">
+              <div class="passenger-block">
+            <div class="passenger-holder">
+              <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="image-holder">
+                     <img src="<%= avatar_url(user) %>" class="img-responsive" alt="Icon man 108">
+                    <strong class="rating"><i class="glyphicon glyphicon-star"></i>4.5</strong>
+                </div>
+              </div>
+              <div class="passenger-textarea col-md-7 col-sm-8 col-xs-12">
+                <h4><%=user.first_name%> <%=user.last_name%> </h4>
+                <span>Date: <%=ride.departure_date.strftime("%d/%m/%Y")%><%#=ride.departure_date.strftime("%A %d %B - %I:%M  %p")%></span>
+                
+                <p>
+                <span><%=ride.source_location.get_route_name.partition(',').first %></span>
+                <span class="arrow">&gt;&gt;</span>
+                <span><%=ride.destination_location.get_route_name.partition(',').first %></span>
+              </p>
+              </div>
+            </div>
+            <div class="priority-lists">
+
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            
+            <div id="waterMindDistrictMeteres<%= booking.id %>" class="panel-collapse collapse">
+                <div class="panel-body  row">
+                <div class="col-md-10 col-sm-12  col-xs-12">
+                     <ul class="passenger-detail">
+              <li>
+                <h3>$<%=ride.total_price * booking.no_of_seats_booked%></h3>
+                <p>Paid</p>
+                <p>Ph:<a href="#"> <%=user.phone_number.body%></a></p>
+                <h3><%=booking.token%></h3>
+                <p>Booking Code</p>
+
+                <p>Departing</p>
+                <%=ride.departure_date.strftime("%A %d/%m/%Y")%>
+                <h3><%=ride.departure_date.strftime("%I:%M%p")%></h3>
+                
+                
+                
+                  <p><%= get_car_maker(ride.car) %><p>
+                  <p><%= get_car_model(ride.car) %></p>
+                
+                <p><a href="#" class="hidden" data-toggle="modal" data-target="#driver-contact<%= booking.id %>">Private Message</a></p>
+                <p><a href="#" class = "hidden">Car Chat</a></p>  
+              </li>
+              <li>
+                <h3><%= booking.no_of_seats_booked%></h3>
+                <p>Seats Booked</p>
+              </li>
+              <div class="col-md-12 btn_block">
+              <!-- <a role="button" href="/offer-seats/1" class="  b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn">CANCEL</a> -->
+              <% if booking.ride.departure_date >= Time.now %>
+                <%= link_to 'CANCEL', booking_path(booking), method: :delete, class: 'b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn hidden' %>
+              <% end %>
+            </div>
+            </ul>
+          </div>
+                </div>
+            </div>
+            <a class="panel-heading collapsed" data-toggle="collapse" data-parent="#accordion" href="#waterMindDistrictMeteres<%= booking.id %>" >
+                 <span class="panel-title accordion-toggle ">
+                 </span>
+
+            </a>
+        </div>
+    </div>
+</div>
+           
+          </div>
+          </div>
+<!-- Modal to send a message to the driver -->
+<div class="modal fade" id="driver-contact<%= booking.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Contact <%= ride.user.display_first_last_name %> to inquire about or book
+        your seat</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag contact_to_the_driver_ride_path(ride.id), method: :get, role: "form" do %>
+           <!-- && @ride.user.phone_number.public_status?  -->
+          <% if ride.user.phone_number.try(:body).present? %>
+            <div class="form-group">
+              <label class="p-name">By phone:</label>
+                <h4 class="img-phone tip form-control-static"><%= ride.user.phone_no_with_ext(" ") %></h4>
+            </div>
+          <% else %>
+            <div class="form-group">
+              <label>Contact number not available</label>
+            </div>
+          <% end %>
+          <% if ride.user == current_user %>
+            you can't send to private message to yourself.
+          <% else %>
+            <div class="row" style="margin-left: 10px;">
+              <div class="col-sm-10 well">
+                <div class="form-group">
+                  <%= label_tag "By private message:" %>
+                  <%= text_area_tag "private_msg", nil, class: "form-control", rows: 4, placeholder: "Contact this driver via private message here: you can ask them about trip details and seat availability.", required: true %>
+                </div>
+                <%= submit_tag "Send", name: nil, class: "btn btn-primary" %>
+              </div>
+              <div class="col-sm-2">
+                <%= image_tag ride.user.profile.picture("driver"), class: "img-responsive" %>
+              </div>
+            </div>
+            <div class="alert alert-info">
+              Once you have sent your message, We will notify this driver by SMS. This is free service.
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+          <% end %>
+          
+
+    <% else %>
+  <div class="panel-body rides text-center">
+    <p>You have no <%= tab_name %> Bookings</p>
+  </div>
+<% end %>
+
+

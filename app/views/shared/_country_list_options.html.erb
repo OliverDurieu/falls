@@ -1,0 +1,7 @@
+<%= Country.all.each do |country| %>
+    <option data-code="<%= country.country_code %>" data-format="<%= country.country_format %>" value="<%= country.id %>"
+            <% if country.id == @selected_country.id %> Selected
+            <% end %> >
+      <%= country.name %>
+    </option>
+<% end %>

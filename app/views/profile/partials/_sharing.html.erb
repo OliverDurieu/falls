@@ -1,0 +1,47 @@
+<%#= hidden_field_tag "active-side-nav-link", "social_sharing" %>
+<div class="panel panel-default">
+  <div class="panel-heading">Social Sharing 
+  </div>
+  <div class="panel-body">
+    <p>Social Connections displays your ridesharing activity, which may include your username, Facebook profile photo, and recent locations you visited to your Facebook friends who are also on a The Falls platform.</p>
+    <p>If you turn off this feature, you will still be connected to Facebook, but your Ridesahring activity will not be shared to other Facebook friends on The Falls. </p>
+    <p>If you want to disconnect your Facebook account from, go to <a href="#">Verifications</a> to learn more.</p>
+    <% if current_user.provider == "facebook" %>
+    <p class="social-text">
+      <%= image_tag 'user/fb-btn-large.png' %>
+      Connected - ( <%= link_to "disconnect", "/profile/disconnect_facebook", method: :post %> )
+    </p>
+    <br/>
+    <%= form_for current_user, url: update_fackbook_notifications_notifications_path do |user_form| %>
+    <fieldset>
+      <h6>Post to your Facebook when:</h6>
+      <%= user_form.hidden_field :enable_notifications_validation, value: true %>
+      <%= user_form.fields_for :notifications, current_user.notifications.facebook_notifications do |fn| %>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <div class="checkbox">
+            <%= fn.check_box :status %>
+            <%= fn.label :status, fn.object.text %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+      <!-- end of sms notification field_for -->
+      <div>
+        <%= user_form.submit 'Save', class: "btn btn-primary" %>
+      </div>
+    </fieldset>
+    <% end %>
+    <!-- end of sms notification form_for -->
+    <% else %>
+    <div class="row">
+      <div class="col-sm-7 social-text">
+        <p>
+          Your La-Mule account is not linked to Facebook yet. To connect your account, just click below.
+        </p>
+        <%= link_to "#{image_tag 'user/fb-btn-large.png'} <span>Connect with Facebook  </span> ".html_safe, user_omniauth_authorize_path(:facebook), class: 'btn btn-primary' %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

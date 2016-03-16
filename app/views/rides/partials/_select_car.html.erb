@@ -1,0 +1,36 @@
+<div class="head">
+  <div class=" col-md-2 col-xs-3">
+    <strong class="title">Car</strong>
+  </div>
+  <div class="col-md-5 col-xs-9">
+    <label for="exampleInputEmail25" class="choose-car">Choose car</label>
+    <% if user.cars.present? %>
+    <select name="ride_car" class="selectpicker" id="car_picker">
+      <% user.cars.each do |car| %>
+      <option data-id= '<%= car.id%>' value="<%= car.id %>" data-content='
+        <span class="select-image">
+        <% if car.car_image.present? %>
+        <%= image_tag car.car_image %>
+        <% else %>
+        <%= image_tag 'posting_ride/car_icon.png'%>
+        <% end %>
+        </span>  
+        <span style="display:inline-block; width:100px;"><%= car.car_name %></span>'>
+        <%= car.car_name %>
+      </option>
+      <% end %>
+    </select>
+    <% else %>
+    <div class="form-group">
+      <%#= ride_form.label :car_id, "Your car:", class: "col-sm-6 control-label" %>
+      <div class="col-sm-4">
+        <%#= ride_form.hidden_field :car_id, value: 0 %>
+        <%#= link_to "Add Car", new_car_path({ rid: @ride.id, fr: "of2" }), class: "btn btn-primary" %>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#payment_recieved_modal">
+          Choose a car
+        </button>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>

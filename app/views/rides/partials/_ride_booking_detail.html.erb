@@ -1,0 +1,76 @@
+
+<div class="manage_rides">
+  <div class="col-sm-12 col-xs-12 col-lg-12 no_of_bookings">
+  <div class="row">
+    <ul class="col">
+      <% total_bookings = ride_object.bookings %>
+      <% total_bookings.each do |booking| %>
+        
+          <li>
+            <div class="img-holder">
+              <img src="<%= avatar_url booking.user %>" class="img-responsive" alt="Icon man 108">
+            </div>  
+            <p><%= booking.user.display_first_last_name %></p>
+          </li>
+        
+      <% end %>
+     
+      <% i = 0 %>
+      <% while i < ride_object.number_of_seats.to_i %>
+      <li>
+            <div class="img-holder">
+                <img src="/assets/user/Mask.png" class="img-responsive" alt="Icon man 108">
+            </div>  
+            <p>Empty</p>
+          </li>
+        <% i = i + 1 %>
+      <% end %>
+       </ul>
+      <div class="clearfix"></div>
+      <div class="btn_block pull-left">
+        <a class="btn_offer btn btn-default   navbar_ride_btn" href="#" role="button">Edit Ride</a>
+      </div>
+      <div class="payment_btn pull-right">
+        <div class="btn_block">
+          <a role="button" data-toggle="collapse" href="#Recieve_payment_collapse-<%= ride_object.id %>" class="btn_offer btn btn-default   navbar_ride_btn accordion-toggle">Receive <br> Payments</a>
+        </div>
+    </div>
+    </div>
+    </div>
+<div id="Recieve_payment_collapse-<%= ride_object.id %>" class="accordion-body collapse">
+  <% if ride_object.bookings.present? %>
+    <% ride_object.bookings.each do |booking| %>
+      <div class="payment_details ">
+        <div class="col-sm-12 col-xs-12 col-lg-12">
+          <div class="payment_list row">
+            <div class="row">
+              <div class="col-sm-5  col-xs-5 text-center">
+                <div class="img-holder">
+                  <img alt="Icon man 108" class="img-responsive" src="<%= avatar_url booking.user %>">
+                </div>
+                  <h5><%= booking.user.display_first_last_name %></h5>
+              </div>
+              <div id="payment_request_form_<%= booking.id %>">
+                <%= render partial: '/rides/partials/get_paid_for_ride', locals: { booking_object: booking } %>
+              </div>  
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <p class="get_paid_info_text">Enter the 4 digit code your passengers gave you to receive payment for the journey.</p>
+  <% else %>
+    <div class="payment_details ">
+      <div class="col-xs-12">
+        <div class="payment_list row">
+          <div class="">
+            <span> You don't have any bookings against this ride.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
+  </div>
+</div>
+

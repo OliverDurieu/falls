@@ -1,0 +1,38 @@
+<% @booking_n.each do |book| %>
+  <% if book.ride.present? %>
+  <% if User.exists?(book.sender_id) %>
+    <div class="row container well">
+      <% u = User.find(book.sender_id) %>
+      <% if book.booking.present? %>
+        <p><%= link_to u.first_name, public_profile_user_path(u) if u.present? %> Applied for 
+        <% ride = book.ride_id %>
+        <%= link_to ride_path(ride) do %>
+        <i class="glyphicon glyphicon-eye-open"></i> Trip 
+        <% end %></p>
+        <p>Seats: <%= book.booking.no_of_seats_booked %></p>
+        <p>Time: <%= date_in_today_format(book.booking.booking_date) %></p>
+        <div class="pull-right">
+          <% if book.booking.status == "waiting" %>
+            <% if book.ride.number_of_seats > 0 %>
+              <%= link_to "Accept", accept_booking_path(book.booking), class: "btn btn-primary" %>
+              <%= link_to "Reject", reject_booking_path(book.booking), class: "btn btn-primary" %>
+            <% else %>
+              All seats are booked for this ride
+            <% end %>
+          <% elsif book.booking.status == "rejected" %>
+            Rejected
+          <% elsif book.booking.status == "accepted" %>
+            Accepted
+          <% end %>
+        </div>
+      <% else %>
+        <p><%= link_to u.first_name, public_profile_user_path(u) if u.present? %> Canceled application for this ride  
+        <% ride = book.ride_id %>
+        <%= link_to ride_path(ride) do %>
+        <i class="glyphicon glyphicon-eye-open"></i> View 
+        <% end %></p>
+      <% end %>
+    </div>
+     <% end %>
+  <% end %>
+<% end %>

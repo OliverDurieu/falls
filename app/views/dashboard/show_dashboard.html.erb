@@ -1,0 +1,246 @@
+<%#= render :partial => '/users/header_tabs' %>
+<div class="container dashboard row">
+  
+  <div class="col-md-12 col-sm-12 col-xs-12 alert_msg hidden">
+    <div class="alert alert-warning fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-3">
+          <!-- <img src="$_img.png" class="img-responsive"> -->
+          <%= image_tag '$_img.png', class: 'img-responsive'%>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-7 ">
+          <i><h4><strong>Warning! There was a problem</strong></h4></i>
+          <p>your network connection. </p>
+          <a role="button" href="/offer-seats/1" class=" hidden-xs b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn">OFFER A RIDE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+  <div class="col-md-12">
+    <div class="col-md-3 col-sm-4 col-xs-12 side_box">
+        <div class="user_profile text-center">
+          <div class="img_holder">
+           <%= link_to "#{image_tag current_user.profile.picture, class: "img-responsive"}".html_safe, public_profile_user_path(current_user.id) %>
+            <span class="tag"><i class="fa fa-star"></i>
+              <% if (@unread_received_message_threads_count > 0) %>  
+                <%= (current_user.ratings.pluck('star').sum.to_f/current_user.ratings.count).round(2) %>
+              <% else %>
+                N/A  
+              <% end %>
+            </span>
+          </div>
+          <h3><%= current_user.name %></h3>
+          <p><%= link_to "Veiw Profile", public_profile_user_path(current_user.id) %></p>
+          <p><%= link_to "Edit Profile", general_profile_index_path %></p>
+        </div>
+        <div class="panel panel-default hilde_tb">
+          <div class="panel-heading">Verifications</div>
+          <div class="panel-body Verifications m-15">
+            <ul class="list-unstyled">
+              <li>
+                <div class="img_holder">
+                  <% if current_user.email_verified == true %>
+                    <%= image_tag 'check.png', class: 'img-responsive'%>
+                  <%else %>
+                    <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                  <% end %>
+                </div>
+                <span>Email Address</span>
+                <small><%= email_verfied %></small>
+              </li>
+              <li>
+              <div class="img_holder">
+                <% if current_user.phone_number.verified_no == true %>
+                  <%= image_tag 'check_new.png', class: 'img-responsive'%>
+                <%else %>
+                  <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                <% end %>   
+                </div>
+                <span>Phone Number</span>
+                <small><%= phone_number_verfied %></small>
+              </li>
+              <li>
+              <div class="img_holder">
+                <% if current_user.fb_connect? %>
+                  <%= image_tag 'check_new.png', class: 'img-responsive'%>
+                <%else %>
+                <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                <% end %>
+                </div>
+                <span>Facebook</span>
+                <small><%= fb_friends %></small>
+              </li>
+              <li>
+              <div class="img_holder">
+                <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                </div>
+                <span>Payments</span>
+                <small>Stripe</small>
+              </li>
+            </ul>
+            <div class="text-center">
+              <p>(More Coming soon)</p>
+              <!-- <a class="btn btn-primary" href="/notifications/booking_notifications">See all booking notifications</a> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default hilde_tb">
+          <div class="panel-heading">Fast check
+          </div>
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <li><a href="<%= email_alerts_path %>">View/Manage Listing</a></li>
+              <li><a href="<%= bookings_path %>">My bookings</a></li>
+              <li><a href="<%= received_ratings_path %>">Reviews</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-sm-8 col-xs-12">
+      <div class=" details_box">
+        <ul>
+          <li>Total ride posted: <%= current_user.rides.size %></li>
+          <li>Total passengers: <%= current_user.get_total_seats_booked %></li>
+          <li>Total rides gained as passenger: <%= current_user.rides_gained_count %></li>
+          <li>Total ratings: <%= current_user.ratings.size %></li>
+          <li>Ratings: <%= current_user.ratings.size %></li>
+        </ul>
+        <div class="checkout">
+        <ul class="list-unstyled pull-right mobile_show">
+              <li class=""><h4>Guru</h4><h3>+5000pts</h3></li>
+            </ul>
+          <%= progress_bar 0.7 %> 
+          <ul class="list-unstyled hide_mobile">
+              <li class="active"><p>Newbie</p>+50pts</li>
+              <li class="next"><p>Friends</p>+500pts</li>
+              <li class=""><p>Old Mate</p>+1000pts</li>
+              <li class=""><p>Guru</p>+5000pts</li>
+              <li class=""><p>LAMULE AMBASSADOR</p>+10,000pts</li>
+            </ul>
+          </div>
+        </div>
+        <% if @unread_received_message_threads_count > 0 %>
+          <div class="panel panel-default massage_box">
+            <div class="panel-body">
+            <div class="msg_icon">
+              <button class=" bb_t btn btn-default " type="button"><i class="fa fa-envelope"></i><span class="message_num"><%= @unread_received_message_threads_count %></span></button>
+            </div>
+            <h4>You have <%= I18n.with_locale(:en) { @unread_received_message_threads_count.to_words } %> unread message(s) . <%= link_to "see here", messages_received_path %></h4>
+          <div class="clearfix"></div>
+             <% @unread_received_message_thread.each do |m| %>
+          <a href="<%= message_thread_path(m.id) %>" class=" one-thread">
+            <div class="thread-list-container">
+            <div class="col-md-2 col-sm-4 col-xs-4">
+              <div class="image-area">
+                <%= image_tag m.communicator.profile.picture("inbox"), alt: "#{m.communicator.display_first_last_name} (#{m.communicator.age})"%>
+                
+              </div>
+            </div>
+            <div class="">
+              <div class="col-md-9 col-sm-8 col-xs-8 row ">
+                <div class="dashboard-message-title">
+                  <h3><%= m.communicator.display_first_last_name %></h3>
+
+                  <div class="message-date">
+                    <%= date_in_today_format(m.messages.last.created_at) %>
+                  </div>
+
+
+                  <div class="">
+                    <%= render "/messages/message_title", message_thread: m, dash: :d %>
+
+                  </div>
+
+
+                </div>
+                <div class="col-md-12">
+                <a role="button" href="/offer-seats/1" class=" pull-right b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn">Reply</a>
+              </div>
+              </div>
+          </div>
+          </div>
+          </a>
+        <% end %>
+          </div>
+        <% end %>
+       
+    </div>
+    <div class="col-md-3 col-sm-4 col-xs-12 side_box">
+        <div class="panel panel-default hide_d">
+          <div class="panel-heading">Verifications</div>
+          <div class="panel-body Verifications m-15">
+            <ul class="list-unstyled">
+              <li>
+              <div class="img_holder">
+                <% if current_user.email_verified == true %>
+                 <%= image_tag 'check_new.png', class: 'img-responsive'%>
+                <%else %>
+                  <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                <% end %>
+                </div>
+                <span>Email Address</span>
+                <small><%= email_verfied %></small>
+              </li>
+              <li>
+              <div class="img_holder">
+                <% if current_user.phone_number.verified_no == true %>
+                  <%= image_tag 'check_new.png', class: 'img-responsive'%>
+                <%else %>
+                  <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                <% end %>  
+                </div>
+                <span>Phone Number</span>
+                <small><%= phone_number_verfied %></small>
+              </li>
+              <li>
+              <div class="img_holder">
+                <% if current_user.fb_connect? %>
+                  <%= image_tag 'check_new.png', class: 'img-responsive'%>
+                <%else %>
+                  <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                <% end %>
+                </div>
+                <span>Facebook</span>
+                <small><%= fb_friends %></small>
+              </li>
+              <li>
+              <div class="img_holder">
+                <%= image_tag 'uncheck.png', class: 'img-responsive'%>
+                </div>
+                <span>Payments</span>
+                <small>Stripe</small>
+              </li>
+            </ul>
+            <div class="text-center">
+              <p>(More Coming soon)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default hide_d">
+          <div class="panel-heading">Fast check
+          </div>
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <li><a href="<%= email_alerts_path %>">View/Manage Listing</a></li>
+              <li><a href="<%= bookings_path %>">My bookings</a></li>
+              <li><a href="<%= received_ratings_path %>">Reviews</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+      $("." + $('#user-main-tabs').val()).addClass('active');
+    });
+
+
+</script>

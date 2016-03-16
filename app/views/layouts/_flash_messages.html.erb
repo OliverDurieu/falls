@@ -1,0 +1,39 @@
+<%# Rails flash messages styled for Bootstrap 3.0 %>
+<div id="flash">
+  <% if notice.present? %>
+    <% flash.each do |name, msg| %>
+        <% if msg.is_a?(String) %>       
+            <%
+            if name.to_s == 'notice'
+              name = 'success'
+            elsif name.to_s == 'alert'
+              name = 'danger'
+            else
+              name = name.to_s  
+            end
+            %>
+
+          <div class="col-md-12 col-sm-12 col-xs-12 alert_msg ">
+          <div class="alert alert-warning fade in flash-message <%= notice ? "notice" : ""%><%= alert ? "error" : ""%>">
+              <a href="#" class="close" data-dismiss="alert">&times;</a>
+              <div class="row">
+              <div class="col-md-4 col-sm-4 col-xs-3">
+                <%= image_tag '$_img.png', class: 'img-responsive'%>
+              </div>          
+              <div class="col-md-8 col-sm-8 col-xs-7">
+                <i><h4><strong><%= content_tag :div, msg.html_safe, :id => "flash_#{name}" %></strong></h4></i>           
+                <a role="button" href="/offer-seats/1" class=" hidden-xs b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn">OFFER A RIDE</a>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <% end %>
+    <% end %>
+ <% end %>
+</div>
+
+
+
+          
+
+  

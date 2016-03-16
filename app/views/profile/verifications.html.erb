@@ -1,0 +1,69 @@
+<%= hidden_field_tag "active-side-nav-link", "verifications" %>
+<div class="offer_ride booking profile">
+  <div class="col-md-10 col-sm-12 col-xs-12">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      
+      <div role="tabpanel" class="tab-pane change_password Verification active" id="Verifications">
+        <%= render 'profile/partials/verification' %>
+      </div>
+      
+      <!-- Delete account end -->
+      <div class="offer_ride_footer">
+        <div class="panel panel-default col-md-12 col-sm-12 col-xs-12">
+          <div class="col-sm-3 col-xs-12">
+            <div class="img_holder">
+              <a href="/users/4/public_profile"><img alt="Icon man 108" class="img-responsive" src="/assets/icon_2.png"></a>
+            </div>
+          </div>
+           <p>Going somewhere? <a href="/offer-seats/1">Post your ride here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="well">
+  <h2> My verification </h2>
+
+  <div class="email-verification">
+    <h3 class="verifications-title">
+      <% if @user.email_verified.present? %>
+          <p class="text-success">Email: verified</p>
+      <% else %>
+          Email: not verified
+      <% end %>
+    </h3>
+    <div class="verifications-info">
+      Your email address is: <%= @user.email %> ( <%= link_to "edit", general_profile_index_path %> )
+    </div>
+    <% if @user.email_verified.blank? %>
+        <%= link_to "Verify this email address", "/send_verify_email", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <div class="phone-number-verification">
+    <h3 class="verifications-title">
+    <% if @user.phone_number %>
+      <% if @user.phone_number.verified_no? %>
+          <p class="text-success">Phone: verified</p>
+      <% else %>
+          Phone: not verified
+      <% end %>
+      <% else %>
+        Phone: not availaible
+        <% end %>
+    </h3>
+    <div class="verifications-info">
+      Your phone number is: <%= @user.phone_no_with_ext(" ") %> ( <%= link_to "edit", general_profile_index_path %> )
+    </div>
+    
+    <% if @user.phone_number.present? %>
+    <% if @user.phone_number.verified_no.blank? %>
+        <%= link_to "Verify this number", "/fill_phone", class: "btn btn-primary" %>
+    <% end %>
+    <% else %>
+    Please provide your phone number
+    <% end %>
+  </div>
+</div> -->

@@ -1,0 +1,357 @@
+<div class="main-height">
+  <div class="">
+     <div class="main_area">
+      <div class="row">
+        <div class="container">
+           <div class="ride_area">
+              <div class="col-md-4 text-center col pull-left hide_mobile">
+                <div class="icon_holder pull-right">
+                  <%= image_tag 'dashboard/icon_1.png', class: 'img-responsive' %>
+                </div>
+                 <div class="col-md-12">
+                  <h3>current rides</h3>
+                </div>
+              </div>
+              <div class="current_veiw_m hide_desktop hidden-xs">
+                <div class="icon_holder ">
+                  <%= image_tag 'dashboard/pointing1.png', class: 'img-responsive' %>
+                </div>
+                <div class="col-md-12 pull-left ">
+                  <h3>current rides</h3>
+                </div>
+              </div>
+             <%= render 'dashboard/rides_slide_show' %>
+           </div>
+        </div>
+        <div class="container">
+          <div class="how_it_work hide_mobile hidden">
+            <h2>How it works</h2>
+            <div  class="tabs_area">
+              <ul class="nav nav-tabs text-center" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Finding a ride</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Offering a ride</a></li>
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col col1">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                      <div class="icon_holder pull-right">
+                        <%= image_tag 'icon_1.png', class: 'img-responsive' %>
+                      </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                      <h4>Set your start location and end destination.</h4>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-4 col-sm-6 col-xs-8 pull-right col">
+                    <div class="col-md-12 text-center">
+                       <h4>Connect with one of the friendly, trusted drivers.</h4>
+                       <div class=" icon_holder_img">
+                          <%= image_tag 'icon_2.png', class: 'img-responsive' %>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-6 col-sm-6 col-xs-12   col2">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                      <div class="icon_holder pull-right">
+                        <%= image_tag 'icon_3.1.png', class: 'img-responsive' %>
+                      </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                      <h4>Arrive safely at your destination!</h4>
+                    </div>
+                  </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <div class="col-md-4 col-sm-6 col-xs-10 col col1 pull-right">
+                      <div class="col-md-8 col-sm-8 col-xs-8">
+                        <h4>Complete the driver verification process.</h4>
+                      </div>
+                       <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="icon_holder pull-right">
+                          <%= image_tag 'icon_1.png', class: 'img-responsive' %>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-4 col-sm-6 col-xs-8 pull-left col col_2">
+                    <div class="col-md-12 text-center">
+                       <h4>Set your trip preferences & post your journey.</h4>
+                       <div class=" icon_holder_img">
+                          <%= image_tag 'icon_2.png', class: 'img-responsive' %>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-4 col-sm-6 col-xs-10   col2 pull-right">
+                    <div class="col-md-12">
+                        <h4>Connect with new friends and enjoy the ride.</h4>
+                      </div>
+                      <div class="col-md-12 ">
+                        <div class=" icon_holder_img">
+                          <%= image_tag 'icon_3.1.png', class: 'img-responsive' %>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <div class="future">
+          <div class="">
+              <div id="myCarousel" class="carousel slide hide_mobile hidden" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner " role="listbox">
+    <div class="item active">
+      <%= image_tag 'slide_1.png', class: 'img-responsive bg' %>
+        <div class="slide_caption">
+        <div class="container">
+           <div class="col-md-6 col-sm-12 text-center">
+           <h2>We want a greener future</h2>
+           </div>
+           <div class="col-md-5 col-sm-12 pull-right">
+           <div class="slide_box">
+              <div class="image_holder">
+                <%= image_tag 'dashboard/Mountainside.png', class: 'img-responsive ' %>
+              </div>
+              <p>An average car in Australia produces 0.2kg of CO2 per 1km. This means that for every 100kms we are producing as much CO2 as a bag of concrete. If every car owner in Australia carpools in place of a trip they were going to drive by their self over a distance of 250km, collectively we will save approx. 664,800t of CO2. This is the same weight as a large cargo ship.</p>
+            </div> 
+          </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="item">
+      <%= image_tag 'slide_2.png', class: 'img-responsive bg' %>
+      <div class="slide_caption">
+        <div class="container">
+           <div class="col-md-6 col-sm-12 text-center">
+           <h2>A Stranger is simply a friend 
+you haven’t met yet</h2>
+           </div>
+           <div class="col-md-5 col-sm-12 pull-right">
+           <div class="slide_box">
+              <div class="image_holder">
+                <%= image_tag 'imgo.jpg', class: 'img-responsive ' %>
+              </div>
+              <p>Studies have shown that people are 80% more likely to get along when they have a common objective.</p><p>
+
+Socializing with new people has been proven to increase memory, increase the amount of time in which people smile throughout the day and build personal self worth.</p>
+            </div> 
+          </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="item">
+      <%= image_tag 'slide_3.png', class: 'img-responsive bg' %>
+      <div class="slide_caption">
+        <div class="container">
+           <div class="col-md-6 col-sm-12 text-center">
+           <h2>Regular carpooling could allow  you to holiday in bali</h2>
+           </div>
+           <div class="col-md-5 col-sm-12 pull-right">
+           <div class="slide_box">
+              <div class="image_holder">
+                <%= image_tag 'icon_3.png', class: 'img-responsive' %>
+              </div>
+              <p>The average Australian passenger car travels 14,000 kms each year costing approx. $9,500. If 5% of that was split into 4 then you would have enough money to fly Sydney to Denpasar to holiday in tropical Bali.</p>
+            </div> 
+          </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+            </div>
+          </div>
+        </div>
+        <div class="community hide_mobile hidden">
+          <div class="col-md-8 col-md-offset-2">
+            <h1>Join the community</h1>
+            <h4>The Falls is more than just ride sharing, we are a family of trusted people who all think that Australia needs to move smart.</h4>
+            <a class="btn btn-default active b_25 community_ride mb_10" href="/email_alerts/new?from=&to=" role="button">FIND A RIDE</a>
+            <a class="btn btn-default b_25 button_shadow" href="/offer-seats/1" role="button">OFFER A RIDE</a>
+          </div>
+        </div>
+        <div class="container hide_mobile hidden">
+          <hr>
+          <div class="client_area">
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <%= image_tag 'c_logo1.png', class: 'img-responsive' %>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <%= image_tag 'c_logo2.png', class: 'img-responsive' %>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <%= image_tag 'c_logo3.png', class: 'img-responsive' %>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <%= image_tag 'c_logo4.png', class: 'img-responsive' %>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+     <div class="video_area" id="video_div">
+       <iframe src="https://www.youtube.com/embed/zgD08WvCtKs" frameborder="0" allowfullscreen></iframe>
+     </div>
+     <div class="footer hide_mobile hidden">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-9">
+                <ul class="list-unstyled">
+                  <li><a href='<%= summary_termsconditions_path %>'>T's & C's </a></li>
+                  <li><a href='<%= summary_policy_path %>'>Privacy Policy </a></li>
+                  <li><a href='<%= summary_ExperienceLevel_path %>'>Experience Levels</a></li>
+                  <li><a href='<%= summary_origin_path %>'>Where The Falls comes from</a></li>
+                  <li><a href='<%= summary_partner_path %>'>Partnership opportunities</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-3">
+                <ul class="list-inline">
+                  <li><a href="https://www.facebook.com/lamuleaustralia" target="_blank">
+                    <span class="fa-stack fa-2x">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  </li>
+                  <li><a href="https://twitter.com/Lamuleaustralia" target="_blank">
+                    <span class="fa-stack fa-2x">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  </li>
+                   <li><a href="http://instagram.com/lamulerideshare" target="_blank">
+                    <span class="fa-stack fa-2x">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                    </a>
+                    </li>  
+                </ul>
+              </div>
+            </div>
+            <div class="copyright text-center col-md-12">
+              <a href="<%= root_path %>">
+                <div class="footer_logo">
+                  <%= image_tag 'dashboard/footer_logo.png', class: 'img-responsive'%>
+                </div>
+              </a>
+              <p><i class="fa fa-copyright"></i>
+              Copyright <%= Time.now.year %> - The Falls</p>
+           </div>
+        </div>
+     </div>
+  </div>
+   <div class="mobile_footer text-center">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="">
+        <div class="" role="tab" id="headingOne">
+          <h4 class="">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+             Must knows<i class="fa fa-caret-down"></i>
+
+            </a>
+
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <li><a href='<%= summary_termsconditions_path %>'>T's & C's </a></li>
+              <li><a href='<%= summary_policy_path %>'>Privacy Policy </a></li>
+              <li><a href='<%= summary_ExperienceLevel_path %>'>Experience Levels</a></li>
+              <li><a href='<%= summary_policy_path %>'>Why Carpool? </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+<!--       <div class="">
+        <div class="" role="tab" id="headingTwo">
+          <h4 class="">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Company<i class="fa fa-caret-down"></i>
+
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+           <ul class="list-unstyled">
+              <li><a href='<%= summary_termsconditions_path %>'>Contact Us</a></li>
+              <li><a href='<%= summary_policy_path %>'>About Us </a></li>
+              <li><a href='<%= summary_ExperienceLevel_path %>'>Partnerships</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="">
+        <div class="" role="tab" id="headingThree">
+          <h4 class="">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Must knows<i class="fa fa-caret-down"></i>
+
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+         <ul class="list-unstyled">
+            <li><a href='<%= summary_termsconditions_path %>'>T's & C's </a></li>
+            <li><a href='<%= summary_policy_path %>'>Privacy Policy </a></li>
+            <li><a href='<%= summary_ExperienceLevel_path %>'>Experience Levels</a></li>
+          </ul>
+          </div>
+        </div>
+      </div> -->
+</div>
+<div class="social_area">
+  <h4>Join us</h4>
+<ul class="list-inline ">
+  
+                  <li><a href="https://www.facebook.com/lamuleaustralia" target="_blank">
+                    <img alt="Icon man 108" class="img-responsive social_icon" src="/assets/fb_icons.png">
+                  </a>
+                  </li>
+                  <li><a href="https://twitter.com/Lamuleaustralia" target="_blank">
+                    <img alt="Icon man 108" class="img-responsive social_icon" src="/assets/twitter_icon.png">
+                  </a>
+                  </li>
+                   <li><a href="http://instagram.com/lamulerideshare" target="_blank">
+                   <img alt="Icon man 108" class="img-responsive social_icon" src="/assets/instgram_icon.png">
+                    </a>
+                    </li>
+                   <!--  <li>
+                      <a href="#">
+                        <img alt="Icon man 108" class="img-responsive social_icon" src="/assets/LinkedIn_icon.png">
+                      </a>
+                    </li>   -->
+                </ul>
+                  <div class="footer_logo">
+                  <%= image_tag 'dashboard/footer_logo.png', class: 'img-responsive'%>
+                </div>
+                 <p><i class="fa fa-copyright"></i>
+              Copyright <%= Time.now.year %> - The Falls</p>
+        </div>
+  </div>
+  </div>
+  

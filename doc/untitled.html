@@ -1,0 +1,42 @@
+jQuery.fn.gmap_autocomplete_init = function () {
+
+$(this).each(function(){
+    var $this = $(this);
+    var options = {
+      componentRestrictions: {
+        country: 'AU'
+      },
+      types: ['geocode']
+    };
+    var id = $this.attr('id')
+  console.log(id);
+    autocomplete = new google.maps.places.Autocomplete(
+        /** @type {HTMLInputElement} */(document.getElementById(id)),
+       options);
+    // When the user selects an address from the dropdown,
+    // populate the address fields in the form.
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        fillInAddress();
+      alert("sds");
+      if ($('#gmaps-canvas').length) {
+        drawGMap();
+      };
+    });
+
+  });
+
+  // triggered when user presses a key in the address box
+  $(this).bind('keydown', function (event) {
+    var $this = $(this);
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      drawGMap();
+
+      // ensures dropdown disappears when enter is pressed
+      // $this.autocomplete("disable")
+    } else {
+      // re-enable if previously disabled above
+      // $this.autocomplete("enable")
+    }
+  });
+}; // gmap_autocomplete_init

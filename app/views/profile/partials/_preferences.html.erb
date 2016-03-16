@@ -1,0 +1,120 @@
+
+<div class="panel panel-default">
+   <div class="panel-heading">Preferences
+   </div>
+
+   <%= form_for @preference do |f| %>
+   <%= f.hidden_field :flag,value: "1" %>
+   <div class="panel-body m-15">
+      <div class="col-md-12">
+         <div class="row">
+            <div class="list_slide">
+               <div class="col-md-2 col-sm-3 col-xs-12">
+                  <h3>Chattiness</h3>
+               </div>            
+               <div class="col-md-10 col-sm-9 col-xs-12 ">               
+                  <ul>
+                     <li >
+                        <div class="list_one"> <%= f.radio_button :chattiness, 0, :checked => true, class: "css-checkbox", id:"radio1" %><label for="radio1" class="css-label radGroup1"></label>
+                        </div>
+                        Not allowed
+                     </li>
+                     <li >
+                        <div class="list_two"><%= f.radio_button :chattiness, 1, class: "css-checkbox", id:"radio2"  %><label for="radio2" class="css-label radGroup"></label></div>
+                        sometime allowed
+                     </li>
+                     <li >
+                        <div class="list_three"><%= f.radio_button :chattiness, 2, class: "css-checkbox" , id:"radio3" %><label for="radio3" class="css-label radGroup1"></label></div>
+                        No problem
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="list_slide">
+               <div class="col-md-2 col-sm-3 col-xs-12">
+                  <h3>Music</h3>
+               </div>
+               <div class="col-md-10 col-sm-9 col-xs-12 ">
+                  <ul>
+                     <li>
+                        <div class="list_one"> <%= f.radio_button :music, 0, :checked => true, class: "css-checkbox", id:"radio4" %><label for="radio4" class="css-label radGroup1"></label>
+                        </div>
+                        Not allowed
+                     </li>
+                     <li >
+                        <div class="list_two"> <%= f.radio_button :music, 1, class: "css-checkbox", id:"radio5"  %><label for="radio5" class="css-label radGroup1"></label></div>
+                        sometime allowed
+                     </li>
+                     <li >
+                        <div class="list_three"> <%= f.radio_button :music, 2, class: "css-checkbox" , id:"radio6" %><label for="radio6" class="css-label radGroup1"></label></label></div>
+                        No problem
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+
+
+         <div class="row">
+            <div class="list_slide">
+               <div class="col-md-2 col-sm-3 col-xs-12">
+                  <h3>Smoking</h3>
+               </div>
+               <div class="col-md-10 col-sm-9 col-xs-12 ">
+                  <ul>
+                     <li >
+                        <div class="list_one">  <%= f.radio_button :smoking, 0, :checked => true, class: "css-checkbox", id:"radio7" %><label for="radio7" class="css-label radGroup1"></label>
+                        </div>
+                        Not allowed
+                     </li>
+                     <li >
+                        <div class="list_two"> <%= f.radio_button :smoking, 1, class: "css-checkbox", id:"radio8"  %><label for="radio8" class="css-label radGroup1"></label></div>
+                        sometime allowed
+                     </li>
+                     <li >
+                        <div class="list_three">  <%= f.radio_button :smoking, 2, class: "css-checkbox", id:"radio9"  %><label for="radio9" class="css-label radGroup1"></label></div>
+                        No problem
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+
+
+
+
+         <div class="row">
+            <div class="list_slide">
+               <div class="col-md-2 col-sm-3 col-xs-12">
+                  <h3>Pets</h3>
+               </div>
+               <div class="col-md-10 col-sm-9 col-xs-12 ">
+                  <ul>
+                     <li >
+                        <div class="list_one">  <%= f.radio_button :pets, 0, :checked => true, class: "css-checkbox", id:"radio10" %><label for="radio10" class="css-label radGroup1"></label>                       </div>
+                        Not allowed
+                     </li>
+                     <li >
+                        <div class="list_two">  <%= f.radio_button :pets, 1, class: "css-checkbox", id:"radio11"  %><label for="radio11" class="css-label radGroup1"></label></div>
+                        sometime allowed
+                     </li>
+                     <li >
+                        <div class="list_three">  <%= f.radio_button :pets, 2, class: "css-checkbox", id:"radio12"  %><label for="radio12" class="css-label radGroup1"></label></div>
+                        No problem
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+
+         <%= f.submit 'Save', class: "btn " %>
+      </div>
+   </div>
+   
+   <% end %>
+</div>

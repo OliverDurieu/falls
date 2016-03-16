@@ -1,0 +1,49 @@
+<%last_ride_date=Time.now%> 
+<% @rides.each do |ride| %>
+      <%if last_ride_date.to_date != ride.departure_date.to_date%>
+        <div class="top_header text-center date_label">
+           <h4><%=ride.departure_date.strftime("%B %d %Y")%></h4>
+        </div>      
+        <%last_ride_date = ride.departure_date%>        
+      <%end%>
+
+  <% if ride.user_id.present? %>
+              <a href="<%= ride_path(ride.id)%>">
+                <div class="passenger-block">
+                  <div class="passenger-holder">
+                    <div class="col-md-5 col-sm-6 col-xs-6">
+                      <div class="image-holder">
+                        <img class="img-responsive" src="<%= avatar_url(ride.user) %>">
+                        <strong class="rating"><i class="glyphicon glyphicon-star"></i><%=ride.user.calculated_rating %></strong>
+                      </div>
+                    </div>
+                    <div class="passenger-textarea col-md-7 col-sm-6 col-xs-6" >
+                      <h4><%=ride.user.first_name %> <%=ride.user.last_name %></h4>
+                      <span class="passenger-textarea2 search_pagess"><%= ride.departure_date.strftime("%I:%M  %p") %></span>
+                      <span class="passenger-textarea2 search_pagess">Leaving: <%=ride.source_location.get_route_name.partition(',').first%>  
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-xs-12  col-md-offset-2 col-sm-offset-2 ">
+                  <ul class="passenger-detail">
+                    <li>
+                      <h3>$<span class="cost_per_seat cost_per_seat2"  ><%#price_arry<<@ride.total_price %><%= ride.total_price %></span></h3>
+                      <p>Per pessenger</p>
+                    </li>
+                    <li>
+                      <h3><%= ride.number_of_seats %></h3>
+                      <p>Seats Avaiable</p>
+                    </li>
+                  </ul>
+                </div>
+                </div>
+              </a>
+              <%#last_ride_date=ride.departure_date%>
+       <% end %>
+<dic class="clearfix"></dic>
+<%end%>
+
+        
+       
+
+

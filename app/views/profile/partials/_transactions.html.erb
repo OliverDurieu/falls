@@ -1,0 +1,23 @@
+<div class="panel panel-default">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><p> Receivables </p></a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Paid</p></a></li>
+    <!-- <li role="presentation"><a href="#messages" aria-controls="profile" role="tab" data-toggle="tab"><p>Total </p><p>savings</p></a></li> -->
+  </ul>
+  <div class="panel-body">
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="home">
+      <% @payments.each do |payment|%>
+       <p>$<%=payment.transfer_transaction.amount %> paid by <%=payment.booking.user.display_first_last_name %> on <%=payment.created_at.strftime("%A %d %B - %I:%M  %p")%> for trip <%= payment.booking.ride.source_location.get_route_name.partition(',').first %> to <%= payment.booking.ride.destination_location.get_route_name.partition(',').first %> Status - <span class="label label-info"><%= payment.transfer_transaction.status %></span></p>
+      <% end %>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="profile">
+        <% @paid.each do |paid_object|%>
+          <% if paid_object.booking.present? %>
+            <p>$<%= (paid_object.amount/100) %> paid to <%= paid_object.booking.ride.user.display_first_last_name %> on <%=paid_object.created_at.strftime("%A %d %B - %I:%M  %p")%> for trip <%= paid_object.booking.ride.source_location.get_route_name.partition(',').first %> to <%= paid_object.booking.ride.destination_location.get_route_name.partition(',').first %> Status - <span class="label label-info"><%= paid_object.status %></span></p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

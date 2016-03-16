@@ -1,0 +1,11 @@
+<div class="message-title">
+<% if dash == "m" %>
+  <span class="email-meter message-count"><%= message_thread.messages.count %></span>
+<%end%>
+  <% @ride = message_thread.ride %>
+  <% unless message_thread.is_general_thread %>  
+    <p>Trip from <%= @ride.source_location.get_route_name %> to <%= @ride.destination_location.get_route_name %></p>
+  <% else %>
+    <p>General Thread</p>  
+  <% end %>
+</div>

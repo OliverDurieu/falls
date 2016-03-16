@@ -1,0 +1,48 @@
+
+      <div class="panel panel-default">
+          <div class="panel-heading">Past Rides
+          </div>
+
+              <% if !@rides.present? %>
+                 <div class="panel-body rides text-center">
+                     <p>You have no Past Rides</p>            
+                 </div>
+              <%else%>
+          <div class="panel-body rides">
+          <% rides.each do |ride| %>
+            <div class="row">
+              <div class="col-md-3 col-sm-2 col-xs-12">
+                <div class="img_holder">
+                  <a href="/users/4/public_profile">
+                  <% if user.profile.is_picture?%>
+                      <%=image_tag user.profile.picture  , class: "img-responsive"%> 
+                    <% elsif user.profile.photo.present? %>
+                      <%=image_tag user.profile.photo  , class: "img-responsive"%> 
+                    <% else %>
+                      <%=image_tag "user/icon-man-144.png", class: "img-responsive"%>
+                    <% end %>
+                    </a>
+                </div>
+            </div>
+             <div class="col-md-7 col-sm-7 col-xs-12 location">
+             <p>
+                <span><%=ride.source_location.get_route_name%></span>
+                <span class="arrow">>></span>
+                <span><%=ride.destination_location.get_route_name%></span>
+              </p>
+              <p>Leaves <% t = ride.departure_date   %>
+                    <%= t.strftime("%A %d %B - %I:%M  %p")  %> Not confirmed</p>
+              </div>
+             <div class="col-md-2 col-sm-2 col-xs-12 btn_block">
+                <a class="  b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn" href="/offer-seats/1" role="button">MANAGE</a>
+            </div>
+          </div>
+        </div>
+
+     <%end%>
+     <%end%>
+
+    </div>
+
+
+    

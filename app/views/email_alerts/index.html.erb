@@ -1,0 +1,103 @@
+
+<%#= render partial: '/users/header_tabs' %>
+<div class="row margin">
+    <% if @alerts.present? %>
+
+    	<% @alerts.each do |alert|%>
+        <%#= puts "afafs"*77 %>
+        <%#= puts alert.inspect %>
+			<div class="col-md-12">
+      <%= hidden_field_tag "user-main-tabs", "alerts" %>
+ 				<div class="main-block">
+        			<div class="header-main-block clearfix">
+          				<h2 class="pull-left"><%= alert.source %> > <%= alert.destination %></h2>
+        			</div>
+        			 <div class="content-main-block clearfix">
+        			 	You receive an email for each new trip taking place on:<br><br>
+                  <% t = alert.travel_date%>
+                <% if t.present? %>
+        			 	<i class="glyphicon glyphicon-calendar" style="float: left;"></i>
+        			 	<p class="present_travel_date" id="present_travel_date_#{alert.id}">
+        			 	<%= t.strftime("%A %d %B") %>
+                <% else %>
+                <pre>No travel dates provided</pre>
+                <% end %>
+        			 	</p>
+          				<%= hidden_field_tag :travel_date, "", class: "date_travel", id: "date_travel_#{alert.id}", data: {url: update_travel_date_email_alert_path(alert)}, data_source: "#{alert.id}" %>
+
+        			 	<p>
+        			 	<i class="glyphicon glyphicon-plus"></i>
+        			 	 <%= link_to "Add trip date", "#" ,remote: true,  class: "add_trip", id: "date_travel_#{alert.id}" %>
+        			 	</p>
+        			 	 <hr>
+        			 	   <div class="col-md-5 pull-right">
+        			 	     <%= link_to "#" do %>
+         							 <i class="glyphicon glyphicon-eye-open"></i> See available rides
+        							<% end %>
+        			 	   		<%= link_to  email_alert_path(alert), method: :delete, data: { confirm: 'Are you sure?'}  do %>
+        			 	   		 <i class="glyphicon glyphicon-remove-sign"></i> Delete
+        			 	   		 <% end %>
+        			 	   </div>
+        			 </div>
+        		</div>
+    		</div>
+    	<% end %>
+    <% end %>
+	<div class="col-md-12">
+		<p class="margin_tb">You have not yet created any email alerts. Your email alerts will be sent to  <%= current_user.email %> (<%= link_to "edit", '/profile/general' %>)</p>
+		<div class="main-block">
+			<div class="header-main-block clearfix">
+				Why create an email address
+			</div>
+			<div class="content-main-block clearfix">
+				<p>It's convenient: You can create your email alert several weeks ahead of time</p>
+				<p>It's simple: Once your alert is created, we email you each time a new offer is published for that trip</p>
+				<div class="col-md-12 email_box">
+					<i class="glyphicon glyphicon-info-sign glyphi-float"></i><strong class="left-float">How to create an email alert?</strong>
+					<br>
+					1-<%= link_to "Search for a ride", root_path %> by entering your departure and arrival towns <br>
+					2-Fill in the "Your travel date" box and click on "Create an email alert"
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	
+$(document).ready(function(){
+  $("." + $('#user-main-tabs').val()).addClass('active');
+  $('.date_travel').each(function() {
+    $( "#" + $(this).attr('id') ).datetimepicker({
+      timeFormat: "hh:mm TT",
+      controlType: 'select'
+    });
+	});
+	$(".add_trip").click(function(){
+	 $( "#" + $(this).attr('id') ).datetimepicker('show');
+	});
+  var count=0;
+	$(".date_travel").on("change", function() {
+		count++;
+		if(count%4 == 0){
+			var val = $(this).val();
+			var url = $(this).data("url");
+			var id = $(this).attr("data_source");
+//			console.log(id);
+			count = 0;
+		  $.ajax({
+     		type: 'GET',
+   		  url: url,
+   		  data: {date: val}, 
+   		  success: function(data){
+   		  	$("#present_travel_date_"+id).html(data);
+
+   		  }
+     	});
+		  // $('.car-model-select').html(data);
+//			console.log("koko");
+		}
+	});
+});
+
+</script>

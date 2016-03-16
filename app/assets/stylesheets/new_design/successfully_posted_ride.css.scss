@@ -1,0 +1,349 @@
+@import "theme";
+.confirmed-payment {
+    margin: 78px auto 159px;
+    padding: 12px 0 0 21px;
+    width: 45%;
+}
+.confirmed-payment .payment-head {
+  color: #9b9b9b;
+    font-size: 18px;
+    line-height: 21px;
+    padding: 0 0 18px;
+    text-align: center;
+}
+.confirmed-payment .payment-head h1 {
+   color: $theme-color;
+    font-size: 55px;
+    line-height: 53px;
+    margin: 0;
+}
+
+.confirmed-payment .passenger-block {
+    position: relative;
+    margin: 0 0px 0px;
+    box-shadow: none;
+    border-radius: 0;
+    background: none;
+}
+.confirmed-payment .passenger-holder {
+    margin: 0 0 38px;
+}
+.confirmed-payment .passenger-block img {
+    width: 76px;
+    height: 76px;
+    border-radius: 100%;
+    margin: 0 auto;
+    float: right;
+}
+.confirmed-payment .passenger-holder:after {
+  display: block;
+  clear: both;
+  content: '';
+}
+.confirmed-payment .passenger-textarea h4 {
+  color: #636363;
+    font-size:23px;
+    line-height: 25px;
+}
+.confirmed-payment .passenger-holder .col-md-5 {
+    padding: 0 0 0 16px;
+    width: 35.5%;
+    text-align: right;
+}
+.confirmed-payment .passenger-block .loctaion_area {
+    margin:  30px 0;
+    padding: 0;
+}
+.confirmed-payment .passenger-block span {
+    color: #757575;
+    font-size: 25px;
+    line-height: 28px;
+    display: table-cell;
+    vertical-align: middle;
+    width: 1%;
+}
+.confirmed-payment .passenger-block span:last-child {
+  text-align: right;
+}
+.confirmed-payment .arrow {
+  background: url("../posting_ride/arrow-s.png") no-repeat 50% 50%;
+  overflow: hidden;
+  text-indent: -9999px;
+  display: table-cell;
+  width: 35px;
+    height: 19px;
+    margin: 0 1px 0 7px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.confirmed-payment .passenger-holder .passenger-textarea {
+    padding: 32px 10px 0 0;
+    width: 60.333%;
+}
+.confirmed-payment .passenger-block .image-holder {
+    display: inline-block;
+    margin: 0 auto 0;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+}
+.confirmed-payment .passenger-status {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%;
+}
+.confirmed-payment .passenger-detail {
+  color: #878787;
+    display: inline-block;
+    font-size: 22px;
+    line-height: 26px;
+    list-style: outside none none;
+    margin: 0 0 38px;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+}
+.confirmed-payment .passenger-detail li {
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    width: 1%;
+}
+.confirmed-payment .passenger-detail li:last-child {
+  text-align: right;
+}
+.confirmed-payment .passenger-detail h3 {
+    font-size: 23px;
+    line-height: 28px;
+    margin: 0 0 6px;
+    font-weight: bold;
+}
+.confirmed-payment .add_block h3{
+   font-size: 23px;
+    line-height: 26px;
+    margin: 0 0 12px;
+}
+.confirmed-payment .person h3{
+  color: $theme-color;
+  font-size: 60px;
+    line-height: 49px;
+    margin: 0 0 7px;
+}
+.person,
+.holden {
+  display: table-cell;
+  vertical-align: middle;
+  width: 1%;
+  float:  none;
+}
+.confirmed-payment .add_block{
+  color: #878787;
+    font-size: 23px;
+    line-height: 26px;
+    font-weight: bold; 
+    margin: 0 0 78px;
+}
+.confirmed-payment .add_block ul li{
+  margin: 0 0 0 22px;
+}
+.confirmed-payment .add_block  a{
+  font-size: 16px;
+  color: $theme-color;
+}
+.confirmed-payment  .person {
+  text-align: right;
+    font-size: 24px;
+    line-height: 27px;
+}
+.social-area {
+  margin: 0 0 27px;
+    padding: 0;
+    text-align: right;
+}
+.confirmed-payment .pts {
+  color: $theme-color;
+    font-size: 14px;
+    line-height: 17px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 36px 0 0;
+}
+.confirmed-payment .btn-facebook {
+  background: #3b5998;
+  text-align: center;
+  color: #fff;
+}
+.confirmed-payment .facebook-btn {
+  background: #3b5998 none repeat scroll 0 0;
+    border: 1px solid #9baaca;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 17px;
+    padding: 13px 41px 15px 52px;
+    text-transform: uppercase;
+    vertical-align: middle;
+ }
+.confirmed-payment .facebook-btn strong {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 3px 0 0;
+}
+.confirmed-payment .facebook-btn span {
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 31px;
+    margin: 0 14px 0 0;
+    text-transform: none;
+    display: inline-block;
+  vertical-align: middle;
+}
+
+.confirmed-payment .btn_block {
+  text-align: right;
+}
+.confirmed-payment .btn-manage.btn-default:hover,
+.confirmed-payment .btn-manage.btn-default.focus, .btn-manage.btn-default:focus,
+.confirmed-payment .btn-manage:active {
+  box-shadow: none;
+  background: none;
+  color: #fff !important;
+  border: none;
+
+}
+.confirmed-payment .btn-manage {
+  background: $theme-color !important;
+  text-transform: uppercase;
+  color: #fff;
+  border: none;
+  border-bottom: 1px solid #c99e5a;
+  font-size: 15px;
+    font-weight: bold;
+    border-radius: 0;
+    line-height: 19px;
+    padding: 8px 30px;
+}
+.confirmed-payment .btn-manage:hover {
+    border: none;
+    border-bottom: 1px solid #c99e5a;
+    color: #fff;
+}
+.done-wraper {
+  position: relative;
+}
+.desktop-none {
+  display: none;
+}
+
+/* Media queries */
+@media ( max-width: 1025px){
+.trip_profile .passenger-holder .passenger-textarea {
+  padding: 7px 10px 0 0;
+  width: 50%;
+}
+
+.confirmed-payment {
+      padding: 12px 0 0;
+      width: 60%;
+  }
+
+}
+@media ( max-width: 768px){
+  /* Confirmed Payment */
+  .confirmed-payment .payment-head h1 {
+      font-size: 36px;
+      line-height: 39px;
+      margin: 0;
+  } 
+  .confirmed-payment .payment-head {
+      font-size: 18px;
+      line-height: 24px;
+  }
+  .confirmed-payment .passenger-holder {
+      margin: 0 0 38px;
+  }
+  .confirmed-payment .passenger-block img {
+      height: 60px;
+      width: 60px;
+  }
+  .confirmed-payment .passenger-holder .passenger-textarea {
+      padding: 24px 10px 0 0;
+      width: 60.333%;
+  }
+  .confirmed-payment .passenger-textarea h4 {
+      font-size: 24px;
+      line-height: 27px;
+  }
+  .confirmed-payment .passenger-block span {
+    font-size: 18px;
+      line-height: 21px;
+  }
+  .confirmed-payment .passenger-detail {
+    font-size: 18px;
+      line-height: 21px;
+  }
+  .confirmed-payment .passenger-detail h3 {
+      font-size: 23px;
+      line-height: 26px;
+      font-weight: bold;
+  }
+  .confirmed-payment .add_block h3 {
+      font-size: 24px;
+      line-height: 27px;
+  }
+  .confirmed-payment .add_block {
+      font-size: 18px;
+      line-height: 21px;
+  }
+  .confirmed-payment .person {
+      font-size: 18px;
+      line-height: 21px;
+  }
+  .confirmed-payment .pts {
+
+      text-align: left;
+      display: block;
+      margin: 0 0 8px;
+  }
+  .confirmed-payment .btn-manage {
+    position: absolute;
+    left: 0;
+    bottom: 75px;
+    width: 100%;
+    padding: 25px 0;
+    text-transform: none;
+  }
+  .desktop-none {
+    display: block;
+  }
+  .confirmed-payment .facebook-btn {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+  /*  Confirmed Payment End*/
+}
+@media ( max-width: 500px){
+/*  Confirmed Payment */
+  .confirmed-payment {
+      padding: 12px 0 0;
+      width: 97%;
+  }
+  /*  Confirmed Payment End*/
+}
+
+@media ( max-width: 360px){
+  /*  Confirmed Payment*/
+  .confirmed-payment .facebook-btn {
+      padding: 13px 10px 15px 15px;
+      font-size: 14px;
+      line-height: 17px;
+  }
+  .confirmed-payment .facebook-btn span {
+    font-size: 18px;
+    line-height: 21px;
+  }
+  /*  Confirmed Payment End*/
+}

@@ -1,0 +1,1019 @@
+<% content_for :script do %>
+  <%= javascript_include_tag 'gmaps/google' %>
+  <%= javascript_include_tag 'plugins/gmaps' %>
+  <%= javascript_include_tag :posting_a_ride %>
+  <%= javascript_include_tag :stripe %>
+<% end %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.show-gmap').click(function () {
+      if ($('.gmap-holder').hasClass("hidden")) {
+        $('.gmap-holder').removeClass("hidden");
+        $('#gmaps-canvas').removeClass("hidden");
+        $('.show-gmap.main-show').text("Hide map");
+        if (hasNotMap("gmaps-canvas")) {
+          drawGMap();
+        }
+      }
+      else {
+        $('.gmap-holder').addClass("hidden");
+        $('#gmaps-canvas').addClass("hidden");
+        $('.show-gmap.main-show').text("Show map");
+      }
+    });
+
+    $('select#ride_car_id').change(function (event) {
+      var target = $(event.target);
+      if (target.val() != '0') {
+                $(target.parents('form').get(0)).submit(); //better ways to do it
+                event.stopPropagation();
+                return false;
+              }
+            });
+  });
+
+//   $(document).ready(function () {
+//     var max_char = 200;
+//     $('.star-rating').raty({
+//       readOnly: true,
+//       hints: ['1', '2', '3', '4', '5'],
+//       score: function () {
+//         return $(this).attr('data-score');
+//       },
+//       precision: true
+//     });
+//     $('#quantity').on("input change keyup keypress cut paste", function (event) {
+//       var isnum = /^\d+$/.test($('#quantity').val());
+//       if(isnum){
+//         var qty = parseInt($('#quantity').val());
+//         var price = parseInt('<%= @ride.total_price %>');
+//         var seats = parseInt('<%= @ride.number_of_seats %>');
+//         if(qty > 0 && qty <= seats ){ 
+//           var amount = qty*price;
+//           var str = amount+"$ will be charge";
+//           var result = str.fontcolor("green");
+//           document.getElementById("charged").innerHTML = result;
+//           $('input[type=submit]').attr('disabled', false);
+//         }
+//         else{
+//           var st = seats+1;
+//           if(qty <= 0){
+//             var str = "Please enter value greater than 0";
+//             var result = str.fontcolor("red");
+//             document.getElementById("charged").innerHTML = result;
+
+//           }
+//           else{
+//             var str = "Please enter less than "+st+" seats";
+//             var result = str.fontcolor("red");
+//             document.getElementById("charged").innerHTML = result;
+//           }
+//           $('input[type=submit]').attr('disabled', true);
+//         }
+//       }
+//       else{
+//         var str = "Please enter valid seats";
+//         var result = str.fontcolor("red");
+//         document.getElementById("charged").innerHTML = result;
+//         $('input[type=submit]').attr('disabled', true);
+//       }
+//     });
+// });
+
+function hasNotMap(id) {
+  return !document.getElementById(id).firstChild;
+}
+
+</script>
+
+
+
+<% @ride.locations.each do |l| %>
+<% if l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:source] %>
+
+<%= hidden_field_tag "ride_source", l.address %>
+<%= hidden_field_tag "ride_source_longitude", l.longitude %>
+<%= hidden_field_tag "ride_source_latitude", l.latitude %>
+<% elsif l.ride_type == GlobalConstants::Locations::RIDE_TYPES[:destination] %>
+<%= hidden_field_tag "ride_destination", l.address %>
+<%= hidden_field_tag "ride_destination_longitude", l.longitude %>
+<%= hidden_field_tag "ride_destination_latitude", l.latitude %>
+<% else %>
+<%= hidden_field_tag "location_address", l.address, class: "sub-route-locations" %>
+<% end %>
+<% end %>
+<!--
+<div class="row location">
+  <div class="well col-sm-12 col-md-12">
+    <% if @self_user %>
+    <div class="row">
+      <div class="col-md-10"></div>
+      <div class="col-md-2 btn-top">
+        <%= link_to 'Edit', edit_ride_path(@ride), class: "btn btn-primary btn-sm" %>
+        <%= link_to 'Delete', archive_ride_path(@ride), method: :patch, data: { confirm: "Are You Sure?" }, class: "btn btn-danger btn-sm" %>
+      </div>
+    </div>
+    <% end %>
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="trip-roads car-sharing"><span class="from trip-roads-stop"><%= route_state_abbrv(@source) %>
+          <i class="glyphicon glyphicon-arrow-right"></i> <%= route_state_abbrv(@destination) %>
+        </span>
+      </h1>
+    </div>
+    <div class="well header_map col-sm-8 col-md-8 add">
+      <fieldset>
+        <div class=" clearfix row">-->
+
+          <!-- <h4 class="pull-left col-md-9">
+            <div class="row">
+              <div class="col-sm-7 col-md-7">
+                <%#= @source %>
+                <i class="glyphicon glyphicon-arrow-right"></i>
+              </div>
+              <div class="col-sm-5 col-md-5">
+                <%#= @destination %>
+              </div>
+            </div>
+
+          </h4> -->
+          
+<!--
+          
+          <div class="simple-round-container" style="width:97%;">
+            <div class="col-md-12 gmap-holder hidden text-center">
+              <span>
+                <%= "#{@ride.total_distance}, #{@trip_price}" %>
+              </span>
+              <a href="javascript:void(0);" class="show-gmap"><i class="glyphicon glyphicon-remove" style="float:right;"></i></a>
+            </div>
+            <div id="gmaps-canvas" style="height:550px; width:100%;" class="hidden"></div>
+          </div>
+
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <%= label_tag 'Pick up point', nil, class: "col-sm-2 control-label" %>
+            <div class="col-sm-8">
+              <p class="form-control-static">
+                <%= image_tag "ride/search-from-plot.png", class: "location_tag" %>
+                <%= @source %>
+              </p>
+            </div>
+            <div class="col-md-2"><%= link_to "Show map", "javascript:void(0);", class: "show-gmap main-show btn btn-primary" %></div>
+          </div>
+          <hr class="horizontal-line"/>
+        </div>-->
+        <!-- NEW MODULE ADDED FOR SUB ROUTES -->
+        
+        <!-- END -->
+
+<!--
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <%= label_tag 'Drop of point', nil, class: "col-sm-2 control-label" %>
+            <div class="col-sm-8">
+              <p class="form-control-static">
+                <%= image_tag "ride/search-to-plot.png", class: "location_tag" %>
+                <%= @destination %>
+              </p>
+            </div>
+          </div>
+          <hr class="horizontal-line"/>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <%= label_tag 'Date', nil, class: "col-sm-2 control-label" %>
+            <div class="col-sm-4">
+              <p class="form-control-static">
+                <%= @time.strftime("%A %d %B") %>
+              </p>
+            </div>
+            <%= label_tag 'Departure Time', nil, class: "col-sm-3 control-label" %>
+            <div class="col-sm-3">
+              <p class="form-control-static">
+                <%= @time.strftime("%H:%M") %>
+              </p>
+            </div>
+          </div>
+          <hr class="horizontal-line"/>
+        </div>
+      </fieldset>
+      <div class="well col-sm-12 col-md-12">
+        <h2>trip details</h2>
+        <div class="row">
+          <div class="col-md-9 row">
+            <%#if @self_user %>-->
+        <!-- <p class="bg-danger">
+          <%#= link_to "Add details for your passengers", edit_ride_path(@ride) %>
+        </p> -->
+        <%# end %>
+        <!--
+        <div class="passnger-detail">
+          <div class="form-group">
+            <%= label_tag :Detour, nil, class: "col-sm-4 control-label" %>
+            <div class="col-sm-5">
+              <p class="form-control-static">
+                <%= GlobalConstants::Rides::DETOUR_PREFERENCES[@ride.detour_preferences].first rescue "not defined" %>
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'Schedule Flexibility', nil, class: "col-sm-4 control-label" %>
+            <div class="col-sm-5">
+              <p class="form-control-static">
+                <%= GlobalConstants::Rides::LEAVING_DELAY[@ride.leaving_delay].first rescue "not defined" %>
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'Luggage Size', nil, class: "col-sm-4 control-label" %>
+            <div class="col-sm-5">
+              <p class="form-control-static">
+                <%= @ride.max_luggage_size %>
+              </p>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= label_tag :car, nil, class: "col-sm-4 control-label" %>
+            <div class="col-sm-6">
+              <p class="form-control-static">
+                <% @car = @ride.car %>
+                <% if @car.blank? %>
+                <% if @self_user %>
+                <% if @user.cars.present? %>
+                <%= form_for @ride, url: set_car_ride_path(@ride.id), html: { class: 'form-horizontal', role: 'form' } do |f| %>
+                <% @car_options = [["Choose", 0]] %>
+                <%= f.select :car_id, options_for_select(@car_options.concat(current_user.cars.try(:collect) { |car| [car.car_name, car.id] })), {}, class: "form-control" %>
+                <% end %>
+                <br/>
+                <% end %>
+                <%= link_to "Add new Car", new_car_path({ rid: @ride.id, fr: "rs" }), class: "btn btn-primary btn-sm" %>
+                <% else %>
+                Car not defined.
+                <% end %>
+                <% else %>
+                <%= @car.car_name %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-3">
+        <% if @car.present? %>
+        <% if @car.car_image.present? %>
+        <%= image_tag @car.picture, width: "150", height: "100", style: "width: 150px; height: 100px;" %>
+        <% elsif @self_user %>
+        <div class="show-upload-car text-center">
+          <%= image_tag @car.picture %>
+          <%= form_for @car, url: upload_image_car_path(@car), html: { multipart: true, class: 'form-horizontal', role: 'form' } do |f| %>
+          <span class="btn btn-link fileinput-button">
+            <span><strong>Upload photo</strong></span>
+            <%= f.file_field :car_image, class: 'upload-attachment' %>
+            <%= hidden_field_tag :rid, @ride.id %>
+          </span>
+
+          <% end %>
+        </div>
+        <% else %>
+        <%= image_tag @car.picture %>
+        <% end %>
+        <% elsif @self_user %>
+        <p class="bg-danger">
+          <%= link_to "Add Car", new_car_path({ rid: @ride.id, fr: "rs" }) %>
+        </p>
+        <% end %>
+      </div>
+    </div>
+    <span class="right">Offer published: <%= @ride.created_at.strftime("%d %b %Y") %> - Seen <%= @ride.views_count %> times</span>
+  </div>
+</div>
+
+<div class=" col-sm-3 col-md-3">
+  <div class="well row">
+    <div class="header-main-block clearfix row">-->
+      <!-- NEW MODULE ADDED FOR SUB ROUTES -->
+      
+      <!-- ############## -->
+      <!--
+      <span class="col-md-4 price-green">$<%= @ride.total_price %></span>Per passenger
+    </div>
+    <div class="header-main-block clearfix row">
+      <span class="col-md-6"><%= pluralize(@ride.number_of_seats, 'seat') %> left</span>
+    </div>
+    <% if !@self_user %>
+      <span class="col-md-10">click to book your seat:</span>
+      <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#driver-contact">contact
+        driver
+      </button>
+      <br>
+      <% if current_user.present? && @ride.user.credit_status == true && @ride.number_of_seats > 0 %>
+        <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#pay-online">Online Booking</button>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="well row">
+    <%#= render 'user_description', heading: "Driver", profile_user: @user, self_user: @self_user %>
+    <% @ratings = lastfive(@user) %>
+    <br><br><br>
+  </div>
+  <% if @ratings.present? %>
+  <div class="well row side_last">
+    <% @ratings.each do |r| %>
+    <% if r.from_user.present? %>
+    <div class="rate-qa">
+      <div class="pull-left msg-photo-container">
+        <%= image_tag r.from_user.profile.picture('inbox_thumb'), class: 'user-picture tip inline-block', alt: "#{r.from_user.display_first_last_name} (#{r.from_user.age})", width: "84", height: "84", style: "width: 54px; height: 54px;" %>
+      </div>
+      <div class="msg-comment">
+        <strong> <%= r.from_user.display_first_last_name %></strong>
+        <h5>Rating : <%= r.star %> / 5</h5>
+        <span class="star-rating" data-score="<%= r.star %>"></span>
+        <p><%= r.comment %></p>
+        <p class="msg-date clearfix"><%= r.updated_at.to_date %><span class="pull-right"></span></p>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+</div>
+</div>
+<div class="modal fade" id="driver-contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Contact <%= @user.display_first_last_name %> to inquire about or book
+          your seat</h4>
+        </div>
+        <div class="modal-body">
+          <%= form_tag contact_to_the_driver_ride_path(@ride.id), method: :get, role: "form" do %>-->
+           <!-- && @ride.user.phone_number.public_status?  -->
+       <!--
+          <% if @ride.user.phone_number.try(:body).present? %>
+            <div class="form-group">
+              <label class="p-name">By phone:</label>
+                <h4 class="img-phone tip form-control-static"><%= @ride.user.phone_no_with_ext(" ") %></h4>
+            </div>
+          <% else %>
+            <div class="form-group">
+              <label>Contact number not available</label>
+            </div>
+          <% end %>
+          <% if @self_user %>
+            you can't send to private message to yourself.
+          <% else %>
+          <div class="row" style="margin-left: 10px;">
+            <div class="col-sm-10 well">
+              <div class="form-group">
+                <%= label_tag "By private message:" %>
+                <%= text_area_tag "private_msg", nil, class: "form-control", rows: 4, placeholder: "Contact this driver via private message here: you can ask them about trip details and seat availability.", required: true %>
+              </div>
+              <%= submit_tag "Send", name: nil, class: "btn btn-primary" %>
+            </div>
+            <div class="col-sm-2">
+              <%= image_tag @user.profile.picture("driver"), class: "img-responsive" %>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            Once you have sent your message, We will notify this driver by SMS. This is free service.
+          </div>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="pay-online" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Pay <%= @user.display_first_last_name %> to book
+            your seat</h4>
+          </div>
+          <div class="modal-body">
+            <div id="stripe_error" style="color:red;">
+              <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+            </div>
+            <div class="well">
+              <% if current_user.present? %>
+              <div class="header-main-block clearfix row">
+                <span class="price-green">$<%= @ride.total_price %></span> Per passenger
+                <div class="pull-right"><span id="charged"></span></div>
+              </div>
+              <%= form_for current_user, :url => url_for(:controller => 'transections', :action => 'payment') , :method => :get , :html => { :id => 'payment1'} do |f| %>
+              <%= hidden_field_tag "ride_id", @ride.id %>
+              <div class="col-md-8 col-md-offset-2 form-group">
+                Number of seats: 
+                <%= number_field_tag 'quantity', nil, in: 1...@ride.number_of_seats+1, class: "form-control", required: true %>
+              </div>
+              <%= hidden_field_tag "stripe_card_token" %>-->
+              <!-- <div class="col-md-8 col-md-offset-2 form-group">
+                <%#= f.label :email %>
+                <%#= f.text_field :email, class: "form-control" %>
+              </div> -->
+              <!--
+              <div class="col-md-8 col-md-offset-2 form-group">
+                <%= label_tag :card_number, "Credit Card Number " %>
+                <%= text_field_tag :card_number, nil, name: nil, class: "form-control", required: true  %>
+              </div>
+              <div class="col-md-8 col-md-offset-2 form-group">
+                <%= label_tag :card_code, "Security Code on Card (CVV)" %>
+                <%= text_field_tag :card_code, nil, name: nil, class: "form-control", required: true %>
+              </div>
+              <div class="col-md-8 col-md-offset-2 form-group row">
+                <%= label_tag :card_month, "Card Expiration" %>
+                <%= select_month nil, {add_month_numbers_true: true}, {name: nil, id: "card_month", class: "form-control"}%>
+                <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class: "form-control"}%>
+              </div>
+              <div class="col-md-8 col-md-offset-2 form-group">
+                <%= f.submit "Pay Amount", class: "col-md-2 btn btn-success btn-sm pull-right" %>
+              </div>
+              <div class="row"></div>
+              <% end %>
+              <% else %>
+              No seats available
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+-->
+
+<%= stylesheet_link_tag 'new_design/rides_info' %>
+<div id="flash_for_booking" class="col-md-12 col-sm-12 col-xs-12 alert_msg hidden">
+  <div class="alert alert-warning fade in flash-message notice">
+      <a href="#" class="close" data-dismiss="alert">×</a>
+      <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-3">
+        <img alt="$ img" class="img-responsive" src="/assets/$_img.png">
+      </div>          
+      <div class="col-md-8 col-sm-8 col-xs-7">
+        <i><h4><strong><div id="flash_success">Invalid number of seats for this ride</div></strong></h4></i>           
+        <a role="button" href="/offer-seats/1" class=" hidden-xs b_25 color btn_offer btn btn-default btn-sm  navbar_ride_btn">OFFER A RIDE</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="trip_profile">
+  <div class="search-ride">
+    <div class="">
+      <div class="col-md-12">
+      <div class="row">
+     <a href="<%= request.headers["HTTP_REFERER"] %>" class="back_search"><span class="left-arrow"> <img src="/assets/left-arrow.png"></span><span>Back to Search </span></a>
+     </div>
+     </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class=" ">
+      <div class="">
+        <div class="Flexible-container">
+          <div id="gmaps-canvas" style='width: 100%; height: 400px;'></div>
+        </div>
+      </div>
+    </div>
+    <div class="search-ride-holder">
+      <div class="">
+        <div class="sidebar col-md-6 col-sm-6 col-xs-12">
+          <div class="passenger-block">
+            <div class="passenger-holder holder">
+              <div class="col-lg-3 col-sm-4 col-xs-3">
+                <div class="image-holder">
+                  <% if @user.profile.is_picture?%>
+                  <%=image_tag @user.profile.picture  , class: "img-responsive"%> 
+                  <% elsif @user.profile.photo.present? %>
+                  <%=image_tag @user.profile.photo  , class: "img-responsive"%> 
+                  <% else %>
+                  <%=image_tag "user/icon-man-144.png", class: "img-responsive"%>
+                  <% end %>
+                  <strong class="rating"><i class="glyphicon glyphicon-star"></i><%= @user.calculated_rating %></strong>
+                </div>
+              </div>
+              <div class="passenger-textarea col-md-7 col-sm-8 col-xs-6">
+                <h4><%= link_to @user.display_first_last_name, public_profile_user_path(@user.id) %></h4>
+              </div>
+            </div>
+            <div class="col-md-12 xol-sm-12 loctaion_area">
+              <p>
+                <span><%= @source %></span>
+                <span class="arrow">&gt;&gt;</span>
+                <span><%= @destination %></span>
+              </p>
+            </div>
+            <ul class="passenger-detail search">
+              <li>
+                <h3>$<%= @trip_price %></h3>
+                <p>Per pessenger</p>
+              </li>
+              <li>
+                <h4 id="seats_available_h"><%= @ride.number_of_seats %></h4>
+                <p>Seats Avaiable</p>
+                <%= hidden_field_tag "rides_available", @ride.number_of_seats %>
+              </li>
+              <li>
+                <%#= @ride.departure_date.strftime("%I:%M%p")%>
+                <%#= @ride.departure_date.strftime("%A")%>
+                <h4><%= @time.strftime("%I:%M  %p") %></h4>
+                <p><small>Departing</small></p>
+              </li>
+            </ul>
+            <div class=" add_block m-15 ">
+              <div class="col-md-4 col-sm-6 col-xs-6">
+                <h3><%= get_car_maker(@ride.car) %></h3>
+                <p><%= get_car_model(@ride.car) %></p>
+              </div>
+              <div class="col-md-8 col-sm-6 col-xs-6">
+                <h3><span class="heading">Addtional info</span></h3>
+                <ul class="list-unstyled">
+                  <li> <%= GlobalConstants::Rides::LEAVING_DELAY[@ride.leaving_delay].first rescue "not defined" %></li>
+                  <li><%= GlobalConstants::Rides::DETOUR_PREFERENCES[@ride.detour_preferences].first rescue "not defined" %></li>
+                  <li>Going to <%= @ride.event.present? ? @ride.event.present : "N/A" %></li>
+                </ul>
+              </div>
+          </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 trip_info mob-none">
+          <div class="row">
+            <h5>Trip info</h5>
+          </div>
+          <% @ride.routes.each do |route| %>
+          <ul class="list-unstyled">
+            <li><span class="number"><%= @ride.routes.index(route) + 1 %></span> Arrival at: <%= arrival_time(route.arrival_time) %></li>
+            <li><%= ride_short_name(route.source.address) %></li>
+            <li>$<%= route.price %> Per Seat</li>
+            <li>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Number of seats" aria-describedby="basic-addon2">
+                <span class="input-group-addon" id="basic-addon2"><%= route.seats %></span>
+              </div>
+            </li>
+          </ul>
+          <% end %>
+          <!-- <ul class="list-unstyled">
+            <li><span class="number">1</span> Departbaure 13:00,22/05/2015</li>
+            <li>Wagga Wagga,NSW-Sydney, NSW</li>
+            <li>$4 Per Seat</li>
+            <li>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Number of seats" aria-describedby="basic-addon2">
+                <span class="input-group-addon" id="basic-addon2">1</span>
+              </div>
+            </li>
+            </ul> -->
+        </div>
+        <div class="clearfix"></div>
+        <div class=" col-xs-12 col-md-4 pull-right ">
+          <div class="btn_block m-15">
+            <!-- <button class="btn-post  btn btn-default" type="submit">Book now</button> -->
+          
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default btn_blue" data-toggle="modal" data-target="#contact-driver">Contact Driver</button>
+              </div>
+              <%if @ride.number_of_seats > 0 %>
+               <div class="btn-group" role="group">
+                  <button id="book_seat_button" type="button" class="btn-post  btn btn-default btn_orange" data-toggle="modal" data-target="#pay-online">Book Seat</button>
+              </div>
+              <%else%>
+               <div class="btn-group" role="group">
+                  <button type="button" class="btn-post  btn btn-default btn_orange" data-toggle="modal" data-target="#pay-online" disabled="true">All Seats Booked</button>
+                  </div>
+              <%end%>
+            </div>
+
+
+
+
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="modal fade" id="contact-driver" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+  <div class="form_area_box modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body  ">
+        <div class="message_ride search-ride">
+        <% if @self_user %>
+            you can't send private message to yourself.
+        <% else %>
+        <div class="sub_text text-center">
+            <p>Contact <%= @user.first_name %> to inquire</p> 
+              <p>about your seat.</p>
+        </div>
+           <div class=" passenger-holder holder passenger-block ">
+              <div class="col-lg-3 col-sm-4 col-xs-3">
+                <div class="image-holder">
+                  <% if @user.profile.is_picture?%>
+                  <%=image_tag @user.profile.picture  , class: "img-responsive"%> 
+                  <% elsif @user.profile.photo.present? %>
+                  <%=image_tag @user.profile.photo  , class: "img-responsive"%> 
+                  <% else %>
+                  <%=image_tag "user/icon-man-144.png", class: "img-responsive"%>
+                  <% end %>
+                  <strong class="rating"><i class="glyphicon glyphicon-star"></i><%= @user.calculated_rating %></strong>
+                </div>
+              </div>
+              <div class="passenger-textarea col-md-7 col-sm-8 col-xs-6">
+                <h4><%= @user.first_name %> <%= @user.last_name %></h4>
+              </div>
+            </div>
+
+        <%= form_tag contact_to_the_driver_ride_path(@ride.id), method: :get, role: "form", :remote => true, :id => 'message_sent' do %>
+           <!-- && @ride.user.phone_number.public_status?  -->
+       
+          <% if @ride.user.phone_number.try(:body).present? %>
+            <div class="form-group hidden">
+              <label class="p-name">By phone:</label>
+                <h4 class="img-phone tip form-control-static"><%= @ride.user.phone_no_with_ext(" ") %></h4>
+            </div>
+          <% else %>
+            <div class="form-group">
+              <label>Contact number not available</label>
+            </div>
+          <% end %>
+          <div class="">
+            <div class="">
+                <%= text_area_tag "private_msg", nil, class: "form-control", rows: 4, placeholder: "Write your message here.", required: true %>
+              <button id="send_message_button" class="ladda-button"  data-color="grey" data-style="expand-right" type="submit"><span class="ladda-label">SEND MESSAGE</span></button>
+              <%#= submit_tag "Send", name: nil, class: "btn btn-primary" %>
+            </div>          
+          </div>       
+          <% end %>
+          <% end %>
+        </div> 
+
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="booking_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+  <div class="form_area_box modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body  ">
+        <div class="message_ride search-ride">
+        <div class="sub_text text-center">
+          <h1>Nice Work!</h1>
+            <p>You have just booked with</p> 
+        </div>
+           <div class=" passenger-holder holder passenger-block ">
+              <div class="col-lg-3 col-sm-4 col-xs-3">
+                <div class="image-holder">
+                  <% if @user.profile.is_picture?%>
+                  <%=image_tag @user.profile.picture  , class: "img-responsive"%> 
+                  <% elsif @user.profile.photo.present? %>
+                  <%=image_tag @user.profile.photo  , class: "img-responsive"%> 
+                  <% else %>
+                  <%=image_tag "user/icon-man-144.png", class: "img-responsive"%>
+                  <% end %>
+                  <strong class="rating"><i class="glyphicon glyphicon-star"></i><%= @user.calculated_rating %></strong>
+                </div>
+              </div>
+              <div class="passenger-textarea col-md-7 col-sm-8 col-xs-6">
+                <h4><%= @user.first_name %> <%= @user.last_name %></h4>
+              </div>
+            </div>
+
+          <div class="text-center loctaion_area">
+            <p>
+              <span><%= @source %></span>
+              <span >to</span>
+              <span><%= @destination %></span>
+            </p>
+            <p>  <span>Departing at <%= @time.strftime("%I:%M  %p")  %></span>  </p>
+            <p>on <%= @time.strftime("%d/%m/%Y")  %></p>
+            <p id="price_paid_p">$6 Paid</p>
+            <div class="contact_area">
+              <p><span >Contact John:</span><span ><%=@user.phone_no_with_ext%></span> </p> 
+              <p><span >Booking Code:</span><span  id="booking_code_p">4444</span> </p> 
+            </div>
+          </div>
+
+
+          <div class="">
+            <div class="btn_booking">
+              <!-- <a href="/bookings">Manage Bookings</a> -->
+              <button onclick="window.location.href='/bookings'" class="ladda-button"  data-color="grey" data-style="expand-right"><span class="ladda-label">Manage Bookings</span></button>
+              <%#= submit_tag "Send", name: nil, class: "btn btn-primary" %>
+            </div>          
+          </div>       
+        </div> 
+    </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<button type="button" class="btn btn-primary btn-lg hidden" id="notification_pop_up_button" data-toggle="modal" data-target="#modal-3">
+  Launch demo modal
+</button>
+
+ <div id="modal-3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class=" pop_area">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="comfirmation_header"></h3>
+    </div>
+    <div class="modal-body" style="background: white;">
+      <div class="msg_icon">
+        <img alt="White search" src="/assets/msg_alerts_icon.png">
+       </div>
+       <div class="clearfix"></div>
+       <h2>Message sent..</h2>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal fade" id="pay-online" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+<div class="form_area_box modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header hidden">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Pay <%= @user.display_first_last_name %> to book
+          your seat
+        </h4>
+      </div>
+      <div class="modal-body">
+         <div class="form_area_box form_center">
+<div class="authform">
+
+<!-- new stripe_model start -->
+<div class="stripe_model">
+  <% if @self_user %>
+    you can't book your own seat.
+  <% else %>
+
+  <div class="text-center loctaion_area">
+      <p>
+        <span><%= @source %></span>
+        <span class="arrow">&gt;&gt;</span>
+        <span><%= @destination %></span>
+      </p>
+    </div>
+    <div class="sub_text text-center">
+      <p>With <%= @user.display_first_last_name %></p>
+      <p><%= @time.strftime("%d/%m/%Y at %I:%M  %p")  %></p>
+    </div>
+    <div class="num_seats text-center">
+    <h4>NUMBER OF SEATS (MAX <%=@ride.number_of_seats%>)</h4>
+    </div>
+    <div class="stripe_form col-sm-12">
+
+    <div id="stripe_error" style="color:red;">
+          <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+        </div>
+            <div class="pull-right"><span id="charged"></span></div>
+      <%= form_for :transections, :remote => true, :url => transections_payment_path , :method => :get , :html => { :id => 'payment1'} do |f| %>
+          <%= hidden_field_tag "ride_id", @ride.id %>
+          <%= hidden_field_tag "stripe_card_token" %>
+          
+
+           <div class="form-group incress_btn">
+            <%= text_field_tag 'quantity',"1"%>              
+              <div class="dec button">-<i class="fa fa-minus"></i></div>
+              <div class="inc button">+<i class="fa fa-plus"></i></div>              
+          </div>
+
+
+
+       <!--    <div class=" form-group">
+            <%#= number_field_tag 'quantity', nil, in: 1...@ride.number_of_seats+1, class: "form-control", required: true ,:placeholder => "Seats" %>
+          </div> -->
+      <div class="form-group">
+          <input type="text" class="form-control"  placeholder="Name on Card">
+        </div>
+         <div class="form-group">
+            <%= text_field_tag :card_number, nil, name: nil, class: "form-control", required: true, :placeholder => ".... .... .... 4294"  %>
+            <span class="input_icon"><i class="fa fa-credit-card"></i> </span>
+        </div>
+        <div class="row">
+        <div class="col-sm-6 col-xs-6">
+           <div class="form-group">
+              <div class="input-append date" id="datepicker" data-date="02-2012" 
+                   data-date-format="mm-yyyy">
+               <input  type="text"  class="form-control" name="date" placeholder="Expiry" id="month_and_date" required>    
+               <span class="add-on"><i class="icon-th"></i></span> 
+               <span class="input_icon"><i class="fa fa-calendar"></i> </span>      
+              </div>
+        </div>
+        </div>
+        <div class="col-sm-6 col-xs-6">
+           <div class="form-group">
+            <%= text_field_tag :card_code, nil, name: nil, class: "form-control", required: true, :placeholder => "CVC" %>
+            <span class="input_icon"><i class="fa fa-lock"></i></span>
+          <!-- <input type="text" class="form-control"  placeholder="CVC"> -->
+        </div>
+        </div>
+        </div>
+        <div class="form-group">
+        <div class="">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"> Remember these details
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <div class="col-sm-12">
+    <div class="btn-group btn-group-justified btn_area" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default cancel_btn" id="cancel_button">Cancel</button>
+      </div>
+      <div class="btn-group" role="group">
+          <%#= f.submit "Pay Amount", class: " btn btn-default pay_btn" %>
+        
+        <button id="submit_pay_online" class="ladda-button btn pay_btn" data-color="grey" data-style="expand-right" type="submit"><span class="ladda-label">Pay
+        $<%= @ride.total_price %></span></button>
+        <!-- <button type="submit" class="btn btn-default pay_btn ">Pay
+        $<%= @ride.total_price %></button> -->
+      </div>
+    </div>
+    </div>
+    <% end %>
+<!-- new stripe_model end -->
+        </div>
+        </div>
+        <%end%>
+  </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div class="modal fade" id="pay-online2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+<div class="form_area_box modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form_area_box form_center">
+          <div class="authform">
+
+<!-- new stripe_model start -->
+<div class="stripe_model">
+  <div class="text-center loctaion_area">
+      <p>
+        <span><%= @source %></span>
+        <span class="arrow">&gt;&gt;</span>
+        <span><%= @destination %></span>
+      </p>
+    </div>
+    <div class="sub_text text-center">
+      <p>With <%= @user.display_first_last_name %></p>
+      <p><%= @time.strftime("%d/%m/%Y at %I:%M  %p")  %></p>
+    </div>
+     <div class="form-group"></div>
+    <div class="num_seats text-center">
+    <h4>NUMBER OF SEATS (MAX <%=@ride.number_of_seats%>)</h4>
+    </div>
+    <div class="stripe_form col-sm-12">
+                
+      <%#= form_for current_user, :url => url_for(:controller => 'transections', :action => 'payment') , :method => :get , :html => { :id => 'payment1'} do |f| %>
+          <%= hidden_field_tag "ride_id", @ride.id %>
+          <%= hidden_field_tag "stripe_card_token" %>
+          
+          <div class="form-group incress_btn">
+              <%= text_field_tag 'quantity2',"1"%>              
+              <div class="dec button" disabled>-<i class="fa fa-minus"></i></div>
+              <div class="inc button" disabled>+<i class="fa fa-plus"></i></div>              
+          </div>
+          <div class="form-group">
+            
+          </div>
+        <div class="form-group">
+           <div class="visa_holder">
+           <img src="/assets/visa_icon.png">
+           </div> Will be charged on card ending with <span id="card_last_four_number">4229</span>
+        </div>
+    </div>
+    <div class="col-sm-12">
+    <div class="btn-group btn-group-justified btn_area" role="group" aria-label="...">
+  <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default cancel_btn" id="cancel_button2">Cancel</button>
+      </div>
+      <div class="btn-group" role="group">
+          <%#= f.submit "Pay Amount", class: " btn btn-default pay_btn" %>
+        <button id="pay_button2" class="ladda-button btn pay_btn" data-color="grey" data-style="expand-right" type="button"><span class="ladda-label">Pay
+        $<%= @ride.total_price %></span></button>
+
+      <!-- <button id="pay_button2" class="ladda-button btn pay_btn" data-color="grey" data-style="expand-right" type="submit"><span class="ladda-label">Pay -->
+      <!-- $<%= @ride.total_price %></span></button> -->
+
+
+        <!-- <button id="pay_button2" class="ladda-button btn btn-default pay_btn" data-color="grey" data-style="expand-right" type="button"><span class="ladda-label">Pay
+        $<%= @ride.total_price %></span></button>
+ -->
+
+
+        <!-- <button type="button" class="btn btn-default pay_btn " id="pay_button2">Pay
+        $<%= @ride.total_price %></button>
+ -->      </div>
+    </div>
+    </div>
+<!-- new stripe_model end -->
+        </div>
+        </div>
+        <%#end%>
+  </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<script type="text/javascript">
+$( "#message_sent" ).submit(function( event ) {
+  var l = Ladda.create( document.querySelector( '#send_message_button' ) );
+  l.start();
+});
+var total_seats=$('#rides_available').val();
+$(".button").on("click", function() {
+  var $button = $(this);
+  var oldValue = $button.parent().find("input").val();
+  if ($button.text() == "+") {
+    if (oldValue < total_seats)
+    {
+      var newVal = parseFloat(oldValue) + 1;  
+    }
+    else
+    {
+      newVal = total_seats;
+    }
+  } else {   
+   // Don't allow decrementing below zero
+    if (oldValue > 1) {
+      var newVal = parseFloat(oldValue) - 1;
+    } else {
+      newVal = 1;
+    }
+  }
+  if (newVal == 2)
+  { $(".dec").addClass("inc");}
+  else{if (newVal == 1){$(".dec").removeClass("inc");}}
+  $button.parent().find("input").val(newVal);
+});
+</script>
+</div> 
+
+
+

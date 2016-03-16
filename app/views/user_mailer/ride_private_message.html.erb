@@ -1,0 +1,35 @@
+
+<%= link_to "LaMule", "#{BASE_URL}#{root_path}" %>
+<div>
+  <%= "Hello #{@receiver.display_first_last_name}," %>
+</div>
+<div>
+  You've received a private message from <%= @sender_name %> about your trip: 
+   <p> <%= @message %></p>
+</div>
+<h3><u>Trip Details</u></h3>
+<dl>
+  <dt style="float: left; width: 160px; overflow: hidden; clear: left; text-align: right; text-overflow: ellipsis; white-space: nowrap;">
+    <strong>To:</strong></dt>
+  <dd style="margin-left: 180px;"><%= @ride_source %></dd>
+  <dt style="float: left; width: 160px; overflow: hidden; clear: left; text-align: right; text-overflow: ellipsis; white-space: nowrap;">
+    <strong>From:</strong></dt>
+  <dd style="margin-left: 180px;"><%= @ride_destination %></dd>
+  <dt style="float: left; width: 160px; overflow: hidden; clear: left; text-align: right; text-overflow: ellipsis; white-space: nowrap;">
+    <strong>Departure Date:</strong></dt>
+  <dd style="margin-left: 180px;"><%= @ride.departure_date.strftime("%A %d %B %Y - %I:%M %p") %></dd>
+  <% if @ride.return_date.present? %>
+      <dt style="float: left; width: 160px; overflow: hidden; clear: left; text-align: right; text-overflow: ellipsis; white-space: nowrap;">
+        <strong>Return:</strong></dt>
+      <dd style="margin-left: 180px;"><%= @ride.return_date.strftime("%A %d %B %Y - %I:%M %p") %></dd>
+  <% end %>
+  <dt style="float: left; width: 160px; overflow: hidden; clear: left; text-align: right; text-overflow: ellipsis; white-space: nowrap;">
+    <strong>Seat:</strong></dt>
+  <dd style="margin-left: 180px;"><%= "#{@ride.number_of_seats} seats available" %></dd>
+  <dt style="float: left; width: 160px; overflow: hidden; clear: left; text-align: right; text-overflow: ellipsis; white-space: nowrap;">
+    <strong>Price:</strong></dt>
+  <dd style="margin-left: 180px;"><%= "$#{@ride.total_price} per passenger" %></dd>
+</dl>
+<div style: "float:left">
+<%= link_to "See the message!", "#{BASE_URL}#{message_thread_path(@message_thread_id)}" %>
+</div>

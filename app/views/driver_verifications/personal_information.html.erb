@@ -1,0 +1,217 @@
+<!-- Load the Facebook JavaScript SDK -->  
+    <div id="fb-root"></div>
+    <script src="//connect.facebook.net/en_US/all.js"></script>    
+    <script type="text/javascript">
+   // $(document).ready(function(){
+      
+      // Initialize the Facebook JavaScript SDK
+      FB.init({
+        appId: '562756200542819',
+        xfbml: true,
+        status: true,
+        cookie: true,
+      });
+      
+      // Check if the current user is logged in and has authorized the app
+      //FB.getLoginStatus(checkLoginStatus);      
+      // Login in the current user via Facebook and ask for email permission
+      function authUser() {
+        FB.login(checkLoginStatus, {scope:'email'});
+      }     
+      // Check the result of the user status and display login button if necessary
+      function checkLoginStatus(response) {
+        if(response && response.status == 'connected') {
+                  
+           var uid = response.authResponse.userID;
+           var accessToken = response.authResponse.accessToken;  
+           $.ajax({
+            type: 'POST',        
+            data: {fb_id:uid},
+            url: '/users/verify_uid',
+            success: function(data) {
+//              console.log(data.success);
+              FB.api('/me', function(response) {                        
+        //      console.log(response);
+              if(data.success==true)
+              {
+                alert('User is authorized');
+                var elem = document.getElementById("exampleInputEmail1");
+                elem.value = response.first_name;
+                elem = document.getElementById("exampleInputEmail2");
+                elem.value = response.last_name;
+                elem = document.getElementById("verified_email");
+                elem.value = response.email;
+                var code_email=document.getElementById("email_code_send");
+                code_email.value=elem.value;
+
+
+              }
+              if(data.success==false)
+              {
+                alert('Facebook ID already linked');      
+              }
+
+              });
+
+            },
+            error: function(){
+            //  console.log('error!');
+            }
+        });
+
+       
+          // Hide the login button
+         // document.getElementById('loginButton').style.display = 'none';
+          
+          // Now Personalize the User Experience
+          // console.log('User ID: ' + uid);
+          // console.log('Access Token: ' + accessToken);
+
+        } else if (response.status === 'not_authorized') {
+
+            alert('User logged into Facebook, but not your app');
+
+      // The person is logged into Facebook, but not your app.
+           // document.getElementById('status').innerHTML = 'Please log ' +
+            //  'into this app.';
+          
+          } else {
+
+            alert('User not logged into Facebook, no on app');
+
+            // The person is not logged into Facebook, so we're not sure if
+            // they are logged into this app or not.
+           // document.getElementById('status').innerHTML = 'Please log ' +
+            //  'into Facebook.';
+          
+          }
+      }
+
+
+
+      function sendCode() {
+        alert('in send code func');  
+        var mail = document.getElementById("email_code_send").value;
+        $.ajax({
+
+            type: 'GET',
+          data: {fb_email:mail},       
+            url: '/driver_verifications/email_token_generator',
+            success: function(data) {
+              
+           //   console.log(data.success);              
+            },
+            error: function(){
+          //    console.log('error!');
+            }
+        });
+
+
+
+      }
+
+//});
+    </script>
+    
+
+<div class="container driver_details ">
+<div id="rootwizard">
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul>
+        <li  class="active"><a href="#tab1" data-toggle="tab">Verify Your Profile</a></li>
+        <li><a href="#tab2" data-toggle="tab">Personal details and car</a></li>
+        <li><a href="#tab3" data-toggle="tab">Done</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="form_area">
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+      <div class="title_msg text-center">
+        your data is safely encrypted and transferred via 256-bit security.
+      </div>
+      <%= form_tag verify_personal_information_driver_verification_path(@user) do %>
+      <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+        <div class="">
+          <div class="fascebook_btn">
+            <label>Confirm your ID</label>
+            <div class="input-group">
+              <button type="button" id="loginButton"  onclick="authUser();" class="btn  btn-lg"><i class="fa fa-facebook"></i> CONNECT FASCEBOOK</button>
+            </div>
+          </div>
+          <div class="col-sm-6 form_box">
+            <h4></h4>
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">First Name</label>
+                <input type="text" placeholder="" id="exampleInputEmail1" class="form-control">
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-6 form_box">
+            <h4></h4>
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Last Name</label>
+                <input type="text" placeholder="" id="exampleInputEmail2" class="form-control">
+              </div>
+            </form>
+          </div>
+          <div class="col-md-12">
+            <div class="email">
+              <div class="form-group">
+                <label>Email</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="verified_email" placeholder="Your current verified email address is sam@getyper.io" />
+                </div>
+              </div>
+            </div>
+            <div class="form-group send_code">
+              <label>Email Address</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="email_code_send" placeholder="+66" />
+                <span class=" input-group-btn">
+                  <button class="btn btn-default" type="button" id="send_code" onclick="sendCode();">SEND CODE</button>
+                </span>
+                
+              </div>
+            </div>
+            <div class="form-group send_code">
+              <label>Phone number</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="" />
+                <span class=" input-group-btn">
+                  <button class="btn btn-default"  type="button">SEND CODE</button>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 form_box">
+              <h4></h4>
+              <form>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">First Name</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Your 4 digit pin">
+                </div>
+              </form>
+            </div>
+            <div class="col-sm-6 form_box">
+              <h4></h4>
+              <form>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">First Name</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Your 4 digit pin">
+                </div>
+              </form>
+            </div>
+            <!-- <a class="btn btn-large btn_next pull-right" a href="#tab2" data-toggle="tab">Continue</a>  -->
+            <%= submit_tag 'Continue', class: 'btn btn-large btn_next pull-right'%>    
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

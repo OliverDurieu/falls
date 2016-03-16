@@ -1,0 +1,10 @@
+<div class="authform text-center form_area_box forgot_pass ">
+  <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :role => 'form' }) do |f| %>
+      <h2>Ask for a new password.</h2>
+      <%= devise_error_messages! %>
+      <div class="form-group">
+        <%= f.email_field :email, :autofocus => true, class: 'form-control', :placeholder => 'My Email Address'  %>
+      </div>
+      <%= f.submit 'SEND NEW PASSWORD', :class => 'button right  btn-block login_btn' %>
+  <% end %>
+</div>

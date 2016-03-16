@@ -1,0 +1,4 @@
+<h3><%= User.model_name.human %></h3>
+<p><%= User.human_attribute_name(:first_name)%>: <%= @user.first_name %></p>
+<p><%= User.human_attribute_name(:last_name)%>: <%= @user.last_name %></p>
+<p>Email: <%= @user.email if @user.email %></p>

@@ -1,0 +1,97 @@
+<div class="banner">
+  <header id="header">
+    <div class="container">
+      <div class="row">
+       <div class="col-md-4 col-sm-4 col-xs-3 <%= assign_hidden %>">
+        <div class="logo hide_mobile">
+          <%= link_to "#{image_tag 'dashboard/logo.png', class: 'img-responsive '}".html_safe, root_path %>
+        </div>
+       </div>
+      <div class="col-md-6 col-sm-8 col-xs-9 pull-right align-right top_nav">
+         <%= render 'layouts/navigation_2_links' %>
+      </div>
+     </div>
+    </div>
+    <div class="caption">
+      <div class="col-md-12">
+        <h1>“LETS CARPOOL!!”</h1>
+        <!-- <p class="hidden-xs">Connecting Australian’s who need transport with drivers who have spare seats.</p> -->
+        <div class="form_area">
+          <%= form_tag rides_info_rides_path, class: 'form-inline', method: 'get' do %>
+            <div class="row">
+              <div class="form-group col-sm-4">
+                <div class="input-group"> <span class="input-group-addon home">
+                  </span>
+                  <%= text_field_tag :ride_source, nil, autofocus: true, class: 'gmaps-input-address form-control', placeholder: "From", style: "width:100%;" %>
+                </div>  
+              </div>
+              <div class="form-group col-md-1 col-sm-1 hide_mobile form_arrow">
+                 <%= image_tag 'arrow.png', class: 'arrow'%>
+              </div>
+              <div class="form-group col-sm-4">
+                 <div class="input-group"> <span class="input-group-addon home">
+                  </span>
+                     <%= text_field_tag :ride_destination, nil, autofocus: true, class: 'gmaps-input-address form-control', placeholder: "To", style: "width:100%;" %>
+                 </div>
+              </div>
+              <%= hidden_field_tag :profile_photo, "all" %>
+              <%= hidden_field_tag :order_by, "departure_date ASC" %>
+              <%= hidden_field_tag :start_time, 0 %>
+              <%= hidden_field_tag :last_time, 24 %>
+               <div class="col-md-3 col-sm-3">
+                   <div class="search">
+                    <a href="#" class="nav_2_form_submit hide_mobile">
+                      <%= image_tag 'Shape.png', class: 'hide_mobile'%>
+                      <%= image_tag 'white_search.png', class: 'hide_desktop'%>
+                       <%= submit_tag "Find rides", name: 'search', class: "btn find_rides_button hide_mobile" %>
+                    </a>
+                    <div class="desktop_hide">
+                  <div class="btn-group search btn-group-justified " role="group" aria-label="Justified button group">
+                      <div class="btn-group" role="group">
+                        <%= image_tag 'white_search.png', class: 'hide_desktop'%>
+                       <%= submit_tag "Find rides", name: 'search', class: "btn find_rides_button" %>
+                      </div>
+                      <div class="btn-group" role="group">
+                        <%= image_tag 'locator_2.png', class: 'hide_desktop'%>
+                        <%= link_to "Post ride", '/offer-seats/1', class: "btn find_rides_button" %>
+                       <%#= submit_tag "Post rides", name: 'search', class: "btn find_rides_button" %>
+                      </div>
+                    </div>
+                  </div>
+                   </div>
+                </div>
+            </div>
+          <% end %>
+        </div>
+        <h2 class="hide_desktop">1,332,423 km travelled together.</h2>
+      </div>
+     </div>
+     </div>
+      <script type="text/javascript">
+        var autocomplete, options;
+
+        autocomplete = [];
+
+        if ($('.gmaps-input-address').length > 0) {
+          options = {
+            componentRestrictions: {
+              country: 'AU'
+            },
+            types: ['geocode']
+          };
+          $('.gmaps-input-address').each(function(index) {
+            var $this, element, id;
+            $this = $(this);
+            id = $this.attr('id');
+            element = document.getElementById(id);
+            $(this).bind('keydown', function(event) {
+              if (event.keyCode === 13) {
+                event.preventDefault();
+              }
+            });
+            return autocomplete[index] = new google.maps.places.Autocomplete(element, options);
+          });
+        }
+
+      </script>
+  </header>

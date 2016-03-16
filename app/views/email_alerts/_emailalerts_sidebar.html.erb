@@ -1,0 +1,8 @@
+	<div class="col-md-3 well margin">
+	<strong>Expand your search</strong><br><br>
+	<%= link_to "Expand to 50 KM", URI.encode(range_rides_rides_path+'?range=50&ride_source='+params[:to]+'&ride_destination='+params[:from]) %><br><br>
+	<%= link_to "Expand to 80 KM", URI.encode(range_rides_rides_path+'?range=80&ride_source='+params[:to]+'&ride_destination='+params[:from]) %>
+	<hr>
+	<strong>Driving there ?</strong> <br>
+	<%= link_to "Offer your empty seats", '/offer-seats/1', class: "btn btn-success btn-lg margin"%>
+	</div>

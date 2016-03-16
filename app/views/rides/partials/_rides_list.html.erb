@@ -1,0 +1,58 @@
+<% if rides.present? %>
+  <% rides.each do |ride| %>
+    <% user = ride.user %>
+    <div class="row rides_list">
+      <div class="col-sm-12 col-xs-12 location">
+        <p>
+          <span><%= ride.source_location.get_route_name.partition(',').first %></span>
+          <span class="arrow">>></span>
+          <span><%= ride.destination_location.get_route_name.partition(',').first %></span>
+        </p>
+        <p>Leaves <%= ride.departure_date.strftime("%A %d %B - %I:%M  %p")  %></p>
+      </div>
+    </div>
+    <%= render '/rides/partials/ride_booking_detail' , ride_object: ride %>
+  <% end %>
+<% else %>
+  <div class="panel-body rides text-center">
+    <p>You have no <%= tab_name %> Rides</p>
+  </div>
+<% end %>
+
+
+
+
+<!-- Modal -->
+  <div class="modal fade" id="payment_recieved_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+    <div class="form_area_box modal-dialog payment_modal" role="document">
+      <div class="modal-content">
+        <div class="modal-body ">
+          <h3>You have received a</h3>
+          <h2>$<span id='amout_recieved'></span></h2>
+          <h3>payment from</h3>
+          <div class="user_name">
+            <div class="img-holder">
+              <!-- <img id="passenger_image" alt="Icon man 108" class="img-responsive" src=""> -->
+              <%= image_tag 'user/icon-man-108.png', id: 'passenger_image', alt: 'Icon man 108' %>
+            </div>
+            <h2><span id='amout_recieved_from'></span></h2>
+          </div>
+          <div class="title">
+            <h4><span>FOR YOUR TRIP</span></h4>
+          </div>
+          <div class="loctaion_area text-center">
+            <p>
+              <span id="source"></span>
+              <span class="arrow">&gt;&gt;</span>
+              <span id="destination"></span>
+            </p>
+          </div>
+          <div class="btn_block">
+            <!-- <a class=" btn_offer btn btn-default   navbar_ride_btn close" href="#" role="button"></a> -->
+            <button type="button" class="btn_offer btn btn-default navbar_ride_btn btn btn-default" data-dismiss="modal">Thanks, Go Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
